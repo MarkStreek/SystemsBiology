@@ -1,0 +1,108 @@
+---
+title: "titel "
+author: "my_name"
+date: "`r Sys.Date()`"
+
+header-includes:
+   - \usepackage{longtable}
+   - \usepackage{hyperref}
+output:
+    pdf_document:
+      number_sections: yes
+linkcolor: blue
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Introduction
+
+Tijdens dit onderzoek gaan we kijken naar de hoeveelheid mRNA in een biologisch model. We gebruiken hiervoor een model die onderstaand nader wordt uigelegd.
+
+## Goal
+  - Describe Goal (not the educational goal but the research goal)
+  - Describe how you reach the goal (e.g. make model and figures, use different setting)
+  - formulate hypothesis
+  
+Dit onderzoek heeft als doel om aan te tonen hoeveel mRNA er aanwezig is tijdens het biologish model. We willen niet precies vertellen op welke punten er een x aantal mRNA aanwezig is, maar we willen het verloop laten zien. Dit willen we laten zien door een grafiek te maken van ons model. Deze grafiek kunnen we vervolgens aflezen en conclusies mee trekken.
+
+---
+De verwachting voor het onderzoek is dat de hoeveelheid mRNA na het verloop van tijd constant zal zijn. Als de mRNA toeneemt, wordt er na een verloop van tijd ook meer afgebroken. En als de hoeveelheid mRNA afneemt, zal er na verloop van tijd ook minder worden afgebroken
+---
+
+## Theorie
+
+Het model kan worden gebruikt om weer te geven hoe het aantal mRNA zal veranderen in de loop van de tijd. Er wordt rekening gehouden met het aantal transcripts, afrbaaksnelheid en het aantal transcripts. Het model kan gebruikt worden om het mRNA te voorspellen en factoren te onderzoeken op het mRNA.
+
+```{r, echo=FALSE, out.width='95%'}
+#knitr::include_graphics('example.png')
+```
+
+In het model drie variabelen aanwezig. Allereerst de afrbaak van mRNA. Dit is een rate die aangeeft hoeveel mRNA er per tijdseenheid wordt afgebroken. Het gaat hier om een afname, daarom is het dus -afname. Verder heb je ook een een aantal mRNA. De afname rate is natuurlijk veel hoger bij een grote hoeveelheid mRNA. Vandaar dat deze ook belangrijk is de vergelijking. Tot slot is er ook nog een variabele die aangeeft hoeveel mRNA er per tijdseenheid bijkomt. Deze waarde is ook weer een rate. In dit geval spreek je van aantallen die erbij komen, dus + mRNA toename. Alle variabelen in de vergelijking zijn van invloed op het level mRNA. Als er een verandering plaatsvindt in één van deze variabelen, zal uiteindelijk het aantal/samenstelling van de eiwitten ook anders zijn. Dit stelt ook een onderzoek naar mRNA levels. \cite{ChristianRosenmund} "The mRNA level is regulated by the transcription rate, mRNA degradation rate, and translation rate. Changes in any of these parameters can lead to alterations in mRNA levels and subsequent changes in protein expression."
+
+$$\frac{dR}{dt} = -r · R + m $$
+Hierin is:
+- r = Aantal afgebroken mRNA per seconde
+- R = Het aantal transcripts
+- m = Aantal geproduceerde mRNA per seconde
+
+# Methode
+
+## Het software model
+
+- Describe the software tools used, as well as the libraries
+- Describe the software implementation (note: code below is an example)
+
+```{r}
+library(deSolve)
+# code
+```
+
+## Model configuratie
+
+Explain chosen initial state, parameter values and time sequence. Use tables with values as for example below
+
+\begin{longtable}[l]{l|l|l}
+\caption{Parameter Values} \\ \hline
+\label{param_table}
+$\textbf{Parameter}$             &$\textbf{Value}$& $\textbf{Unit}$              \\ \hline
+\endhead
+$a$       & 0.08  & $hour^{-1}$         \\ \hline
+$b$       & 0.06  & $hour^{-1}$         \\ \hline
+$c$       & 0.06  & $hour^{-1}$         \\ \hline
+\end{longtable}
+
+
+# Results
+Introduction of results, how does it answer your research questions.
+
+```{r}
+#plot(out)
+#code to generate figures with title, subscripts, legenda etc
+```
+
+- Describe what can be seen in such way that it leads to an answer to your research questions
+- Give your figures a number and a descriptive title.
+- Provide correct axis labels (unit and quantity), legend and caption.
+- Always refer to and discuss your figures and tables in the text - they never stand alone.
+
+
+# Discussion and Conclusion
+## Discussion
+- Compare your results with what is expecting from the literature and discuss differences with them.
+- Discuss striking and surprising results.
+- Discuss weaknesses in your research and how they could be addressed.
+
+## General conclusion and perspective
+Discuss what your goal was, what the end result is and how you could continue working from here.
+
+```{=tex}
+\begin{thebibliography}{9}
+
+\bibitem{ChristianRosenmund}
+Christian, Rosemund, et al.: \textit{Regulation of mRNA Translation in Neurons-A Matter of Life and Death}.
+
+\end{thebibliography}
+```
