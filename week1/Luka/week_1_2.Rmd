@@ -1,6 +1,6 @@
 ---
-title: "titel "
-author: "my_name"
+title: "Invloed van hoeveelheid afbraak op mRNA levels"
+author: "LT Stein, M vd Streek"
 date: "`r Sys.Date()`"
 
 header-includes:
@@ -17,19 +17,26 @@ linkcolor: blue
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+\pagebreak
+
+\tableofcontents
+\listoffigures 
+
+\pagebreak
+
 # Introduction
 
-Tijdens dit onderzoek gaan we kijken naar de hoeveelheid mRNA in een biologisch model. We gebruiken hiervoor een model die onderstaand nader wordt uigelegd.
+Tijdens dit onderzoek gaan we kijken naar de hoeveelheid mRNA in een biologisch model. We gebruiken hiervoor een model die onderstaand nader wordt uitgelegd.
 
 ## Goal
-  - Describe Goal (not the educational goal but the research goal)
-  - Describe how you reach the goal (e.g. make model and figures, use different setting)
-  - formulate hypothesis
+
   
 Dit onderzoek heeft als doel om aan te tonen hoeveel mRNA er aanwezig is tijdens het biologish model. We willen niet precies vertellen op welke punten er een x aantal mRNA aanwezig is, maar we willen het verloop laten zien. Dit willen we laten zien door een grafiek te maken van ons model. Deze grafiek kunnen we vervolgens aflezen en conclusies mee trekken.
 
 ---
-De verwachting voor het onderzoek is dat de hoeveelheid mRNA na het verloop van tijd constant zal zijn. Als de mRNA toeneemt, wordt er na een verloop van tijd ook meer afgebroken. En als de hoeveelheid mRNA afneemt, zal er na verloop van tijd ook minder worden afgebroken
+De verwachting voor het onderzoek is dat de hoeveelheid mRNA na het verloop van tijd constant zal zijn. 
+Als de mRNA toeneemt, wordt er na een verloop van tijd ook meer afgebroken. En als de hoeveelheid mRNA afneemt, 
+zal er na verloop van tijd juist minder worden afgebroken.
 ---
 
 ## Theorie
@@ -64,7 +71,7 @@ Transformaties:
 - De initiële waarde is R is gelijk aan 100 transcripts
 - -r en m blijven constant.
 - De tijdsframe begint bij t=0 en eindigt op t=10
-- Het evenwichtsmoment wordt bereikt wanneer -r * R = m
+- Het evenwichtsmoment wordt bereikt wanneer (-r * R) = m
 - r is het tempo van afbraak en deelt dus de initiële waarde op, daarom
   moet de r waarde tussen 0 en 1 om in delen af te trekken bij de keersom.
 
@@ -95,7 +102,7 @@ variabele gepasseerd naar functie *new.mRNA.population*:
 
 De volgende formule wordt toegepast op deze waardes:
 
-- $$ r * R + m $$
+- *r . R + m*
 
 - Waar *r* negatief zal zijn.
 
@@ -120,6 +127,10 @@ a) syteem is in evenwicht
 b) hoeveelheid mRNA stijgt over tijd
 c) hoeveelheid mRNA daalt over tijd
 
+
+Er is sprake van evenwicht door r en m gelijk te maken. Waarin r = 0.10 * de
+initiële waarde van honderd resulteert in 10, dit is gelijk aan m = 10.
+
 ```{r}
 # evenwichtstoestand
 parameters <- c(r = -0.10, m = 10)
@@ -128,6 +139,9 @@ parameters <- c(r = -0.10, m = 10)
 evenwicht <- ode(times = times, y = state,
 parms = parameters, func = new.mRNA.population, method = "euler")
 ```
+
+Er is sprake van toename door m groter dan r te maken. Waarin r = 0.10 * de
+initiële waarde van honderd resulteert in 10, dit is kleiner dan m = 12.
 
 ```{r}
 # toename mRNA
@@ -138,6 +152,9 @@ parms = parameters, func = new.mRNA.population, method = "euler")
 
 ```
 
+Er is sprake van afname  door r groter dan m te maken. Waarin r = 0.10 * de
+initiële waarde van honderd resulteert in 10, dit is groter dan m = 8.
+
 ```{r}
 # afname mRNA
 parameters <- c(r = -0.10, m = 8)
@@ -147,6 +164,8 @@ parms = parameters, func = new.mRNA.population, method = "euler")
 
 ```
 
+\pagebreak
+
 ## Model configuratie
 
 Explain chosen initial state, parameter values and time sequence. Use tables with values as for example below
@@ -154,13 +173,26 @@ Explain chosen initial state, parameter values and time sequence. Use tables wit
 \begin{longtable}[l]{l|l|l}
 \caption{Parameter Values} \\ \hline
 \label{param_table}
-$\textbf{Parameter}$             &$\textbf{Value}$& $\textbf{Unit}$              \\ \hline
+$\textbf{Parameter}$             &$\textbf{m (n)}$& $\textbf{r (n)}$              \\ \hline
 \endhead
-$a$       & 0.08  & $hour^{-1}$         \\ \hline
-$b$       & 0.06  & $hour^{-1}$         \\ \hline
-$c$       & 0.06  & $hour^{-1}$         \\ \hline
+$evenwicht$       & 10  & ${0.10}$         \\ \hline
+$toename$       & 12  & ${0.10}$         \\ \hline
+$afname$       & 8  & ${0.10}$         \\ \hline
 \end{longtable}
 
+In tabel 2 zijn de waarden m en r te zien voor drie scenario's in mRNA levels, 
+namelijk evenwicht, toename en afname.
+
+Zoals besproken in hoofdstuk Methode moet m gelijk zijn aan (r*R) voor een evenwicht
+en is dus gekozen voor m = 10 en r = 0.10. 
+
+Verder voor toename moet er een grotere m dan (r*R) zijn, dus is er gekozen
+voor m = 12 en r = 0.10 en voor afname juist een kleinere m dan (r*R) met 
+m = 8 en r = 0.10.
+
+De initial state of initiële waarde is **R=100**. Hiermee valt makkelijker te rekenen
+en het is een groot rond getal. Tevens is er gekozen voor time sequence van **times=100**
+tijdeenheden, zodat het verloop in tijd beter te zien is in een lijn grafiek.
 \pagebreak 
 
 # Results
@@ -173,18 +205,28 @@ Hieronder zijn de coördinaten te zien die laten zien in welke richting de popul
 head(evenwicht)
 ```
 
-*Tabel 1: evenwicht in transcripts van mRNA populatie.*
+*Tabel 2: evenwicht in transcripts van mRNA populatie.*
+
+In tabel 2 is te zien dat de hoeveelheid (n) mRNA transcripts gelijk blijft
+over tijd. 
+
 ```{r}
 head(toename)
 ```
 
-*Tabel 2: toename in transcripts van mRNA populatie.*
+*Tabel 3: toename in transcripts van mRNA populatie.*
+
+In tabel 3 is te zien dat de hoeveelheid (n) mRNA transcripts toeneemt in
+verminderende mate richting tijdseenheid t = 6.
 
 ```{r}
 head(afname)
 ```
 
-*Tabel 3: afname in transcripts van mRNA populatie.*
+*Tabel 4: afname in transcripts van mRNA populatie.*
+
+In tabel 4 is te zien dat de hoeveelheid (n) mRNA transcripts afneemt in
+verminderende mate richting tijdseenheid t = 6.
 
 \pagebreak 
 
@@ -205,12 +247,10 @@ legend('topright', c("toename", "evenwicht", "afname"),
 ```
 
 
-- Describe what can be seen in such way that it leads to an answer to your research questions
-- Give your figures a number and a descriptive title.
-- Provide correct axis labels (unit and quantity), legend and caption.
-- Always refer to and discuss your figures and tables in the text - they never stand alone.
 
-In figuur 1 veranderd de hoeveelheid mRNA transcripts in toename, evenwicht en afname.
+
+In figuur 1 veranderd de hoeveelheid mRNA transcripts in toename, evenwicht en afname,
+met op de x-as de tijd en op de y-as de hoeveelheid mRNA transcripts.
 
   1. In het geval van toename in transcripts is er eerst een berg stijging
   vanaf de initiële waarde van honderd richting honderdtwintig. Vervolgens 
@@ -223,12 +263,38 @@ In figuur 1 veranderd de hoeveelheid mRNA transcripts in toename, evenwicht en a
   
 # Discussion and Conclusion
 ## Discussion
-- Compare your results with what is expecting from the literature and discuss differences with them.
-- Discuss striking and surprising results.
-- Discuss weaknesses in your research and how they could be addressed.
+
+
+Op basis van de gevonden resultaten kan er worden geconcludeerd dat de toename en
+afname verzwakken over tijd tot een constant verloop, dit bevestigd het begin van de hypothese
+dat *De verwachting voor het onderzoek is dat de hoeveelheid mRNA na het verloop van tijd constant zal zijn.*
+
+In alle drie scenario's wordt er een evenwicht bereikt in hoeveelheid mRNA transcripts. Eerst bij evenwicht met t = 0,
+vervolgens bij toename en afname ongeveer vanaf t = 40.
+
+Verder omdat m = productie mRNA transcripts hetzelfde blijft, zal dus over tijd
+de afbraak */r . R/*  toenemen, zodra R groter wordt en dus er sprake is van toename.
+
+Daartegenover ontstaat bij een afname een steeds kleinere R en dus steeds kleinere afbraak.
+De twee bovenstaande veranderingen zorgen direct voor alteratie in mRNA levels, zoals de artikel
+\cite{ChristianRosenmund} inderdaad ook aanduidt en te lezen is bij hoofdstuk Theorie.
+
+
+In het onderzoek waren geen verrassende aspecten als vervolg van de hypothese. 
+
+Echter wordt in het onderzoek niet direct laten zien dat afbraak *r* inderdaad
+toeneemt of afneemt afhankelijk van de scenario in vorm van e.g. een tabel. 
+Deze visuele representatie van verandering in afbraak zou de bovenstaande wiskundige beredenering 
+nog kunnen beïnvloeden en dus de conclusie.
 
 ## General conclusion and perspective
 Discuss what your goal was, what the end result is and how you could continue working from here.
+
+Uit de drie tabellen en de grafiek uit hoofdstuk Results en de bovenstaande wiskundige beredenering wordt
+er geconcludeerd dat de volledige hypothese *De verwachting voor het onderzoek is dat de hoeveelheid mRNA na het verloop van tijd constant zal zijn. Als de mRNA toeneemt, wordt er na een verloop van tijd ook meer afgebroken. En als de hoeveelheid mRNA afneemt, zal er na verloop van tijd juist minder worden afgebroken.* inderdaad klopt. Met de resultaten van dit
+onderzoek zou gekeken kunnen worden of de expressie van eiwitten inderdaad gelijk gedraagt aan de 
+gesimuleerde mRNA levels van de drie opgezette scenario's.
+
 
 ```{=tex}
 \begin{thebibliography}{9}
