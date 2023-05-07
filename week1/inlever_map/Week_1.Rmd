@@ -385,7 +385,7 @@ In de plot zijn vier scenarios te zien van verbranding gezet tegen tijd.
 Waar per scenario een andere initiële waarde is. Er is eerst een snelle stijging
 in een korte tijd, maar deze stopt bij een verbrandings waarde van 1.
 
-## Ccl4model
+## Ccl4 model
 
 In dit model zijn ratten gedrugged met CCL4 in een kamer met toxische concentraties.
 

@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022) (preloaded format=pdflatex 2023.2.14)  7 MAY 2023 14:24
+This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022) (preloaded format=pdflatex 2023.2.14)  7 MAY 2023 20:56
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -521,18 +521,18 @@ Package pdftex.def Info: Week_1_files/figure-latex/unnamed-chunk-21-1.pdf  used 
 LaTeX Warning: There were multiply-defined labels.
 
 Package rerunfilecheck Info: File `Week_1.out' has not changed.
-(rerunfilecheck)             Checksum: E6BCC539F13BD6AFAD30BB0B82958D42;1767.
+(rerunfilecheck)             Checksum: 5DC278CF39AAC623B24630103F5578AD;1775.
  ) 
 Here is how much of TeX's memory you used:
  11363 strings out of 477989
- 179635 string characters out of 5838627
+ 179637 string characters out of 5838627
  1865346 words of memory out of 5000000
  31251 multiletter control sequences out of 15000+600000
  575720 words of font info for 81 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
  75i,7n,76p,435b,576s stack positions out of 10000i,1000n,20000p,200000b,200000s
 {/Users/mvandestreek/Library/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-ts1.enc}{/Users/mvandestreek/Library/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-ec.enc}{/Users/mvandestreek/Library/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-mathsy.enc}{/Users/mvandestreek/Library/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-rm.enc}{/Users/mvandestreek/Library/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-mathit.enc}</Users/mvandestreek/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmbx10.pfb></Users/mvandestreek/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmbx12.pfb></Users/mvandestreek/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmmi10.pfb></Users/mvandestreek/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr10.pfb></Users/mvandestreek/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr12.pfb></Users/mvandestreek/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr17.pfb></Users/mvandestreek/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmri10.pfb></Users/mvandestreek/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmsy10.pfb></Users/mvandestreek/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmtk10.pfb></Users/mvandestreek/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmtt10.pfb></Users/mvandestreek/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmtti10.pfb>
-Output written on Week_1.pdf (20 pages, 510169 bytes).
+Output written on Week_1.pdf (20 pages, 510175 bytes).
 PDF statistics:
  367 PDF objects out of 1000 (max. 8388607)
  303 compressed objects within 4 object streams
