@@ -26,15 +26,15 @@ In dit onderzoek wordt er gekeken naar een model die een evenwichtstoestand aand
 
 ## Doel
 
-Het doel van dit onderzoek is om een model te maken/gebruiken die een verglijkbaar resultaat geeft als het reele verloop van het experiment. Dit doel willen we bereiken door beide resultaten weer te geven in een grafiek, en vervolgens onderling te vergelijken. Aan de hand van de verschillen tussen deze figuren kun je nagaan of het model juist is.
+Het doel van dit onderzoek is om een model te maken/gebruiken die een verglijkbaar resultaat geeft als het reële verloop van het experiment. Dit doel willen we bereiken door het model in R uit te werken en die toe te kennen aan een variabele. Hiermee kunnen figuren gemaakt worden als visualisatie van de simulatie.
 
-Aan de hand van het volgende model zullen de resultaten gelijk zijn aan het reele verloop van het experiment.
+De verwachting van het onderzoek is dat aan de hand van het volgende model de resultaten gelijk zijn aan het reele verloop van het experiment.
 
 Model: $$dY = 10 - 0.1 * (Y + 10)$$
 
 ## Theorie
 
-Tijdens dit model wordt een zak M&M's gebruikt. Uit deze zak worden steeds een constant aantal toegevoegd aan een schaal. Vervolgens wordt er steeds weer 10% aantal uit deze schaal gehaald. Vereenvoudigd is dit dus: voeg 10 stuks toe en haal vervolgens 10% eraf.
+Tijdens dit model wordt een zak M&M's gebruikt. Uit deze zak worden steeds een constant aantal toegevoegd aan een schaal. Vervolgens wordt er steeds weer 10% van dit aantal uit deze schaal gehaald. Vereenvoudigd is dit dus: voeg 10 stuks toe en haal vervolgens 10% eraf.
 
 De variabeles in de formule veranderen niet, er komt steeds een absoluut aantal van 10 bij en er wordt een procentueel aantal van 10 afgehaald. Zoals \cite{NykampDQ} citeert: "An equilibrium of a dynamical system is a value of the state variables where the state variables do not change." De verglijking is dus in evenwicht omdat de staat van de variabeles niet veranderen.
 
@@ -53,12 +53,12 @@ Hierin is:
 
 Hieronder worden de antwoorden op de vragen gegeven.
 
-1.  In de vergelijking zitten twee constanten: 10 en 0,1. Deze waardes veranderen niet en zijn dus niet afhankelijk van Y.
-2.  De variabele Y verandert steeds.
-3.  Variabele Y heeft als initiële waarde 9.
-4.  Het tijdsverloop begint bij t=0 en loopt tot t=100.
-5.  Als de 10% van het volume gelijk is aan een absoluut aantal wat er bij komt (=10) dan is de vergelijking in evenwicht.
-6.  Aan de variabele dY.
+1. In de vergelijking zitten twee constanten: 10 en 0,1. Deze waardes veranderen niet en zijn dus niet afhankelijk van Y.
+2. De variabele Y verandert steeds.
+3. Variabele Y heeft als initiële waarde 9.
+4. De tijdsframe van dit experiment begint bij t=0 tot t= variabele.
+5. Als de 10% van het volume gelijk is aan een absoluut aantal wat er bij komt (=10) dan is de vergelijking in evenwicht.
+6. Het evenwichtsmoment is af te lezen uit dY.
 
 \newpage
 
@@ -66,7 +66,7 @@ Hieronder worden de antwoorden op de vragen gegeven.
 
 ## Het software model
 
-Om dit model uit te werken zal gebruik gemaakt worden van R. In R gebruiken we het pakket deSolve. deSolve zal de differentiaal vergelijking oplossen met de eiegengeschreven functie. Onze functie heeft als doel om het nieuwe volume te berekenen.
+Om dit model uit te werken zal gebruik gemaakt worden van R. In R gebruiken we het pakket deSolve. deSolve zal de differentiaal vergelijking oplossen met een eigengeschreven functie. Onze functie heeft als doel om het nieuwe volume te berekenen.
 
 ```{r}
 library(deSolve)
@@ -149,10 +149,10 @@ Uit de bovenstaande resultaten blijkt dat de verwachte hypothese uitkomt, het ve
 
 Antwoorden op een aantal vragen:
 
-1.  Er vindt geen verandering plaats bij het aanpassen van de parameters. Het blijven constante variabelen en dus verandert het verloop niet.
-2.  Als je de initiële waarde aanpast, geeft deze pas een ander effect bij 100. Dit is omdat het percentage hier velen malen hoger is dan het aantal wat er bijkomt.
-3.  Het tijdsframe zal geen effect hebben op het verloop. Er is alleen een effect als het *aantal* punten wordt aangepast in het tijdsframe. Het model heeft een x aantal tijdspunten nodig om op evenwicht te komen.
-4.  Bij het aanpassen van het model zodat de correctie is op basis van y is er geen effect. Er evenveel tijdspunten nodig om de evenwichtsstand te bereiken.
+1. Er vindt geen verandering plaats bij het aanpassen van de parameters. Het blijven constante variabelen en dus verandert het verloop niet.
+2. Als je de initiële waarde aanpast, geeft deze pas een ander effect bij 100. Er zal een dal grafiek ontstaan in plaats van een berg grafiek. Dit is omdat het percentage hier velen malen hoger is dan het aantal wat er bijkomt.
+3. Bij het veranderen van de time frame zal de visualisatie uitstrekken of krimpen, echter veranderd er niets in dY.
+4. De evenwichts toestand blijft bij honderd, echter zal het gedrag bij de evenwichts toestand anders zijn, omdat er geen volume bij toegevoegd wordt, zal het volume door de niet stijgende volume_percent niet afnemen.
 
 \newpage
 
