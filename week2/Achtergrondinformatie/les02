@@ -1,0 +1,68 @@
+Globale werking
+
+In reactie op lage bloedsuikerspiegel, stress of trauma.
+Wordt gemaakt in bijnierschors.
+
+
+Werking
+
+Glucocorticoïde receptoren zijn te vinden in het cytoplasma van alle cellen
+
+1. Glucocorticoid gaat via een transporteiwit de cel in het cytoplasma en wordt
+gebonden aan een receptor
+
+2. Glucocorticoidereceptorcomplex verplaatst zich aan de nucleus waar het zich bind aan een reponse element.
+
+3. Genen transcriptie, zoals cytokinen aanmaak wordt onderdrukt.
+
+4. Leidt tot remming immuun of ontstekingsreactie.
+
+
+Bijeffecten
+
+	Toename bloedsuiker -> diabetes
+	Toename witte bloedcellen
+	Verlies van botmassa
+	Emotionele reacties
+	Bacteriële infecties
+
+
+Doel 
+
+Bereiken evenwichtssituatie van een lage activatie ontstekingsgenen
+
+
+Model receptor
+
+Hoeveelheid mRNA dat gemaakt wordt niet afhankelijk van aanwezige mRNA
+
+Afbraak mRNA wel afhankelijk van aanwezige mRNA
+
+
+	Links is aanmaak over tijd van mRNA + Ks_R
+
+	Rechts is afbraak over tijd van mRNA - Kd_R
+	
+	Waarin R de hoeveelheid mRNA is
+	Waarin K de rate is
+	
+Binding van complex
+
+	Drug + Receptor - > DR
+
+
+Law of mass action: de snelheid van de binding (dDRdt)
+
+
+Wat gebonden wordt aan D wordt dus ontrekt aan vrije R
+
+	Kon . D . R
+	
+	
+	
+	1. Verandering van receptor is afhankelijk van aantal mRNA
+	2. Hoeveelheid mRNA wordt een constante
+	3. IC50 waarde is een concentratie waar 50% overblijft
+	4. 1/ (1+1)
+	
+	Hoofdvraag: Wat doet het model als ik x (100mg) MPL indien.
