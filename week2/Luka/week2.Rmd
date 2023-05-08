@@ -1,0 +1,139 @@
+---
+title: "titel "
+author: "my_name"
+date: "`r Sys.Date()`"
+
+header-includes:
+   - \usepackage{longtable}
+   - \usepackage{hyperref}
+output:
+    pdf_document:
+      number_sections: yes
+linkcolor: blue
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Introduction
+Introduction of the research and introduction research questions
+
+## Goal
+  - Describe Goal (not the educational goal but the research goal)
+  - Describe how you reach the goal (e.g. make model and figures, use different setting)
+  - formulate hypothesis
+
+## Theory
+
+- Describe biological model
+
+In het biologische model wordt de samenhang van vier vergelijkingen getoond, waar Drug (D) reageert
+met receptor (R) tot een Glucocorticoidereceptorcomplex (DR), waar D dus glucocorticoide is.
+
+De formule waar in dit onderzoek interesse op ligt berekend de verandering in
+hoeveelheid mRNA dat getranscribeerd wordt tot receptoren afhankelijk van
+de verandering in tijd. Hieronder is de formule te zien.
+
+$$\frac{dmRNA_R}{dt} = ks_{\_Rm} . (1 - \frac{DR(N)}{IC50_{Rm}}) - k_{d\_Rm} . mRNA_R$$
+Er zal worden gekeken naar hoe de hoeveelheid receptor dat aangemaakt wordt afhankelijk is van
+de hoeveelheid D en R dat in de reactie gestopt wordt minus de afbraak van receptor per tijdeenheid. De hoeveelheid
+van D en R die reageren is verder afhankelijk van de de helft van de concentratie mRNA (IC50_Rm).
+
+De volgende formule bepaald hoe de verandering in hoeveelheid receptoren afhankelijk is van tijd.
+
+$$\frac{dR}{dt} = ks_{\_R} · mRNA_R + Rf · DR(N ) − k_{on} · D · R − k_{d\_R} · R$$
+Verder wordt er gekeken naar hoe de verandering in glucocorticoide (D) dat reageert met het  aantal receptoren (R)
+afhankelijk is van de verandering in tijd.
+
+$$\frac{dDR}{dt} = k_{on} · D · R − k_T · DR$$
+Als laatste formule wordt de verandering in hoeveelheid D en R dat met elkaar reageert in de nucleus gezet tegen
+verandering in tijd.
+
+$$\frac{dDR(N)}{dt} = k_T · DR · −k_{re} · DR(N )$$
+
+
+- Picture of the biological model
+
+```{r, echo=FALSE, out.width='50%'}
+knitr::include_graphics('model.png')
+```
+
+Give an explanation of the model with citations of source \cite{Soertaert10} (replace this with actual source)
+and formula explanation
+
+Describe each element and the transformations
+
+In de bovenstaande formules komen veertien variabelen voor. Alle variabelen
+waar 'k' voor staat zoals ks_Rm, kd_Rm, k_re, k_T, k_on en k_d_R zijn constantes. Hier
+zijn ks_Rm, kd_Rm de snelheidsconstanten voor aanmaak en afbraak van mRNA dat codeert voor receptoren (mRNA.R). 
+Deze variabelen komen voor in de eerste formule. Waar alles links de minus nieuwe mRNA is dat wordt aangemaakt
+en rechts van de minus de hoeveelheid mRNA dat wordt afgebroken. Deze regel geldt tevens voor iedere formule.
+
+Vervolgens zijn in de tweede formule op receptor niveau k_s_r en k_d_r de snelheidsconstanten voor aanmaak van receptoren
+en afbraak van receptoren. In deze formule is k_s_r afhankelijk van hoeveelheid mRNA en k_d_r is afhankelijk van de hoeveelheid
+receptoren.
+
+
+
+ - d = verschil in {element ernaast}
+ - D = Drug, dus glucocorticoide
+ - (N) geeft aan dat de locatie in de nucleus is 
+ - t = tijdseenheid
+ - R = aantal Receptoren
+
+# Methods
+
+## The software model
+
+- Describe the software tools used, as well as the libraries
+- Describe the software implementation (note: code below is an example)
+```{r}
+library(deSolve)
+# code
+```
+
+## Model configuration
+
+Explain chosen initial state, parameter values and time sequence. Use tables with values as for example below
+\begin{longtable}[l]{l|l|l}
+\caption{Parameter Values} \\ \hline
+\label{param_table}
+$\textbf{Parameter}$             &$\textbf{Value}$& $\textbf{Unit}$              \\ \hline
+\endhead
+$a$       & 0.08  & $hour^{-1}$         \\ \hline
+$b$       & 0.06  & $hour^{-1}$         \\ \hline
+$c$       & 0.06  & $hour^{-1}$         \\ \hline
+\end{longtable}
+
+
+# Results
+Introduction of results, how does it answer your research questions.
+```{r}
+#plot(out)
+#code to generate figures with title, subscripts, legenda etc
+```
+
+- Describe what can be seen in such way that it leads to an answer to your research questions
+- Give your figures a number and a descriptive title.
+- Provide correct axis labels (unit and quantity), legend and caption.
+- Always refer to and discuss your figures and tables in the text - they never stand alone.
+
+
+# Discussion and Conclusion
+## Discussion
+- Compare your results with what is expecting from the literature and discuss differences with them.
+- Discuss striking and surprising results.
+- Discuss weaknesses in your research and how they could be addressed.
+
+## General conclusion and perspective
+Discuss what your goal was, what the end result is and how you could continue working from here.
+
+
+\begin{thebibliography}{9}
+
+\bibitem{Soertaert10}
+Soetaert, K., Petzoldt, T., and Woodrow Setzer, R.: \textit{Solving differential equations in R: package deSolve}, J. Stat. Softw., 33, 1-25, 2010.
+
+\end{thebibliography}
