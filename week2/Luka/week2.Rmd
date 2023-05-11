@@ -32,26 +32,23 @@ Introduction of the research and introduction research questions
 In het biologische model wordt de samenhang van vier vergelijkingen getoond, waar Drug (D) reageert
 met receptor (R) tot een Glucocorticoidereceptorcomplex (DR), waar D dus glucocorticoide is.
 
-De formule waar in dit onderzoek interesse op ligt berekend de verandering in
+De formule waar in dit onderzoek interesse op ligt berekent de verandering in
 hoeveelheid mRNA dat getranscribeerd wordt tot receptoren afhankelijk van
-de verandering in tijd. Hieronder is de formule te zien.
+de verandering in tijd. Hieronder is de 'formule 1' te zien.
 
 $$\frac{dmRNA_R}{dt} = ks_{\_Rm} . (1 - \frac{DR(N)}{IC50_{Rm}}) - k_{d\_Rm} . mRNA_R$$
-Er zal worden gekeken naar hoe de hoeveelheid receptor dat aangemaakt wordt afhankelijk is van
-de hoeveelheid D en R dat in de reactie gestopt wordt minus de afbraak van receptor per tijdeenheid. De hoeveelheid
-van D en R die reageren is verder afhankelijk van de de helft van de concentratie mRNA (IC50_Rm).
 
-De volgende formule bepaald hoe de verandering in hoeveelheid receptoren afhankelijk is van tijd.
+De volgende 'formule 2' bepaald hoe de verandering in hoeveelheid receptoren afhankelijk is van tijd.
 
-$$\frac{dR}{dt} = ks_{\_R} · mRNA_R + Rf · DR(N ) − k_{on} · D · R − k_{d\_R} · R$$
-Verder wordt er gekeken naar hoe de verandering in glucocorticoide (D) dat reageert met het  aantal receptoren (R)
-afhankelijk is van de verandering in tijd.
+$$\frac{dR}{dt} = ks_{\_R} · mRNA_R + Rf · DR(N ) - k_{on} · D · R - k_{d\_R} · R$$
+Verder wordt er gekeken naar hoe de verandering in glucocorticoide (D) dat reageert met het aantal receptoren (R)
+afhankelijk is van de verandering in tijd. Hieronder 'formule 3'
 
-$$\frac{dDR}{dt} = k_{on} · D · R − k_T · DR$$
-Als laatste formule wordt de verandering in hoeveelheid D en R dat met elkaar reageert in de nucleus gezet tegen
+$$\frac{dDR}{dt} = k_{on} · D · R - k_T · DR$$
+Als laatste 'formule 4' wordt de verandering in hoeveelheid D en R berekend dat met elkaar reageert in de nucleus gezet tegen
 verandering in tijd.
 
-$$\frac{dDR(N)}{dt} = k_T · DR · −k_{re} · DR(N )$$
+$$\frac{dDR(N)}{dt} = k_T · DR · - k_{re} · DR(N )$$
 
 
 - Picture of the biological model
@@ -63,25 +60,29 @@ knitr::include_graphics('model.png')
 Give an explanation of the model with citations of source \cite{Soertaert10} (replace this with actual source)
 and formula explanation
 
-Describe each element and the transformations
 
-In de bovenstaande formules komen veertien variabelen voor. Alle variabelen
-waar 'k' voor staat zoals ks_Rm, kd_Rm, k_re, k_T, k_on en k_d_R zijn constantes. Hier
+In de bovenstaande formules komen veertien variabelen voor. Wanneer er een kleine 'd' voor een variabele
+staat, dan betekent het verschil of de verandering in zijn waarde, bijvoorbeeld dDR(N) zegt de verandering
+in hoeveelheid MPL-complex binnen de nucleus.
+
+Alle variabelen waar 'k' voor staat zoals ks_Rm, kd_Rm, k_re, k_T, k_on en k_d_R zijn constantes. Hier in formule 1
 zijn ks_Rm, kd_Rm de snelheidsconstanten voor aanmaak en afbraak van mRNA dat codeert voor receptoren (mRNA.R). 
-Deze variabelen komen voor in de eerste formule. Waar alles links de minus nieuwe mRNA is dat wordt aangemaakt
-en rechts van de minus de hoeveelheid mRNA dat wordt afgebroken. Deze regel geldt tevens voor iedere formule.
-
-Vervolgens zijn in de tweede formule op receptor niveau k_s_r en k_d_r de snelheidsconstanten voor aanmaak van receptoren
-en afbraak van receptoren. In deze formule is k_s_r afhankelijk van hoeveelheid mRNA en k_d_r is afhankelijk van de hoeveelheid
-receptoren.
+Aan de linker kant van de minus wordt nieuwe mRNA aangemaakt door het tempo van aanmaak ks_Rm maal de procentuele aanmaak van
+het MPL-complex binnen de nucleus ('DR(N)') dat afhankelijk is van de helft van de concentratie mRNA (IC50_Rm) Rechts van de minus wordt mRNA afgebroken, door de tempo van afbraak keer de hoeveelheid receptor mRNA te doen. Deze regel van aanmaak links en afbraak rechts geldt voor iedere formule, alleen de context verschilt.
 
 
 
- - d = verschil in {element ernaast}
- - D = Drug, dus glucocorticoide
- - (N) geeft aan dat de locatie in de nucleus is 
- - t = tijdseenheid
- - R = aantal Receptoren
+Vervolgens zijn in de tweede formule op receptor niveau de snelheidsconstanten 'k_s_r' en 'k_d_r'  voor aanmaak van receptoren
+en afbraak van receptoren. In deze formule is de hoeveelheid mRNA (mRNA.R) afhankelijk van de keersom met k_s_r. Tijdens het proces worden ook receptoren hergebruikt in de vorm van R_f. De hoeveelheid DR(N) is hier afhankelijk van en de som met de vorige keersom tussen k_s_r en mRNA.R bepaalt de aanmaak van aantal receptoren.  Daartegenover wordt de afbraak van receptoren bepaalt door de keersom van hoeveelheid D en R dat afhankelijk is van de snelheid dat een MPL-receptor complex gemaakt wordt ('k_on') minus de hoeveelheid receptoren (R) dat afhankelijk is van k_d_r.
+
+
+
+In formule 3 zijn k_on en 'k_T' ook snelheidsconstanten. De keersom tussen k_on, hoeveelheid D en R zoals in formule 2 hierboven bepaalt nu de aanmaak per tijdeenheid van het MPL-receptor complex. Aan de rechterkant van de minus (de) geeft k_T het tempo aan dat het MPL-receptor complex verplaatst richting de nucleus, wat invloed heeft op de afbraak van het MPL-complex (DR).
+
+In formule 4 is wederom constante k_T, maar nu van invloed bij aanmaak van het MPL-complex. Tevens is bij de afbraak van het MPL-complex in de 
+nucleus constante 'k_re' van invloed. K_re geeft het tempo aan dat een MPL-receptor vanuit de nucleus naar het cytosol terug wordt getransporteerd. 
+
+
 
 # Methods
 
@@ -96,16 +97,31 @@ library(deSolve)
 
 ## Model configuration
 
+
+```{r}
+# load library for pretty table
+library(pander)
+```
+
 Explain chosen initial state, parameter values and time sequence. Use tables with values as for example below
-\begin{longtable}[l]{l|l|l}
-\caption{Parameter Values} \\ \hline
-\label{param_table}
-$\textbf{Parameter}$             &$\textbf{Value}$& $\textbf{Unit}$              \\ \hline
-\endhead
-$a$       & 0.08  & $hour^{-1}$         \\ \hline
-$b$       & 0.06  & $hour^{-1}$         \\ \hline
-$c$       & 0.06  & $hour^{-1}$         \\ \hline
-\end{longtable}
+
+```{r, fig.cap="Waarden betrokken bij opzetten experiment"}
+Categorie <- c(rep("Initiële waarden", 4), 
+               rep("Konstantes", 7), rep("Parameters", 3))
+Waarden<- c("mRNAr"=4.74, "DR_N"=0, "R"=267, "DR"=53e-9 * 267, "ks_Rm"=2.90, 
+          "kd_Rm"= 0.612, "k_re"=0.57, "k_T"=0.63,  "k_on"= 0.00329, "k_d_R"=0.0572, "k_s_r"=3.22,
+          "IC50_Rm"=26.2, "RF"=0.49, "D"=53e-9)
+
+Eenheden <- c("fmol / g liver", rep("fmol/mg protein", 3),
+              rep("fmol/g liver/h", 2), rep("1 / h", 2),
+              "(L/nmol/h", rep("1 / h", 2), "fmol/mg protein",
+              "", "nmol/L")
+
+Tijd_in_s <- c(rep(24, 14))
+model.conf <- data.frame(Waarden, Categorie, Eenheden, Tijd_in_s)
+pander(model.conf)
+```
+
 
 
 # Results
