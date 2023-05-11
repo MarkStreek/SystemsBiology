@@ -65,74 +65,46 @@ library(deSolve)
 ```
 
 ```{r}
+# Defineren van de parameters
 parameters <- c(Ks_Rm = 2.90, IC50_Rm = 26.2, 
                 Kon = 0.00329, KT = 0.63, 
                 Kre = 0.57, RF = 0.49, 
                 Kd_R = 0.0572, Kd_Rm = 0.612, 
-                Ksr = 3.22)
+                Ksr = 3.22, D = 0.053)
 
-# MPL-complex
-DR_N.state <- 0
+# Tijdspunten defineren
+times <- 0 : 24
 
-# Rm0
-mRNAr.state <- 4.74
-
-# Medicijn (drug)
-D.state <- 0
-
-# R0
-R.state <- 267
-
-# Tijd
-times <- 0 : 100
+# Het defineren van de initiële waardes
+initial.values <- c(DR_N = 0, mRNAr = 4.74, R = 267, DR = 0.053 * 267)
 ```
 
 ```{r}
-verandering_mRNAr <- function (mRNAr, DR_N, parameters) {
-  with(as.list(c(parameters)),{
-    DmRNAr_dT <- Ks_Rm * (1 - (DR_N / IC50_Rm)) - Kd_Rm * mRNAr
-    return(list(c(DmRNAr_dT)))
+verandering_dt <- function (time, parameters, initial.values) {
+  with(as.list(c(parameters, initial.values)),{
+    # Vergelijking van R
+    R <- Ksr * mRNAr + RF * Kre * DR_N - Kon * D * R - Kd_R * R
+    # Vergelijking van mRNAr
+    mRNAr <- Ks_Rm * (1 - (DR_N / IC50_Rm)) - Kd_Rm * mRNAr
+    # Vergelijking van DR
+    DR <- Kon * D * R - KT * D * R
+    # Vergelijking van DR(N)
+    DR_N <- KT * (D * R) - Kre * DR_N
+    
+    # Retourneren van de initiële waardes
+    return(list(c(DR_N, mRNAr, R, DR)))
   })
 }
-```
 
-```{r}
-verandering_R <- function (mRNAr, DR_N, D, R, parameters) {
-  with(as.list(c(parameters)),{
-    DR_dt <- Ksr * mRNAr + RF * Kre * DR_N - Kon * D * R - Kd_R * R
-    return(list(c(DR_dt)))
-  })
-}
+# Het aanroepen van de ode functie met de juiste waardes
+verloop.dataset <- ode(initial.values, times, verandering_dt, parameters)
 ```
-
-```{r}
-verandering_DR <- function (D, R, parameters) {
-  with(as.list(c(parameters)),{
-    dDR_dt <- Kon * D * R - KT * D * R
-    return(list(c(dDR_dt)))
-  })
-}
-```
-
-```{r}
-verandering_DR_N <- function (DR, DR_N, parameters) {
-  with(as.list(c(parameters)),{
-    dDR.N_dt <- KT * DR - Kre * DR_N
-    return(list(c(dDR.N_dt)))
-  })
-}
-```
-
-```{r}
-test1 <- ode(times = times, y = mRNAr.state, parms = parameters, func = verandering_mRNAr)
-plot(test1)
-```
-
 
 ## Model configuratie
 
 Explain chosen initial state, parameter values and time sequence. Use tables with values as for example below
 
+```{=tex}
 \begin{longtable}[l]{l|l|l}
 \caption{Parameter Values} \\ \hline
 \label{param_table}
@@ -142,13 +114,20 @@ $a$       & 0.08  & $hour^{-1}$         \\ \hline
 $b$       & 0.06  & $hour^{-1}$         \\ \hline
 $c$       & 0.06  & $hour^{-1}$         \\ \hline
 \end{longtable}
-
+```
 
 # Results
+
 Introduction of results, how does it answer your research questions.
-```{r}
-#plot(out)
-#code to generate figures with title, subscripts, legenda etc
+
+De verloop van alle initiële waardes is in bovenstaand onderdeel uitgebreid berekent. De resultaten zijn opgeslagen in een variabele. We kunnen deze resultaten onderstaand weergeven in de vorm van een grafiek. Er zijn vier waardes, en er komen dus ook vier grafieken.
+
+```{r, fig.cap="Nog in te vullen..."}
+plot(verloop.dataset, 
+     lwd = 2.5,
+     xlab = "Tijd (in uren)",
+     ylab = "Aantal stof (in ...)",
+     col = "darkblue")
 ```
 
 - Describe what can be seen in such way that it leads to an answer to your research questions
