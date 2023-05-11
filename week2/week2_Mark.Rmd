@@ -70,13 +70,13 @@ parameters <- c(Ks_Rm = 2.90, IC50_Rm = 26.2,
                 Kon = 0.00329, KT = 0.63, 
                 Kre = 0.57, RF = 0.49, 
                 Kd_R = 0.0572, Kd_Rm = 0.612, 
-                Ksr = 3.22, D = 0.053)
+                Ksr = 3.22, D = 53e-9)
 
 # Tijdspunten defineren
 times <- 0 : 24
 
 # Het defineren van de initiële waardes
-initial.values <- c(DR_N = 0, mRNAr = 4.74, R = 267, DR = 0.053 * 267)
+initial.values <- c(DR_N = 0, mRNAr = 4.74, R = 267, DR = 53e-9 * 267)
 ```
 
 ```{r}
