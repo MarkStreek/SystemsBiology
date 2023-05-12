@@ -36,11 +36,11 @@ De formule waar in dit onderzoek interesse op ligt berekent de verandering in
 hoeveelheid mRNA dat getranscribeerd wordt tot receptoren afhankelijk van
 de verandering in tijd. Hieronder is de 'formule 1' te zien.
 
-$$\frac{dmRNA_R}{dt} = ks_{\_Rm} . (1 - \frac{DR(N)}{IC50_{Rm}}) - k_{d\_Rm} . mRNA_R$$
+$$\frac{dmRNA_R}{dt} = ks_{\_Rm} . (1 - \frac{DR(N)}{IC50_{Rm} + DR(N)}) - k_{d\_Rm} . mRNA_R$$
 
 De volgende 'formule 2' bepaald hoe de verandering in hoeveelheid receptoren afhankelijk is van tijd.
 
-$$\frac{dR}{dt} = ks_{\_R} · mRNA_R + Rf · DR(N ) - k_{on} · D · R - k_{d\_R} · R$$
+$$\frac{dR}{dt} = ks_{\_R} · mRNA_R + Rf · k_{re} · DR(N ) - k_{on} · D · R - k_{d\_R} · R$$
 Verder wordt er gekeken naar hoe de verandering in glucocorticoide (D) dat reageert met het aantal receptoren (R)
 afhankelijk is van de verandering in tijd. Hieronder 'formule 3'
 
@@ -48,7 +48,7 @@ $$\frac{dDR}{dt} = k_{on} · D · R - k_T · DR$$
 Als laatste 'formule 4' wordt de verandering in hoeveelheid D en R berekend dat met elkaar reageert in de nucleus gezet tegen
 verandering in tijd.
 
-$$\frac{dDR(N)}{dt} = k_T · DR · - k_{re} · DR(N )$$
+$$\frac{dDR(N)}{dt} = k_T · DR - k_{re} · DR(N )$$
 
 
 - Picture of the biological model
@@ -56,9 +56,14 @@ $$\frac{dDR(N)}{dt} = k_T · DR · - k_{re} · DR(N )$$
 ```{r, echo=FALSE, out.width='50%'}
 knitr::include_graphics('model.png')
 ```
+Biologisch model van Glucocorticoid receptor dynamica
 
 Give an explanation of the model with citations of source \cite{Soertaert10} (replace this with actual source)
-and formula explanation
+and formula explanation [TODO]
+
+In afbeelding 1 is het biologische model van glucocorticoïde dynamica te zien. Hierbij zijn veel constantes betrokken,
+die invloed uitoefenen op de hoeveelheid van het eindproduct. 
+
 
 
 In de bovenstaande formules komen veertien variabelen voor. Wanneer er een kleine 'd' voor een variabele
@@ -71,9 +76,9 @@ Aan de linker kant van de minus wordt nieuwe mRNA aangemaakt door het tempo van 
 het MPL-complex binnen de nucleus ('DR(N)') dat afhankelijk is van de helft van de concentratie mRNA (IC50_Rm) Rechts van de minus wordt mRNA afgebroken, door de tempo van afbraak keer de hoeveelheid receptor mRNA te doen. Deze regel van aanmaak links en afbraak rechts geldt voor iedere formule, alleen de context verschilt.
 
 
+Vervolgens zijn in de tweede formule op receptor niveau de snelheidsconstanten 'k_s_r' en 'k_d_r'  voor aanmaak van receptoren en afbraak van receptoren. In deze formule is de hoeveelheid mRNA (mRNA.R) afhankelijk van de keersom met k_s_r. Tijdens het proces worden ook receptoren hergebruikt in de vorm van R_f. De hoeveelheid DR(N) is hier afhankelijk van en de som met de vorige keersom tussen k_s_r en mRNA.R bepaalt de aanmaak van aantal receptoren.  
 
-Vervolgens zijn in de tweede formule op receptor niveau de snelheidsconstanten 'k_s_r' en 'k_d_r'  voor aanmaak van receptoren
-en afbraak van receptoren. In deze formule is de hoeveelheid mRNA (mRNA.R) afhankelijk van de keersom met k_s_r. Tijdens het proces worden ook receptoren hergebruikt in de vorm van R_f. De hoeveelheid DR(N) is hier afhankelijk van en de som met de vorige keersom tussen k_s_r en mRNA.R bepaalt de aanmaak van aantal receptoren.  Daartegenover wordt de afbraak van receptoren bepaalt door de keersom van hoeveelheid D en R dat afhankelijk is van de snelheid dat een MPL-receptor complex gemaakt wordt ('k_on') minus de hoeveelheid receptoren (R) dat afhankelijk is van k_d_r.
+Daartegenover wordt de afbraak van receptoren bepaalt door de keersom van hoeveelheid D en R dat afhankelijk is van de snelheid dat een MPL-receptor complex gemaakt wordt ('k_on') minus de hoeveelheid receptoren (R) dat afhankelijk is van k_d_r.
 
 
 
@@ -82,6 +87,7 @@ In formule 3 zijn k_on en 'k_T' ook snelheidsconstanten. De keersom tussen k_on,
 In formule 4 is wederom constante k_T, maar nu van invloed bij aanmaak van het MPL-complex. Tevens is bij de afbraak van het MPL-complex in de 
 nucleus constante 'k_re' van invloed. K_re geeft het tempo aan dat een MPL-receptor vanuit de nucleus naar het cytosol terug wordt getransporteerd. 
 
+citaat 1 Upon ligand binding, GR are activated and released from chaperone proteins (heat shock protein-90 and others) and rapidly translocate to the nucleus where they exerts their molecular effects.
 
 
 # Methods
@@ -116,9 +122,9 @@ Categorie <- c(rep("Initiële waarden", 4),
 
 # Waarden uit bovenstaande categorieën verkregen van experiment
 # Omdat DR een reactie is tussen D en R gaan de waarden keer elkaar
-Waarden<- c("mRNAr"=4.74, "DR_N"=0, "R"=267, "DR"=53e-9 * 267, "ks_Rm"=2.90, 
+Waarden<- c("mRNAr"=4.74, "DR_N"=0, "R"=267, "DR"=0, "ks_Rm"=2.90, 
           "kd_Rm"= 0.612, "k_re"=0.57, "k_T"=0.63,  "k_on"= 0.00329, "k_d_R"=0.0572, "k_s_r"=3.22,
-          "IC50_Rm"=26.2, "RF"=0.49, "D"=53e-9)
+          "IC50_Rm"=26.2, "RF"=0.49, "D"=53.4)
 
 # Eenheden in een vector verwerkt. Met functie 'rep()' kan een iterable X keer herhaald worden.
 Eenheden <- c("fmol / g liver", rep("fmol/mg protein", 3),
@@ -126,9 +132,9 @@ Eenheden <- c("fmol / g liver", rep("fmol/mg protein", 3),
               "L/nmol/h", rep("1 / h", 2), "fmol/mg protein",
               "", "nmol/L")
 
-# Tijd van t = 24 uur dit geldt voor het hele experiment, dus alle 14 waarden.
-# Deze tijdsequentie bevat genoeg tijdseenheden om het verloop van de formules te laten zien.
-Tijd_in_h <- c(rep(24, 14))
+# Tijd van t = 48 uur dit geldt voor het hele experiment, dus alle 14 waarden.
+# Deze tijdsequentie van twee dagen bevat genoeg tijdseenheden om het verloop van de formules te laten zien.
+Tijd_in_h <- c(rep(48, 14))
 # Dataframe waar vector namen in de header komen, waarde namen als rijnamen en daadwerkelijke
 # waarden daar in verwerkt.
 model.conf <- data.frame(Waarden, Categorie, Eenheden, Tijd_in_h)
@@ -149,6 +155,12 @@ De overige eenheden zeggen iets over aantal stof dat aangemaakt of afgebroken wo
 Dus fmol/g liver/h is 10e-15 mol per gram lever per uur (h=hour), L/nmol/h geeft dus aan dat een liter vloeistof
 per 10e-3 mol per uur wordt gebruikt en de eenheid 1 / h vertelt dat er één stof X per uur bijkomt of weggaat.
 Bijvoorbeeld één DR (MPL-receptor complex) wordt per uur aangemaakt.
+
+Variabele D moet omgerekend worden van ng/ml naar nmol/L. Door de volgende formule toe te passen met begin waarde 20 ng/ ml.
+
+> 20 ng/ml * 1000 ml/L * 1 mol / molgewiht g = 53.4 nmol/L
+
+
 
 # Results
 Introduction of results, how does it answer your research questions.
@@ -173,9 +185,11 @@ Introduction of results, how does it answer your research questions.
 Discuss what your goal was, what the end result is and how you could continue working from here.
 
 
+```{=tex}
 \begin{thebibliography}{9}
 
-\bibitem{Soertaert10}
-Soetaert, K., Petzoldt, T., and Woodrow Setzer, R.: \textit{Solving differential equations in R: package deSolve}, J. Stat. Softw., 33, 1-25, 2010.
+\bibitem{ncbi.nlm.nih.gov}
+Br J Pharmacol. 2011 May: \textit{Glucocorticosteroids: current and future directions}.
 
 \end{thebibliography}
+```
