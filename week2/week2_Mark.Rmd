@@ -70,34 +70,42 @@ parameters <- c(Ks_Rm = 2.90, IC50_Rm = 26.2,
                 Kon = 0.00329, KT = 0.63, 
                 Kre = 0.57, RF = 0.49, 
                 Kd_R = 0.0572, Kd_Rm = 0.612, 
-                Ksr = 3.22, D = 53e-9)
+                Ksr = 3.22, D = 53)
 
 # Tijdspunten defineren
-times <- 0 : 24
+times <- 0 : 48
 
 # Het defineren van de initiële waardes
-initial.values <- c(DR_N = 0, mRNAr = 4.74, R = 267, DR = 53e-9 * 267)
+initial.values <- c(DR_N = 0, mRNAr = 4.74, R = 267, DR = 0)
 ```
 
 ```{r}
 verandering_dt <- function (time, parameters, initial.values) {
   with(as.list(c(parameters, initial.values)),{
-    # Vergelijking van R
-    R <- Ksr * mRNAr + RF * Kre * DR_N - Kon * D * R - Kd_R * R
+    
     # Vergelijking van mRNAr
-    mRNAr <- Ks_Rm * (1 - (DR_N / IC50_Rm)) - Kd_Rm * mRNAr
+    mRNAr.dt <- Ks_Rm * (1 - (DR_N / IC50_Rm + DR_N)) - Kd_Rm * mRNAr
+    # Vergelijking van R
+    R.dt <- Ksr * mRNAr + RF * Kre * DR_N - Kon * D * R - Kd_R * R
     # Vergelijking van DR
-    DR <- Kon * D * R - KT * D * R
+    DR.dt <- Kon * D * R - KT * DR
     # Vergelijking van DR(N)
-    DR_N <- KT * (D * R) - Kre * DR_N
+    DR_N.dt <- KT * DR - Kre * DR_N
     
     # Retourneren van de initiële waardes
-    return(list(c(DR_N, mRNAr, R, DR)))
+    return(list(c(DR_N.dt, mRNAr.dt, R.dt, DR.dt)))
+    
   })
 }
 
 # Het aanroepen van de ode functie met de juiste waardes
 verloop.dataset <- ode(initial.values, times, verandering_dt, parameters)
+
+plot(verloop.dataset, 
+     lwd = 2.5,
+     xlab = "Tijd (in uren)",
+     ylab = "Aantal stof (in ...)",
+     col = "darkblue")
 ```
 
 ## Model configuratie
