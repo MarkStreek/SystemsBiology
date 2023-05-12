@@ -164,7 +164,7 @@ Variabele D moet omgerekend worden van ng/ml naar nmol/L. Door de volgende formu
 
 # Results
 Introduction of results, how does it answer your research questions.
-```{r}
+```{r} 
 #plot(out)
 #code to generate figures with title, subscripts, legenda etc
 ```
