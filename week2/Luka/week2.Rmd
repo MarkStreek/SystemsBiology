@@ -105,24 +105,50 @@ library(pander)
 
 Explain chosen initial state, parameter values and time sequence. Use tables with values as for example below
 
-```{r, fig.cap="Waarden betrokken bij opzetten experiment"}
+Onderstaand worden vier vectoren opgesteld "Categorie", "Waarden", "Eenheden" en "Tijd_in_s". Deze
+vectoren worden doorgegeven aan een dataframe die vervolgens met functie *pander* uit library *pander*
+als een mooi tabel wordt getekend. 
+
+```{r}
+# Drie categorieën aan soorten input waarden
 Categorie <- c(rep("Initiële waarden", 4), 
                rep("Konstantes", 7), rep("Parameters", 3))
+
+# Waarden uit bovenstaande categorieën verkregen van experiment
+# Omdat DR een reactie is tussen D en R gaan de waarden keer elkaar
 Waarden<- c("mRNAr"=4.74, "DR_N"=0, "R"=267, "DR"=53e-9 * 267, "ks_Rm"=2.90, 
           "kd_Rm"= 0.612, "k_re"=0.57, "k_T"=0.63,  "k_on"= 0.00329, "k_d_R"=0.0572, "k_s_r"=3.22,
           "IC50_Rm"=26.2, "RF"=0.49, "D"=53e-9)
 
+# Eenheden in een vector verwerkt. Met functie 'rep()' kan een iterable X keer herhaald worden.
 Eenheden <- c("fmol / g liver", rep("fmol/mg protein", 3),
               rep("fmol/g liver/h", 2), rep("1 / h", 2),
-              "(L/nmol/h", rep("1 / h", 2), "fmol/mg protein",
+              "L/nmol/h", rep("1 / h", 2), "fmol/mg protein",
               "", "nmol/L")
 
-Tijd_in_s <- c(rep(24, 14))
-model.conf <- data.frame(Waarden, Categorie, Eenheden, Tijd_in_s)
+# Tijd van t = 24 uur dit geldt voor het hele experiment, dus alle 14 waarden.
+# Deze tijdsequentie bevat genoeg tijdseenheden om het verloop van de formules te laten zien.
+Tijd_in_h <- c(rep(24, 14))
+# Dataframe waar vector namen in de header komen, waarde namen als rijnamen en daadwerkelijke
+# waarden daar in verwerkt.
+model.conf <- data.frame(Waarden, Categorie, Eenheden, Tijd_in_h)
+# Tekenen van tabel
 pander(model.conf)
 ```
 
+Tabel 1: *Variabelen betrokken bij opzetten experiment opgedeeld in zeven konstantes,
+          drie parameters en vier initiële waarden.*
 
+In Tabel 1 zijn aan de  variabelen verschillende eenheden toegekend. Met fmol / g liver
+wordt bedoelt *f =* e-15, dus 10e-15 mol per gram (g) lever bestaat het uit. Dit geldt hetzelfde
+maar dan in de context van eiwitten bij de eenheid van fmol/mg protein, waar nu
+10e-15 mol bestaat per *milli =* 10e-3 gram eiwit.
+
+Vervolgens geeft de eenheid nmol/L aan dat er *n =* 10e-9 mol van die stof is per liter (L).
+De overige eenheden zeggen iets over aantal stof dat aangemaakt of afgebroken wordt per tijdseenheid.
+Dus fmol/g liver/h is 10e-15 mol per gram lever per uur (h=hour), L/nmol/h geeft dus aan dat een liter vloeistof
+per 10e-3 mol per uur wordt gebruikt en de eenheid 1 / h vertelt dat er één stof X per uur bijkomt of weggaat.
+Bijvoorbeeld één DR (MPL-receptor complex) wordt per uur aangemaakt.
 
 # Results
 Introduction of results, how does it answer your research questions.
