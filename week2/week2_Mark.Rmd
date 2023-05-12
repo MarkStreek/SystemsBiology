@@ -45,8 +45,10 @@ De verwachting zal zijn dat het aantal glucocorticosteroïden niet te hoog zal z
 ```{r, echo=FALSE, out.width='95%'}
 #knitr::include_graphics('example.png')
 ```
-Give an explanation of the model with citations of source \cite{Soertaert10} (replace this with actual source)
-and formula explanation
+
+Glucocorticoids reverse this effect, resulting in rapid degradation of mRNA and reduced inflammatory protein secretion \cite{NCBI} (Bergmann
+*et al.*, 2004)
+
 
 $$\frac{\delta R}{\delta t} = -r * R + m $$
 Describe each element and the transformations
@@ -160,6 +162,8 @@ De belangrijkste variabele in de dynamica van MPL is het aantal vrije receptoren
 ## Discussie
 
 - Compare your results with what is expecting from the literature and discuss differences with them.
+Uit de resultaten is te zien, dat naarmate DR toeneemt en dus MPL-complexen gevormd worden, zal de concentratie
+mRNA dat codeert voor receptoren afnemen. 
 - Discuss striking and surprising results.
 - Discuss weaknesses in your research and how they could be addressed.
 
@@ -172,6 +176,10 @@ Discuss what your goal was, what the end result is and how you could continue wo
 
 \bibitem{deSolve}
 Soetaert, K., Petzoldt, T., and Woodrow Setzer, R.: \textit{Solving differential equations in R: package deSolve}, J. Stat. Softw., 33, 1-25, 2010.
+
+\bibitem{NCBI}
+Bergmann MW, Staples KJ, Smith SJ, Barnes PJ, Newton R (2004).,
+Am J Respir Cell Mol Biol 30: 555–563.: \textit{Glucocorticoids effects in degradation of mRNA}
 
 \end{thebibliography}
 ```
