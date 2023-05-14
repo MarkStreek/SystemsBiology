@@ -113,7 +113,6 @@ library(deSolve)
 library(pander)
 ```
 
-Explain chosen initial state, parameter values and time sequence. Use tables with values as for example below
 
 Onderstaand worden vier vectoren opgesteld "Categorie", "Waarden", "Eenheden" en "Tijd_in_s". Deze
 vectoren worden doorgegeven aan een dataframe die vervolgens met functie *pander* uit library *pander*
@@ -183,13 +182,29 @@ Introduction of results, how does it answer your research questions.
 
 # Discussion and Conclusion
 ## Discussion
-- Compare your results with what is expecting from the literature and discuss differences with them.
-- Discuss striking and surprising results.
-- Discuss weaknesses in your research and how they could be addressed.
+
+  Uit de resultaten is te zien, dat naarmate DR toeneemt en dus MPL-complexen gevormd worden, zal de concentratie
+  mRNA dat codeert voor receptoren afnemen en dus ook het aantal vrije receptoren. Naarmate van stijging tot ongeveer
+  x ~ 40 fmol per eiwit MPL-complexen in de celkern (geactiveerde MPL), zal de hoeveelheid functionerend medicijnen
+  vervolgens afnemen totdat het constant blijft bij x ~ 20 fmol per eiwit geactiveerde MPL-complexen. Er wordt dus een middenweg
+  gevonden waar het systeem stabiel in blijft, dit geldt in ieder grafiek bij t ~ 24-30. 
+  
+  Bij de helft van D dat reageert met R bereikt er een evenwicht. Op basis van deze waarneming kan er worden geconcludeerd dat de hypothese:
+  "De verwachting zal zijn dat het aantal glucocorticosteroïden niet te hoog zal zijn, want dit zal direct resulteren in veel bijwerkingen. Het aantal zal dus eerder rond het midden liggen, d.w.z een middenweg tussen geen effect en veel bijwerkingen.", inderdaad klopt. Want d.w.z van een middenweg zal het systeem niet ontregeld raken.
+  
+&nbsp; 
+
+  De uiteindelijke gevonden resultaten waren erg logisch, maar wel verrassend. Het feit dat de grafieken aantonen dat de formules van glucocorticoïden dynamica zo erg afhankelijk zijn van elkaar, was van te voren niet verwacht.
+  Omdat in dit onderzoek geen grafiek of tabel wordt getoond van de exacte verloop van radicaal verschillende D hoeveelheden als startwaarde, zou dit de resultaten en conclusie kunnen beïnvloeden. Er wordt nu één scenario getest dat overeenkomt met de hypothese, maar meerdere scenario's kunnen dit perspectief en de aanname van uitkomsten verbreden en nuanceren.
+  
+  Verder wordt er met dit onderzoek niet aangetoond hoe een te hoge D reacties beïnvloedt die leiden tot bijwerken in de patient. Dit sluit sterk aan op dit onderzoek en zou daarom een goed vervolg onderzoek kunnen worden.
+  
+  
+
 
 ## General conclusion and perspective
-Discuss what your goal was, what the end result is and how you could continue working from here.
 
+In dit onderzoek was het de bedoeling om uit te vinden of er bij een balans in D dat reageert met R er een evenwicht ontspint en dus geen bijwerkingen ontstaan als gevolg van ontregelde processen. Er wordt geconcludeerd dat bij een middenweg van hoeveelheid glucocorticoïden inderdaad direct andere processen worden gestabiliseerd. Echter wordt niet duidelijk op welk punt, bij welke te hoge D(n) in de patient er bijwerkingen kunnen ontstaan. Omdat dit sterk aansluit aan de hypothese, zou het daarom een goed vervolg onderzoek zijn.
 
 ```{=tex}
 \begin{thebibliography}{9}
