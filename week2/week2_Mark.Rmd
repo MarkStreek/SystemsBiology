@@ -17,6 +17,13 @@ linkcolor: blue
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+\pagebreak
+
+\tableofcontents
+\listoffigures 
+
+\pagebreak
+
 # Introductie
 
 Tijdens dit onderzoek wordt er gekeken naar glucocorticosteroiden. En in het speciaal naar de dynamica hiervan. Glucocorticosteroiden zijn hormonen die worden geproduceerd in de bijnierschors. Het is een samenstelling van glucose, cortex en stereoïde. Glucocorticosteroiden worden ook vaak gebruikt in de remming van ontstekingen. Voor bepaalde ziekten zijn ze zeer geschikt, maar voor een aantal ziekten hebben ze geen effect.

@@ -1,10 +1,9 @@
 ---
-title: "titel "
-author: "my_name"
+title: "Glucocorticoid receptor dynamica"
+author: "L T Stein & M van de Streek"
 date: "`r Sys.Date()`"
 
 header-includes:
-   - \usepackage{longtable}
    - \usepackage{hyperref}
 output:
     pdf_document:
@@ -27,7 +26,23 @@ Introduction of the research and introduction research questions
 
 ## Theory
 
-- Describe biological model
+> Afbeelding van biologisch model
+
+```{r, echo=FALSE, out.width='50%'}
+knitr::include_graphics('model.png')
+```
+
+Afbeelding 1: *Biologisch model van Glucocorticoid receptor dynamica*
+
+***
+
+In afbeelding 1 is het biologische model van glucocorticoïde dynamica te zien. Hierbij zijn veel constantes betrokken,
+die invloed uitoefenen op de hoeveelheid van het eindproduct. Deze worden verder op in dit hoofdstuk beschreven. "Glucocorticoids reverse this effect, resulting in rapid degradation of mRNA and reduced inflammatory protein secretion" \cite{NCBI} (Bergmann *et al.*, 2004). 
+
+Het artikel bescrijft dat glucocorticoïden (drug) zorgt voor degradatie, ofwel vermindering van mRNA, wat resulteert in ontbrekende eiwitten betrokken bij ontstekingsreacties. Het biologisch model werkt deze constantering uit door naast de formule
+dat verandering in mRNA berekent over tijd, ook drie andere formules geeft die helpen bij het argumenteren wat er daadwerkelijk gebeurt met de receptoren die worden aangemaakt, het MPL-complex en vervolgens wat er dan gebeurt wanneer het MPL-complex in de celkern bevindt. In hoofdstuk Resultaten, is goed te zien hoe alle formules van elkaar afhangen.
+
+&nbsp;
 
 In het biologische model wordt de samenhang van vier vergelijkingen getoond, waar Drug (D) reageert
 met receptor (R) tot een Glucocorticoidereceptorcomplex (DR), waar D dus glucocorticoide is.
@@ -50,21 +65,9 @@ verandering in tijd.
 
 $$\frac{dDR(N)}{dt} = k_T · DR - k_{re} · DR(N )$$
 
+*** 
 
-- Picture of the biological model
-
-```{r, echo=FALSE, out.width='50%'}
-knitr::include_graphics('model.png')
-```
-Biologisch model van Glucocorticoid receptor dynamica
-
-Give an explanation of the model with citations of source \cite{Soertaert10} (replace this with actual source)
-and formula explanation [TODO]
-
-In afbeelding 1 is het biologische model van glucocorticoïde dynamica te zien. Hierbij zijn veel constantes betrokken,
-die invloed uitoefenen op de hoeveelheid van het eindproduct. 
-
-
+&nbsp;
 
 In de bovenstaande formules komen veertien variabelen voor. Wanneer er een kleine 'd' voor een variabele
 staat, dan betekent het verschil of de verandering in zijn waarde, bijvoorbeeld dDR(N) zegt de verandering
@@ -75,6 +78,8 @@ zijn ks_Rm, kd_Rm de snelheidsconstanten voor aanmaak en afbraak van mRNA dat co
 Aan de linker kant van de minus wordt nieuwe mRNA aangemaakt door het tempo van aanmaak ks_Rm maal de procentuele aanmaak van
 het MPL-complex binnen de nucleus ('DR(N)') dat afhankelijk is van de helft van de concentratie mRNA (IC50_Rm) Rechts van de minus wordt mRNA afgebroken, door de tempo van afbraak keer de hoeveelheid receptor mRNA te doen. Deze regel van aanmaak links en afbraak rechts geldt voor iedere formule, alleen de context verschilt.
 
+&nbsp;
+
 
 Vervolgens zijn in de tweede formule op receptor niveau de snelheidsconstanten 'k_s_r' en 'k_d_r'  voor aanmaak van receptoren en afbraak van receptoren. In deze formule is de hoeveelheid mRNA (mRNA.R) afhankelijk van de keersom met k_s_r. Tijdens het proces worden ook receptoren hergebruikt in de vorm van R_f. De hoeveelheid DR(N) is hier afhankelijk van en de som met de vorige keersom tussen k_s_r en mRNA.R bepaalt de aanmaak van aantal receptoren.  
 
@@ -82,13 +87,12 @@ Daartegenover wordt de afbraak van receptoren bepaalt door de keersom van hoevee
 
 
 
-In formule 3 zijn k_on en 'k_T' ook snelheidsconstanten. De keersom tussen k_on, hoeveelheid D en R zoals in formule 2 hierboven bepaalt nu de aanmaak per tijdeenheid van het MPL-receptor complex. Aan de rechterkant van de minus (de) geeft k_T het tempo aan dat het MPL-receptor complex verplaatst richting de nucleus, wat invloed heeft op de afbraak van het MPL-complex (DR).
+In formule 3 zijn k_on en 'k_T' ook snelheidsconstanten. De keersom tussen k_on, hoeveelheid D en R zoals in formule 2 hierboven bepaalt nu de aanmaak per tijdeenheid van het MPL-receptor complex. Aan de rechterkant van de minus (de) geeft k_T het tempo aan dat het MPL-receptor complex verplaatst richting de nucleus, wat invloed heeft op de afbraak van het MPL-complex (DR). Deze verplaatsing richting de celkern wordt door beschreven in het artikel als: "Upon ligand binding, GR are activated and released from chaperone proteins (heat shock protein-90 and others) and rapidly translocate to the nucleus where they exerts their molecular effects." \cite{NCBI} (Bergmann *et al.*, 2004).
 
 In formule 4 is wederom constante k_T, maar nu van invloed bij aanmaak van het MPL-complex. Tevens is bij de afbraak van het MPL-complex in de 
 nucleus constante 'k_re' van invloed. K_re geeft het tempo aan dat een MPL-receptor vanuit de nucleus naar het cytosol terug wordt getransporteerd. 
 
-citaat 1 Upon ligand binding, GR are activated and released from chaperone proteins (heat shock protein-90 and others) and rapidly translocate to the nucleus where they exerts their molecular effects.
-
+\pagebreak
 
 # Methods
 
@@ -123,24 +127,25 @@ Categorie <- c(rep("Initiële waarden", 4),
 # Waarden uit bovenstaande categorieën verkregen van experiment
 # Omdat DR een reactie is tussen D en R gaan de waarden keer elkaar
 Waarden<- c("mRNAr"=4.74, "DR_N"=0, "R"=267, "DR"=0, "ks_Rm"=2.90, 
-          "kd_Rm"= 0.612, "k_re"=0.57, "k_T"=0.63,  "k_on"= 0.00329, "k_d_R"=0.0572, "k_s_r"=3.22,
-          "IC50_Rm"=26.2, "RF"=0.49, "D"=53.4)
+          "kd_Rm"= 0.612, "k_re"=0.57, "k_T"=0.63,  "k_on"= 0.00329, "k_d_R"=0.0572, 
+          "k_s_r"=3.22, "IC50_Rm"=26.2, "RF"=0.49, "D"=53.4)
 
-# Eenheden in een vector verwerkt. Met functie 'rep()' kan een iterable X keer herhaald worden.
+# Eenheden in een vector verwerkt. Met functie 'rep()' kan een iterable X
+# keer herhaald worden.
 Eenheden <- c("fmol / g liver", rep("fmol/mg protein", 3),
               rep("fmol/g liver/h", 2), rep("1 / h", 2),
               "L/nmol/h", rep("1 / h", 2), "fmol/mg protein",
               "", "nmol/L")
 
 # Tijd van t = 48 uur dit geldt voor het hele experiment, dus alle 14 waarden.
-# Deze tijdsequentie van twee dagen bevat genoeg tijdseenheden om het verloop van de formules te laten zien.
+# Deze tijdsequentie van twee dagen bevat genoeg tijdseenheden om het # verloop van de formules te laten zien.
 Tijd_in_h <- c(rep(48, 14))
-# Dataframe waar vector namen in de header komen, waarde namen als rijnamen en daadwerkelijke
-# waarden daar in verwerkt.
+# Dataframe waar vector namen in de header komen, waarde namen als rijnamen # en de daadwerkelijke waarden daarin verwerkt.
 model.conf <- data.frame(Waarden, Categorie, Eenheden, Tijd_in_h)
 # Tekenen van tabel
 pander(model.conf)
 ```
+
 
 Tabel 1: *Variabelen betrokken bij opzetten experiment opgedeeld in zeven konstantes,
           drie parameters en vier initiële waarden.*
@@ -160,7 +165,7 @@ Variabele D moet omgerekend worden van ng/ml naar nmol/L. Door de volgende formu
 
 > 20 ng/ml * 1000 ml/L * 1 mol / molgewiht g = 53.4 nmol/L
 
-
+\newpage
 
 # Results
 Introduction of results, how does it answer your research questions.
@@ -174,6 +179,7 @@ Introduction of results, how does it answer your research questions.
 - Provide correct axis labels (unit and quantity), legend and caption.
 - Always refer to and discuss your figures and tables in the text - they never stand alone.
 
+\newpage
 
 # Discussion and Conclusion
 ## Discussion
@@ -188,8 +194,12 @@ Discuss what your goal was, what the end result is and how you could continue wo
 ```{=tex}
 \begin{thebibliography}{9}
 
-\bibitem{ncbi.nlm.nih.gov}
-Br J Pharmacol. 2011 May: \textit{Glucocorticosteroids: current and future directions}.
+\bibitem{deSolve}
+Soetaert, K., Petzoldt, T., and Woodrow Setzer, R.: \textit{Solving differential equations in R: package deSolve}, J. Stat. Softw., 33, 1-25, 2010.
+
+\bibitem{NCBI}
+Bergmann MW, Staples KJ, Smith SJ, Barnes PJ, Newton R (2004).,
+Am J Respir Cell Mol Biol 30: 555–563.: \textit{Glucocorticoids effects in degradation of mRNA}
 
 \end{thebibliography}
 ```
