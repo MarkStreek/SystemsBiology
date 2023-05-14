@@ -176,8 +176,6 @@ De belangrijkste variabele in de dynamica van MPL is het aantal vrije receptoren
 - Compare your results with what is expecting from the literature and discuss differences with them.
 Uit de resultaten is te zien, dat naarmate DR toeneemt en dus MPL-complexen gevormd worden, zal de concentratie
 mRNA dat codeert voor receptoren afnemen. 
-- Discuss striking and surprising results.
-- Discuss weaknesses in your research and how they could be addressed.
 
 ## Algemene conclusie en perspectief
 
