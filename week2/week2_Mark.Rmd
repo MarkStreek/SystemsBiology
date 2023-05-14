@@ -22,25 +22,30 @@ knitr::opts_chunk$set(echo = TRUE)
 \tableofcontents
 \listoffigures 
 
+# Afkortingen 
+
+glucocorticoïdereceptor (GR); methylprednisolon (MPL); receptor (R);
+MPL (D); MPL-receptor complex (DR); geactiveerd of in de celkern MPL-receptor complex (DR_N);
+
 \pagebreak
 
 # Introductie
 
-Tijdens dit onderzoek wordt er gekeken naar glucocorticosteroiden. En in het speciaal naar de dynamica hiervan. Glucocorticosteroiden zijn hormonen die worden geproduceerd in de bijnierschors. Het is een samenstelling van glucose, cortex en stereoïde. Glucocorticosteroiden worden ook vaak gebruikt in de remming van ontstekingen. Voor bepaalde ziekten zijn ze zeer geschikt, maar voor een aantal ziekten hebben ze geen effect.
+Tijdens dit onderzoek wordt er gekeken naar glucocorticosteroiden en in het speciaal naar de dynamica hiervan. Glucocorticosteroiden zijn hormonen die worden geproduceerd in de bijnierschors. Het is een samenstelling van glucose, cortex en steroïde. Glucocorticosteroiden worden ook vaak gebruikt in de remming van ontstekingen. Voor bepaalde ziekten zijn ze zeer geschikt, maar voor een aantal ziekten hebben ze geen effect.
 
 De glucocorticosteroiden binden aan receptoren, er ontstaat dan een glucocorticoïdereceptorcomplex (GR). Dit complex verplaatst naar de celkern en bindt hier aan het DNA. De transcriptie van genen die ontstekingen veroorzaken worden tegengehouden door de complexen. Tegelijkertijd worden de genen die ontsteking remmen juist gepromoveerd. Er komen dus meer eiwitten die de ontsteking onderdrukken.
 
 De receptor is een belangrijke speler in het model. Want bij een toenemende hoeveelheid drug zal er een hogere hoeveelheid complex ontstaan, wat weer resulteert in een hogere onderdrukking van de ontsteking.
 
-Omdat de werking zeer specifiek is, werkt het uitstekend bij een ziekte als astma. Echter zijn er ook ziekten waar het helemaal geen invloed heeft. Helaas hangen er ook nadelen aan het gebruik van deze drug. Er ontstaan veel bijwerkingen. Zo kan er bijvoorbeeld diabetes ontstaan, een toename van de witte bloedcellen of er kan een bacteriële infectie ontstaan. 
+Omdat de werking zeer specifiek is, werkt het uitstekend bij een ziekte als astma. Echter, zijn er ook ziekten waar het helemaal geen invloed heeft. Helaas hangen er ook nadelen aan het gebruik van deze drug. Er ontstaan veel bijwerkingen. Zo kan er bijvoorbeeld diabetes ontstaan, een toename van de witte bloedcellen of er kan een bacteriële infectie ontstaan. 
 
-Het is dus noodzakelijk dat de juiste hoeveeelheid glucocorticosteroiden wordt gebruikt, want bij een te hoog aantal kunnen de bijwerkingen de overhand nemen. 
+Het is dus noodzakelijk dat de juiste hoeveelheid glucocorticosteroiden wordt gebruikt, want bij een te hoog aantal kunnen de bijwerkingen de overhand nemen. 
 
-Glucocorticosteroiden zit in veel medicijnen. In dit onderzoek gaan we kijken naar methylprednisolon, dit is een specifieke vorm van een glucocorticosteroïde. We gaan kijken naar een model die het gebruik van methylprednisolon weergeeft. We kunnen aan de hand van dit model bijvoorbeeld bekijken wat er gebeurt met het aantal mRNA, als het gebruik van de stereoïden toeneemt.
+Glucocorticosteroiden zit in veel medicijnen. In dit onderzoek wordt er gekeken naar methylprednisolon (MPL), dit is een specifieke vorm van een glucocorticosteroïde. We gaan kijken naar een model die het gebruik van methylprednisolon weergeeft. We kunnen aan de hand van dit model bijvoorbeeld bekijken wat er gebeurt met het aantal mRNA, als het gebruik van de steroïden toeneemt.
 
 ## Doel
   
-Het doel van dit onderzoek is om een juiste hoeveelheid glucocorticosteroiden te ontdekken, als toepassing van medicijn. Dit betekent dus ook een lage hoeveelheid bijwerkingen. Dit doel willen we bereiken door te kijken naar de vergelijkingen van het model. Door te kijken naar verschillende tijdschema's, kunnen de verlopen van verschillende factoren weergegeven worden. Aan de hand van deze visualitaties kan het beste aantal bepaalt worden.
+Het doel van dit onderzoek is om een juiste hoeveelheid glucocorticosteroiden te ontdekken, als toepassing van medicijn. Dit betekent dus ook een lage hoeveelheid bijwerkingen. Dit doel willen we bereiken door te kijken naar de vergelijkingen van het model. Door te kijken naar verschillende tijdschema's, kunnen de verlopen van verschillende factoren weergegeven worden. Aan de hand van deze visualisaties kan het beste aantal bepaalt worden.
 
 De verwachting zal zijn dat het aantal glucocorticosteroïden niet te hoog zal zijn, want dit zal direct resulteren in veel bijwerkingen. Het aantal zal dus eerder rond het midden liggen, d.w.z een middenweg tussen geen effect en veel bijwerkingen.
 
@@ -181,12 +186,12 @@ Discuss what your goal was, what the end result is and how you could continue wo
 ```{=tex}
 \begin{thebibliography}{9}
 
-\bibitem{deSolve}
-Soetaert, K., Petzoldt, T., and Woodrow Setzer, R.: \textit{Solving differential equations in R: package deSolve}, J. Stat. Softw., 33, 1-25, 2010.
-
 \bibitem{NCBI}
 Bergmann MW, Staples KJ, Smith SJ, Barnes PJ, Newton R (2004).,
 Am J Respir Cell Mol Biol 30: 555–563.: \textit{Glucocorticoids effects in degradation of mRNA}
+
+\bibitem{deSolve}
+Soetaert, K., Petzoldt, T., and Woodrow Setzer, R.: \textit{Solving differential equations in R: package deSolve}, J. Stat. Softw., 33, 1-25, 2010.
 
 \end{thebibliography}
 ```
