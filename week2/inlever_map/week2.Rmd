@@ -4,6 +4,7 @@ author: "L T Stein & M van de Streek"
 date: "`r Sys.Date()`"
 
 header-includes:
+   - \usepackage{longtable}
    - \usepackage{hyperref}
 output:
     pdf_document:
@@ -11,20 +12,46 @@ output:
 linkcolor: blue
 ---
 
-
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-# Introduction
-Introduction of the research and introduction research questions
+\pagebreak
 
-## Goal
-  - Describe Goal (not the educational goal but the research goal)
-  - Describe how you reach the goal (e.g. make model and figures, use different setting)
-  - formulate hypothesis
+\tableofcontents
 
-## Theory
+\pagebreak
+
+# Afkortingen 
+
+glucocorticoïdereceptor (GR); methylprednisolon (MPL); receptor (R);
+MPL (D); MPL-receptor complex (DR); geactiveerd of in de celkern MPL-receptor complex (DR_N);
+
+\pagebreak
+
+# Introductie
+
+Tijdens dit onderzoek wordt er gekeken naar glucocorticosteroiden en in het speciaal naar de dynamica hiervan. Glucocorticosteroiden zijn hormonen die worden geproduceerd in de bijnierschors. Het is een samenstelling van glucose, cortex en steroïde. Glucocorticosteroiden worden ook vaak gebruikt in de remming van ontstekingen. Voor bepaalde ziekten zijn ze zeer geschikt, maar voor een aantal ziekten hebben ze geen effect.
+
+De glucocorticosteroiden binden aan receptoren, er ontstaat dan een glucocorticoïdereceptorcomplex (GR). Dit complex verplaatst naar de celkern en bindt hier aan het DNA. De transcriptie van genen die ontstekingen veroorzaken worden tegengehouden door de complexen. Tegelijkertijd worden de genen die ontsteking remmen juist gepromoveerd. Er komen dus meer eiwitten die de ontsteking onderdrukken.
+
+De receptor is een belangrijke speler in het model. Want bij een toenemende hoeveelheid drug zal er een hogere hoeveelheid complex ontstaan, wat weer resulteert in een hogere onderdrukking van de ontsteking.
+
+Omdat de werking zeer specifiek is, werkt het uitstekend bij een ziekte als astma. Echter, zijn er ook ziekten waar het helemaal geen invloed heeft. Helaas hangen er ook nadelen aan het gebruik van deze drug. Er ontstaan veel bijwerkingen. Zo kan er bijvoorbeeld diabetes ontstaan, een toename van de witte bloedcellen of er kan een bacteriële infectie ontstaan.
+
+Het is dus noodzakelijk dat de juiste hoeveelheid glucocorticosteroiden wordt gebruikt, want bij een te hoog aantal kunnen de bijwerkingen de overhand nemen. 
+
+Glucocorticosteroiden zit in veel medicijnen. In dit onderzoek wordt er gekeken naar methylprednisolon (MPL), dit is een specifieke vorm van een glucocorticosteroïde. We gaan kijken naar een model die het gebruik van methylprednisolon weergeeft. We kunnen aan de hand van dit model bijvoorbeeld bekijken wat er gebeurt met het aantal mRNA, als het gebruik van de steroïden toeneemt.
+
+## Doel
+
+Het doel van dit onderzoek is om een juiste hoeveelheid glucocorticosteroiden te ontdekken, als toepassing van medicijn. Dit betekent dus ook een lage hoeveelheid bijwerkingen. Dit doel willen we bereiken door te kijken naar de vergelijkingen van het model. Door te kijken naar verschillende tijdschema's, kunnen de verlopen van verschillende factoren weergegeven worden. Aan de hand van deze visualisaties kan het beste aantal bepaalt worden.
+
+De verwachting zal zijn dat het aantal glucocorticosteroïden niet te hoog zal zijn, want dit zal direct resulteren in veel bijwerkingen. Het aantal zal dus eerder rond het midden liggen, d.w.z een middenweg tussen geen effect en veel bijwerkingen.
+
+\pagebreak
+
+## Theorie
 
 > Afbeelding van biologisch model
 
@@ -56,16 +83,18 @@ $$\frac{dmRNA_R}{dt} = ks_{\_Rm} . (1 - \frac{DR(N)}{IC50_{Rm} + DR(N)}) - k_{d\
 De volgende 'formule 2' bepaald hoe de verandering in hoeveelheid receptoren afhankelijk is van tijd.
 
 $$\frac{dR}{dt} = ks_{\_R} · mRNA_R + Rf · k_{re} · DR(N ) - k_{on} · D · R - k_{d\_R} · R$$
+
 Verder wordt er gekeken naar hoe de verandering in glucocorticoide (D) dat reageert met het aantal receptoren (R)
 afhankelijk is van de verandering in tijd. Hieronder 'formule 3'
 
 $$\frac{dDR}{dt} = k_{on} · D · R - k_T · DR$$
+
 Als laatste 'formule 4' wordt de verandering in hoeveelheid D en R berekend dat met elkaar reageert in de nucleus gezet tegen
 verandering in tijd.
 
 $$\frac{dDR(N)}{dt} = k_T · DR - k_{re} · DR(N )$$
 
-*** 
+***
 
 &nbsp;
 
@@ -74,9 +103,9 @@ staat, dan betekent het verschil of de verandering in zijn waarde, bijvoorbeeld 
 in hoeveelheid MPL-complex binnen de nucleus.
 
 Alle variabelen waar 'k' voor staat zoals ks_Rm, kd_Rm, k_re, k_T, k_on en k_d_R zijn constantes. Hier in formule 1
-zijn ks_Rm, kd_Rm de snelheidsconstanten voor aanmaak en afbraak van mRNA dat codeert voor receptoren (mRNA.R). 
+zijn ks_Rm, kd_Rm de snelheidsconstanten voor aanmaak en afbraak van mRNA dat codeert voor receptoren (mRNA.R).
 Aan de linker kant van de minus wordt nieuwe mRNA aangemaakt door het tempo van aanmaak ks_Rm maal de procentuele aanmaak van
-het MPL-complex binnen de nucleus ('DR(N)') dat afhankelijk is van de helft van de concentratie mRNA (IC50_Rm) Rechts van de minus wordt mRNA afgebroken, door de tempo van afbraak keer de hoeveelheid receptor mRNA te doen. Deze regel van aanmaak links en afbraak rechts geldt voor iedere formule, alleen de context verschilt.
+het MPL-complex binnen de nucleus ('DR(N)') dat afhankelijk is van de helft van de concentratie mRNA (IC50_Rm). Rechts van de minus wordt mRNA afgebroken, door de tempo van afbraak keer de hoeveelheid receptor mRNA te doen. Deze regel van aanmaak links en afbraak rechts geldt voor iedere formule, alleen de context verschilt.
 
 &nbsp;
 
@@ -94,18 +123,58 @@ nucleus constante 'k_re' van invloed. K_re geeft het tempo aan dat een MPL-recep
 
 \pagebreak
 
-# Methods
+# Methode
 
-## The software model
+## Het software model
 
-- Describe the software tools used, as well as the libraries
-- Describe the software implementation (note: code below is an example)
+Om de juiste verlopen van factoren weer te geven, moeten de differentiaal vergelijkingen worden uitgevoerd met verschillende waardes. Dit zal gedaan worden met het deSolve pakket \cite{deSolve} (versie 1.35) in R (versie 4.2.2). 
+
+Onderstaand zal de code voor alle vier de vergelijkingen weergegeven worden. Tussen de code door zal commentaar gegeven worden.
+
 ```{r}
+# Inladen van het deSolve pakket
 library(deSolve)
-# code
 ```
 
-## Model configuration
+```{r}
+# Defineren van de parameters
+parameters <- c(Ks_Rm = 2.90, IC50_Rm = 26.2, 
+                Kon = 0.00329, KT = 0.63, 
+                Kre = 0.57, RF = 0.49, 
+                Kd_R = 0.0572, Kd_Rm = 0.612, 
+                Ksr = 3.22, D = 53.4)
+
+# Tijdspunten defineren
+times <- 0 : 48
+
+# Het defineren van de initiële waardes
+initial.values <- c(DR_N = 0, mRNAr = 4.74, R = 267, DR = 0)
+```
+
+```{r}
+verandering_dt <- function (time, parameters, initial.values) {
+  with(as.list(c(parameters, initial.values)),{
+    # Vergelijking van mRNAr
+    mRNAr.dt <- Ks_Rm * (1 - (DR_N / (IC50_Rm + DR_N))) - Kd_Rm * mRNAr
+    # Vergelijking van R
+    R.dt <- Ksr * mRNAr + RF * Kre * DR_N - Kon * D * R - Kd_R * R
+    # Vergelijking van DR
+    DR.dt <- Kon * D * R - KT * DR
+    # Vergelijking van DR(N)
+    DR_N.dt <- KT * DR - Kre * DR_N
+    
+    # Retourneren van de initiële waardes
+    return(list(c(DR_N.dt, mRNAr.dt, R.dt, DR.dt)))
+  })
+}
+
+# Het aanroepen van de ode functie, waardes worden opgeslagen
+verloop.dataset <- ode(initial.values, times, verandering_dt, parameters)
+```
+
+\pagebreak
+
+## Model configuratie
 
 Onderstaand worden vier vectoren opgesteld "Categorie", "Waarden", "Eenheden" en "Tijd_in_s". Deze
 vectoren worden doorgegeven aan een dataframe die vervolgens met de functie *pander* uit de library *pander* (versie 0.6.5, \cite{pander}) als een mooi tabel wordt getekend. 
@@ -165,24 +234,49 @@ Variabele D moet omgerekend worden van ng/ml naar nmol/L. Door de volgende formu
 
 \newpage
 
-# Results
-Introduction of results, how does it answer your research questions.
-```{r} 
-#plot(out)
-#code to generate figures with title, subscripts, legenda etc
-```
+# Resultaten
 
-- Describe what can be seen in such way that it leads to an answer to your research questions
-- Give your figures a number and a descriptive title.
-- Provide correct axis labels (unit and quantity), legend and caption.
-- Always refer to and discuss your figures and tables in the text - they never stand alone.
+De verloop van alle initiële waardes is in bovenstaand onderdeel uitgebreid berekent. De resultaten zijn opgeslagen in een variabele. We kunnen deze resultaten onderstaand weergeven in de vorm van een grafiek. Er zijn vier waardes, en er komen dus ook vier grafieken.
+
+```{r, fig.cap="*Figuren die het verloop van de concentraties weergeven over tijd. Bij elke figuur is op de x-as de tijd (in uren) zichtbaar. Op de y-as staat de concentratie in de juiste eenheid. Grafiek 1 geeft het verloop van de concentratie MPL-complex in de celkern weer. Grafiek 2 geeft de concentratie mRNA receptoren weer. Grafiek 3 geeft het verloop van vrije receptoren weer. En de laatste grafiek (4) geeft het verloop van het MPL-complex weer wat niet geactiveerd is.*"}
+# TODO figure cap toevoegen
+plot(verloop.dataset, 
+     lwd = 2.5,
+     main = c("Verloop MPL-complex (in celkern)", 
+              "Verloop mRNA receptoren", 
+              "Verloop vrije receptoren", 
+              "Verloop MPL-complex"),
+     xlab = "Tijd (in uren)",
+     ylab = c("Aantal stof (in fmol/mg eiwit)", 
+              "Aantal stof (in fmol/g lever)", 
+              "Aantal stof (in fmol/mg eiwit)", 
+              "Aantal stof (in fmol/mg eiwit)"),
+     col = "darkblue")
+```
 
 \newpage
 
-# Discussion and Conclusion
-## Discussion
+In de bovenstaande figuren zijn de verlopen te zien van DR_N, mRNAr, R en DR. Alle vier de grafieken hebben een ander verloop en worden onderstaand beschreven. Goed om op te merken dat alle variabelen na verloop van tijd richting constant gaan. Dus zal er dan ook geen verandering meer optreden. 
 
-  Uit de resultaten is te zien, dat naarmate DR toeneemt en dus MPL-complexen gevormd worden, zal de concentratie
+Allereerst de concentratie vrij receptor (R). Deze neemt exponentieel af in de loop van de tijd. Op het begin is er 267 fmol/mg eiwit aan vrije receptoren. Deze receptoren kunnen allemaal 'ingenomen' worden door het MPL. Hoe meer receptoren er vrij zijn, hoe meer MPL er aan kan binden. De concentratie vrije receptoren zal dus snel afnemen in het begin. Vervolgens verzwakt de afname, doordat er minder vrij receptoren zijn waaraan het MPL kan binden. Er zullen altijd vrije receptoren aanwezig blijven, omdat sommige hergebruikt worden.
+
+Vervolgens de concentratie MPL-receptor complex (DR). Zoals figuur "DR" aantoont stijgt snel aan het begin en neemt vervolgens langzaam af in de loop van de tijd. Dit is omdat er aan het begin vrij veel R aanwezig is, dat met MPL (D) reageert tot een DR-complex. Daarna zullen er steeds minder vrije receptoren in de omgeving zijn waarmee D kan binden. De concentratie neemt dus langzaam af.
+
+Tot slot de concentratie DR_N, totale concentratie receptoren en de concentratie mRNAr. De concentratie van geactiveerd MPL-receptor complex (DR_N) heeft een vergelijkbaar verloop met DR. Omdat eerst veel DR gevormds wordt, zal er ook veel DR de celkern binnentreden. De concentratie DR_N zal dus aan het begin snel stijgen. Zoals te zien in het figuur. Bovenstaand werd al beschreven dat de concentratie vrije receptor zal afnemen. Hierdoor zal de concentratie DR afnemen en dit betekend dat er minder DR geactiveerd kan worden. De concentratie DR_N zal dus licht afnemen in de loop van de tijd. In de celkern zal DR_N worden afgebroken, dit verklaart een afname van de concentratie. De totale concentratie receptoren zal afnemen over de tijd, maar zal op een begeven moment relatief gelijk blijven. 
+
+De concentratie van de receptoren mRNA neemt eerst af. Dit komt omdat er van een mRNA-molecuul meerdere aantallen receptoren getransleerd kunnen worden. Er is dus niet extra mRNA nodig aan het begin. Daarom neemt de concentratie af. Maar in de loop van de tijd neemt de concentratie R af, waardoor er meer meer receptoren nodig zijn en dus ook mRNA. MRNAr zal vervolgens weer meer worden afgeschreven. 
+
+Aan de hand van de hoeveelheid vrije receptoren kan bepaald worden hoe effectief
+
+De belangrijkste variabele in de dynamica van MPL is het aantal vrije receptoren. Dit is te verklaren doordat de vrije receptoren de methylprednisolon (MPL) 'invangen'. Deze ingevangen complexen worden vervolgens geactiveerd in de celkern, die de ontstekingsremmende mechanisme in werking zet. Het aantal R bepaald hoeveel MPL er kan binden en reguleert dus indirect de werking van het beschermingsmechanisme. Bij een te kort aan R, worden er te weinig MPL-complexen gevormd en zal de ontstekingsremmende reactie minder zijn.
+
+\pagebreak
+
+# Discussie en Conclusie
+
+## Discussie
+
+Uit de resultaten is te zien, dat naarmate DR toeneemt en dus MPL-complexen gevormd worden, zal de concentratie
   mRNA dat codeert voor receptoren afnemen en dus ook het aantal vrije receptoren. Naarmate van stijging tot ongeveer
   x ~ 40 fmol per eiwit MPL-complexen in de celkern (geactiveerde MPL), zal de hoeveelheid functionerend medicijnen
   vervolgens afnemen totdat het constant blijft bij x ~ 20 fmol per eiwit geactiveerde MPL-complexen. Er wordt dus een middenweg
@@ -198,9 +292,11 @@ Introduction of results, how does it answer your research questions.
   
   Verder wordt er met dit onderzoek niet aangetoond hoe een te hoge D reacties beïnvloedt die leiden tot bijwerken in de patiënt. Dit sluit sterk aan op dit onderzoek en zou daarom een goed vervolg onderzoek kunnen worden.
 
-## General conclusion and perspective
+## Algemene conclusie en perspectief
 
 In dit onderzoek was het de bedoeling om uit te vinden of er bij een balans in D dat reageert met R er een evenwicht ontspint en dus geen bijwerkingen ontstaan als gevolg van ontregelde processen. Er wordt geconcludeerd dat bij een middenweg van hoeveelheid glucocorticoïden inderdaad direct andere processen worden gestabiliseerd. Echter wordt niet duidelijk op welk punt, bij welke te hoge D(n) in de patiënt er bijwerkingen kunnen ontstaan. Omdat dit sterk aansluit aan de hypothese, zou het daarom een goed vervolg onderzoek zijn.
+
+\pagebreak
 
 ```{=tex}
 \begin{thebibliography}{9}
