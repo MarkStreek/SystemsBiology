@@ -111,6 +111,7 @@ library(deSolve)
 ```{r}
 # load library for pretty table
 library(pander)
+citation("pander")
 ```
 
 
@@ -189,7 +190,7 @@ Introduction of results, how does it answer your research questions.
   vervolgens afnemen totdat het constant blijft bij x ~ 20 fmol per eiwit geactiveerde MPL-complexen. Er wordt dus een middenweg
   gevonden waar het systeem stabiel in blijft, dit geldt in ieder grafiek bij t ~ 24-30. 
   
-  Bij de helft van D dat reageert met R bereikt er een evenwicht. Op basis van deze waarneming kan er worden geconcludeerd dat de hypothese:
+  Bij de helft van D dat reageert met R, bereikt er een evenwicht. Op basis van deze waarneming kan er worden geconcludeerd dat de hypothese:
   "De verwachting zal zijn dat het aantal glucocorticosteroïden niet te hoog zal zijn, want dit zal direct resulteren in veel bijwerkingen. Het aantal zal dus eerder rond het midden liggen, d.w.z een middenweg tussen geen effect en veel bijwerkingen.", inderdaad klopt. Want d.w.z van een middenweg zal het systeem niet ontregeld raken.
   
 &nbsp; 
@@ -197,14 +198,11 @@ Introduction of results, how does it answer your research questions.
   De uiteindelijke gevonden resultaten waren erg logisch, maar wel verrassend. Het feit dat de grafieken aantonen dat de formules van glucocorticoïden dynamica zo erg afhankelijk zijn van elkaar, was van te voren niet verwacht.
   Omdat in dit onderzoek geen grafiek of tabel wordt getoond van de exacte verloop van radicaal verschillende D hoeveelheden als startwaarde, zou dit de resultaten en conclusie kunnen beïnvloeden. Er wordt nu één scenario getest dat overeenkomt met de hypothese, maar meerdere scenario's kunnen dit perspectief en de aanname van uitkomsten verbreden en nuanceren.
   
-  Verder wordt er met dit onderzoek niet aangetoond hoe een te hoge D reacties beïnvloedt die leiden tot bijwerken in de patient. Dit sluit sterk aan op dit onderzoek en zou daarom een goed vervolg onderzoek kunnen worden.
-  
-  
-
+  Verder wordt er met dit onderzoek niet aangetoond hoe een te hoge D reacties beïnvloedt die leiden tot bijwerken in de patiënt. Dit sluit sterk aan op dit onderzoek en zou daarom een goed vervolg onderzoek kunnen worden.
 
 ## General conclusion and perspective
 
-In dit onderzoek was het de bedoeling om uit te vinden of er bij een balans in D dat reageert met R er een evenwicht ontspint en dus geen bijwerkingen ontstaan als gevolg van ontregelde processen. Er wordt geconcludeerd dat bij een middenweg van hoeveelheid glucocorticoïden inderdaad direct andere processen worden gestabiliseerd. Echter wordt niet duidelijk op welk punt, bij welke te hoge D(n) in de patient er bijwerkingen kunnen ontstaan. Omdat dit sterk aansluit aan de hypothese, zou het daarom een goed vervolg onderzoek zijn.
+In dit onderzoek was het de bedoeling om uit te vinden of er bij een balans in D dat reageert met R er een evenwicht ontspint en dus geen bijwerkingen ontstaan als gevolg van ontregelde processen. Er wordt geconcludeerd dat bij een middenweg van hoeveelheid glucocorticoïden inderdaad direct andere processen worden gestabiliseerd. Echter wordt niet duidelijk op welk punt, bij welke te hoge D(n) in de patiënt er bijwerkingen kunnen ontstaan. Omdat dit sterk aansluit aan de hypothese, zou het daarom een goed vervolg onderzoek zijn.
 
 ```{=tex}
 \begin{thebibliography}{9}
@@ -215,6 +213,9 @@ Soetaert, K., Petzoldt, T., and Woodrow Setzer, R.: \textit{Solving differential
 \bibitem{NCBI}
 Bergmann MW, Staples KJ, Smith SJ, Barnes PJ, Newton R (2004).,
 Am J Respir Cell Mol Biol 30: 555–563.: \textit{Glucocorticoids effects in degradation of mRNA}
+
+\bibitem{pander}
+Daróczi G, Tsegelskyi R (2022).: \textit{pander: An R 'Pandoc' Writer}. R package version 0.6.5, <https://CRAN.R-project.org/package=pander>.
 
 \end{thebibliography}
 ```
