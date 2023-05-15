@@ -67,8 +67,10 @@ $c$       & 0.06  & $hour^{-1}$         \\ \hline
 # Results
 Introduction of results, how does it answer your research questions.
 ```{r}
-#plot(out)
-#code to generate figures with title, subscripts, legenda etc
+data <- read.csv("/homes/ltstein/Kwartaal_8/Thema_opdracht/SystemsBiology_th8/week3/MPL.csv", na.strings = "NA")
+median_MPL_01 <- median(data$MPL_conc[data$dose==0.1], na.rm=TRUE)
+median_MPL_01
+
 ```
 
 - Describe what can be seen in such way that it leads to an answer to your research questions
