@@ -83,7 +83,7 @@ names(medians)[1:2] <- c("dose","time")
 head(medians)
 ```
 
-
+## Assignment 1
 
 ```{r}
 # Inladen van het deSolve pakket
@@ -273,6 +273,63 @@ Dat wil zeggen het aantal mRNA wordt hoger geschat in het model.
 - Provide correct axis labels (unit and quantity), legend and caption.
 - Always refer to and discuss your figures and tables in the text - they never stand alone.
 
+## Assignment 2
+
+```{r}
+# Definiëren van de parameters
+parameters <- c(Ks_Rm = 2.90, IC50_Rm = 26.2, 
+                Kon = 0.00329, KT = 0.63, 
+                Kre = 0.57, RF = 0.49, 
+                Kd_R = 0.0572, Kd_Rm = 0.612, 
+                Ksr = 3.22, D = 53.4)
+
+# Tijdspunten definiëren
+times <- 0 : 48
+
+# Het definiëren van de initiële waardes
+initial.values <- c(DR_N = 0, mRNAr = 4.74, R = 267, DR = 0)
+```
+
+Wat gebeurt er met DR(N) als gesynthetiseerd R niet afhankelijk is van D?
+
+```{r}
+verandering_dt <- function (time, parameters, initial.values) {
+  with(as.list(c(parameters, initial.values)),{
+    # Vergelijking van mRNAr
+    mRNAr.dt <- Ks_Rm * (1 - (DR_N / (IC50_Rm + DR_N))) - Kd_Rm * mRNAr
+    # Vergelijking van R
+    R.dt <- Ksr * mRNAr + RF * Kre * DR_N - Kon * R - Kd_R * R
+    # Vergelijking van DR
+    DR.dt <- Kon * D * R - KT * DR
+    # Vergelijking van DR(N)
+    DR_N.dt <- KT * DR - Kre * DR_N
+    
+    # Retourneren van de initiële waardes
+    return(list(c(DR_N.dt, mRNAr.dt, R.dt, DR.dt)))
+  })
+}
+
+# Het aanroepen van de ode functie, waardes worden opgeslagen
+verloop.dataset <- ode(initial.values, times, verandering_dt, parameters)
+```
+
+```{r, fig.cap="*Figuren die het verloop van de concentraties weergeven over tijd. Bij elke figuur is op de x-as de tijd (in uren) zichtbaar. Op de y-as staat de concentratie in de juiste eenheid. Grafiek 1 geeft het verloop van de concentratie MPL-complex in de celkern weer. Grafiek 2 geeft de concentratie mRNA receptoren weer. Grafiek 3 geeft het verloop van vrije receptoren weer. En de laatste grafiek (4) geeft het verloop van het MPL-complex weer wat niet geactiveerd is.*"}
+
+# plotten van vier formules in vier grafieken
+plot(verloop.dataset, 
+     lwd = 2.5,
+     main = c("Verloop MPL-complex (in celkern)", 
+              "Verloop mRNA receptoren", 
+              "Verloop vrije receptoren", 
+              "Verloop MPL-complex"),
+     xlab = "Tijd (in uren)",
+     ylab = c("Aantal stof (in fmol/mg eiwit)", 
+              "Aantal stof (in fmol/g lever)", 
+              "Aantal stof (in fmol/mg eiwit)", 
+              "Aantal stof (in fmol/mg eiwit)"),
+     col = "darkblue")
+```
+
 
 # Discussion and Conclusion
 ## Discussion
@@ -303,31 +360,82 @@ legend.graph <- function(){
 ```
 
 ```{r}
-plot.figures <- function(stof){
-  return(plot(verloop.dataset.1[,stof], type = "l", xlim = c(0, 160), ylim = c(0, 6),
-     main = " mRNAr concentratie van MPL doses over tijd", 
+plot.figures <- function(dataset, stof, titel, xvec, yvec){
+  return(plot(dataset[,stof], type = "l", xlim = xvec, ylim = yvec,
+     main = titel, 
      xlab = "tijd (hour)", ylab = "mRNAr concentratie (n)"))
 }
 
-plot.medians <- function(kolom, dose_value){
+plot.medians <- function(kolom, dose_value, color){
   return(# plot median as line
     lines(medians[,kolom][medians$dose == dose_value] ~ medians$time[medians$dose == dose_value], 
-          type = "l", col = "red", lwd = 2))
+          type = "l", col = color, lwd = 2))
 }
 ```
 
 
+
+
 ```{r}
-par(mfrow = c(2,2)) 
+verloop.dataset.1 <- ode(initial.values, times, verandering_dt, parameters, D = 39)
+verloop.dataset.3 <- ode(initial.values, times, verandering_dt, parameters, D = 107)
 
-# plot dose 0.1
-plot.figures("mRNAr")
-plot.medians("mRNA", 0.1)
+# Plotting difference between doses' influence to mRNA
+par(mfrow = c(1,2)) 
+
+
+# plot mRNA met doses van 0.1 en 0.3
+# plot model
+plot.figures(verloop.dataset.1, "mRNAr", "mRNA met lage dosis",
+             c(0, 160), c(0, 6))
+# plot median for dose 0.1 
+plot.medians("mRNA", 0.1, "red")
+# plot median for dose 0.3
+plot.medians("mRNA", 0.3, "green")
+# plot experimental mRNA points
 points(data$mRNA, cex = 0.7)
+# plot MPL concentration
+points(medians$MPL_conc[medians$dose == 0.1] ~ medians$time[medians$dose == 0.1],
+       col = "orange")
 
-# plot dose 0.1
-plot.figures("R")
-plot.medians("Free_receptor", 0.1)
-points(data$Free_receptor, cex = 0.7)
+# plot vrije R met doses van 0.1 en 0.3
+plot.figures(verloop.dataset.3,"mRNAr", "mRNA met hoge dosis",
+             c(0, 160), c(0, 6))
+plot.medians("mRNA", 0.1, "red")
+plot.medians("mRNA", 0.3, "green")
+points(data$mRNA, cex = 0.7)
+points(medians$MPL_conc[medians$dose == 0.3] ~ medians$time[medians$dose == 0.3],
+       col = "orange")
 ```
 
+```{r}
+verloop.dataset.1 <- ode(initial.values, times, verandering_dt, parameters, D = 39)
+verloop.dataset.3 <- ode(initial.values, times, verandering_dt, parameters, D = 107)
+
+# Plotting difference between doses' influence to free R
+par(mfrow = c(1,2)) 
+
+
+# plot R met doses van 0.1 en 0.3
+# plot model
+plot.figures(verloop.dataset.1, "R", "Vrije R met lage dosis",
+             c(0, 160), c(0, 500))
+# plot median for dose 0.1 
+plot.medians("Free_receptor", 0.1, "red")
+# plot median for dose 0.3
+plot.medians("Free_receptor", 0.3, "green")
+# plot experimental R points
+points(data$Free_receptor, cex = 0.7)
+# plot MPL concentration
+points(medians$MPL_conc[medians$dose == 0.1] ~ medians$time[medians$dose == 0.1],
+       col = "orange")
+
+# plot vrije R met doses van 0.1 en 0.3
+plot.figures(verloop.dataset.3,"R", "Vrije R met hoge dosis",
+             c(0, 160), c(0, 500))
+plot.medians("Free_receptor", 0.1, "red")
+plot.medians("Free_receptor", 0.3, "green")
+points(data$Free_receptor, cex = 0.7)
+points(medians$MPL_conc[medians$dose == 0.3] ~ medians$time[medians$dose == 0.3],
+       col = "orange")
+```
