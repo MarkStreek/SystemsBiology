@@ -68,6 +68,8 @@ Afbeelding 1: *Biologisch model van Glucocorticoid receptor dynamica*
 In afbeelding 1 is het biologische model van glucocorticoïde dynamica te zien. Hierbij zijn veel constanten betrokken,
 die invloed uitoefenen op de hoeveelheid van het eindproduct. Deze worden verder op in dit hoofdstuk beschreven. "Glucocorticoids reverse this effect, resulting in rapid degradation of mRNA and reduced inflammatory protein secretion" \cite{NCBI} (Bergmann *et al.*, 2004). 
 
+> TWEE MANIEREN CITEREN, KIES 1 STIJL
+
 Het artikel beschrijft dat glucocorticoïden (drug) zorgt voor degradatie, ofwel vermindering van mRNA, wat resulteert in ontbrekende eiwitten betrokken bij ontstekingsreacties. Het biologisch model werkt deze constatering uit door naast de formule
 dat verandering in mRNA berekent over tijd, ook drie andere formules geeft die helpen bij het argumenteren wat er daadwerkelijk gebeurt met de receptoren die worden aangemaakt, het MPL-complex en vervolgens wat er dan gebeurt wanneer het MPL-complex in de celkern bevindt. In hoofdstuk Resultaten, is goed te zien hoe alle formules van elkaar afhangen.
 
@@ -123,6 +125,8 @@ In formule 3 zijn k_on en 'k_T' ook snelheidsconstanten. De keersom tussen k_on,
 In formule 4 is wederom constante k_T, maar nu van invloed bij aanmaak van het MPL-complex. Tevens is bij de afbraak van het MPL-complex in de 
 nucleus constante 'k_re' van invloed. K_re geeft het tempo aan dat een MPL-receptor vanuit de nucleus naar het cytosol terug wordt getransporteerd. 
 
+> De details zijn niet perse nodig om te beschrijven over de formules. Meer zeggen over de relaties van de variabelen. 
+
 \pagebreak
 
 # Methode
@@ -132,6 +136,8 @@ nucleus constante 'k_re' van invloed. K_re geeft het tempo aan dat een MPL-recep
 Om de juiste verlopen van factoren weer te geven, moeten de differentiaal vergelijkingen worden uitgevoerd met verschillende waardes. Dit zal gedaan worden met het deSolve pakket \cite{deSolve} (versie 1.35) in R (versie 4.2.2). 
 
 Onderstaand wordt de code voor alle vier de vergelijkingen weergegeven. Tussen de code door wordt commentaar gegeven.
+
+> Overbodig laatste zin
 
 ```{r}
 # Inladen van het deSolve pakket
@@ -152,6 +158,8 @@ times <- 0 : 48
 # Het definiëren van de initiële waardes
 initial.values <- c(DR_N = 0, mRNAr = 4.74, R = 267, DR = 0)
 ```
+
+> Parameters bij de model configuratie
 
 ```{r}
 verandering_dt <- function (time, parameters, initial.values) {
@@ -180,6 +188,8 @@ verloop.dataset <- ode(initial.values, times, verandering_dt, parameters)
 
 Onderstaand worden vier vectoren opgesteld "Categorie", "Waarden", "Eenheden" en "Tijd_in_s". Deze
 vectoren worden doorgegeven aan een dataframe die vervolgens met de functie *pander* uit de library *pander* (versie 0.6.5, \cite{pander}) als een mooi tabel wordt getekend. 
+
+> Pander hoeft niet in de tekst benoemd worden, wel in references
 
 ```{r}
 # Pakket inladen voor mooiere tabel
@@ -215,14 +225,19 @@ model.conf <- data.frame(Waarden, Categorie, Eenheden, Tijd_in_h)
 pander(model.conf)
 ```
 
+> Konstantes kunnen gewoon benoemd worden als parameters, de kolom met tijd is niet nodig.
 
 Tabel 1: *Variabelen betrokken bij opzetten experiment opgedeeld in zeven konstantes,
           drie parameters en vier initiële waarden.*
+          
+> Bijschrift van een table moet boven de tabel komen. 
 
 In Tabel 1 zijn aan de  variabelen verschillende eenheden toegekend. Met fmol / g liver
 wordt bedoelt *f =* e-15, dus bestaat het uit 10e-15 mol per gram (g) lever. Dit geldt hetzelfde
 maar dan in de context van eiwitten bij de eenheid van fmol/mg protein, waar nu
 10e-15 mol bestaat per *milli =* 10e-3 gram eiwit.
+
+> overbodige uitleg van bovenstaande alinea
 
 &nbsp;
 
@@ -261,9 +276,13 @@ plot(verloop.dataset,
 
 \newpage
 
+> Bijscrhift van het plot. Aan de hand van deze tekst hoef je niet perse de grafieken meer te zien, maar alleen beschrijven.
+
 In de bovenstaande figuren zijn de verlopen te zien van DR_N, mRNAr, R en DR. Alle vier de grafieken hebben een ander verloop en worden onderstaand beschreven. Goed om op te merken dat alle variabelen na verloop van tijd richting constant gaan. Dus zal er dan ook geen verandering meer optreden. 
 
 Allereerst de concentratie vrij receptor (R). Deze neemt exponentieel af in de loop van de tijd. Op het begin is er 267 fmol/mg eiwit aan vrije receptoren. Deze receptoren kunnen allemaal 'ingenomen' worden door het MPL. Hoe meer receptoren er vrij zijn, hoe meer MPL er aan kan binden. De concentratie vrije receptoren zal dus snel afnemen in het begin. Vervolgens verzwakt de afname, doordat er minder vrij receptoren zijn waaraan het MPL kan binden. Er zullen altijd vrije receptoren aanwezig blijven, omdat sommige hergebruikt worden.
+
+> Het meeste van bovenstaande alinea kan naar de discussie, hier alleen maar uitleggen. 
 
 &nbsp;
 
@@ -299,6 +318,8 @@ Uit de resultaten is te zien dat naarmate DR toeneemt en dus MPL-complexen gevor
   Omdat in dit onderzoek geen grafiek of tabel wordt getoond van de exacte verloop van radicaal verschillende D hoeveelheden als startwaarde, zou dit de resultaten en conclusie kunnen beïnvloeden. Er wordt nu één scenario getest dat overeenkomt met de hypothese, maar meerdere scenario's kunnen dit perspectief en de aanname van uitkomsten verbreden en nuanceren.
   
   Verder wordt er met dit onderzoek niet aangetoond hoe een te hoge D reacties beïnvloedt die leiden tot bijwerken in de patiënt. Dit sluit sterk aan op dit onderzoek en zou daarom een goed vervolg onderzoek kunnen worden.
+  
+> Als je niks kunt zeggen over de hoeveelheid bijwerkingen, kun je dit beter gewoon weglaten.
 
 ## Algemene conclusie en perspectief
 
