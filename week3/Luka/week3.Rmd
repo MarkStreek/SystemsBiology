@@ -455,15 +455,63 @@ Voor zowel mRNAr en R wordt het verloop weergeven met aangepaste parameters. De 
 en 'Kre' worden aangepast op de volgende manier. $Kre$ of $Kon$ worden gedeeld door vijf en twee,
 ook worden ze vermenigvuldigd met vijf en twee.
 
-Allereerste wordt er gelopen door alle grafieken van mRNAr. 
-Bij een deling van vijf bij $Kon$ daalt de grafiek sneller aan het begin tot t = 10 en vervolgens
-neemt het minder snel toe. Bij de deling door twee is er een minuscuul verschil.
+Allereerste wordt er gekeken naar de verandering in mRNAr.
+Bij een deling van vijf bij $Kon$ daalt de grafiek sneller aan het begin tot t = 10. Vervolgens
+neemt het minder snel toe. Bij de deling door twee is er een minuscuul verschil. De vermenigvuldiging van $Kon$ vertoont bij vijf een snellere daling. Het tweede deel van de grafiek vertoont geen verschil met de originele waarde. Dit geldt ook bij de vermenigvuldiging van twee.
 
 Verder is bij een deling van vijf voor $Kre$ een groter verschil. De daling aan het begint
 lijkt indentiek te zijn, maar de toename neemt minder snel toe tot bijna een rechte lijn.
-Bij de deling door twee is er het begin ook bijna identiek, maar is de stijging minder snel.
+Bij de deling door twee is er het begin ook bijna identiek, maar is de stijging minder snel. Voor de vermenigvuldiging van $Kre$ met vijf is er een sneller daling aan het begin en vervolgens een snellere stijging. De steady state is ook hoger dan in het originele model. Bij de vermenigvuldiging van twee geldt hetzelfde verhaal, maar dan in mindere mate, d.w.z, de stijging is iets minder snel dan bij de vermenigvuldiging van vijf.
 
-Vervolgens wordt er gekeken naar vrije R. Bij een deling van vijf
+&nbsp;
+
+Nu de mRNA behandelt is, kan er gekeken worden naar het verloop van de vrije receptoren.
+
+Alle grafieken van R vertonen kleine veranderingen. Om te beginnen met de deling van vijf voor $Kon$. Bij deze grafiek is de afname minder snel dan bij het originele. De deling van twee vertoont bijna een identiek beeld met de deling van vijf. Voor de vermenigvuldiging geldt een omgekeerde beeld. De afname is voor zowel, vijf als twee, sneller. De vermenigvuldiging van vijf vertoont een significant sneller beeld. 
+
+Voor de correcties van $Kre$ heeft de deling meer effect dan de vermenigvuldiging. Bij de vermenigvuldiging (zowel vijf als twee) ontstaan grafieken die bijna hetzelfde beeld vertonen als het originele model. Alleen de stijging is een fractie sneller. De deling komt wel een ander beeld naar voren. De stijging is bij de vermenigvuldiging van vijf een stuk sneller. De steady state een stuk lager als bij het originele model. Voor de vermenigvuldiging van twee is de stijging sneller, maar niet sneller dan die van vijf. De steady state komt ook hier lager uit.
+
+
+## Assignment 4
+
+```{r}
+verandering_dt <- function (time, parameters, initial.values, D, Ks_Rm) {
+  with(as.list(c(parameters, initial.values)),{
+    # Vergelijking van mRNAr
+    mRNAr.dt <- Ks_Rm * (1 - (DR_N / (IC50_Rm + DR_N))) - Kd_Rm * mRNAr
+    # Vergelijking van R
+    R.dt <- Ksr * mRNAr + RF * Kre * DR_N - Kon * D * R - Kd_R * R
+    # Vergelijking van DR
+    DR.dt <- Kon * D * R - KT * DR
+    # Vergelijking van DR(N)
+    DR_N.dt <- KT * DR - Kre * DR_N
+    
+    # Retourneren van de initiële waardes
+    return(list(c(DR_N.dt, mRNAr.dt, R.dt, DR.dt)))
+  })
+}
+
+Ks_Rm <- 0
+D <- 53.4
+times <- 0:48
+
+par(mfrow = c(1,2))
+dataset.geen.R.synthese <- ode(initial.values, times, verandering_dt, parameters, D = D, Ks_Rm = Ks_Rm)
+plot(dataset.geen.R.synthese[, "R"], xlab = "Tijd (in uren)", ylab = "hoeveelheid R", type = "l",
+main = "vrije R synthese (U)")
+plot(dataset.geen.R.synthese[, "mRNAr"], xlab = "Tijd (in uren)", ylab = "hoeveelheid R", type = "l",
+main = "mRNAr productie (V)")
+```
+In figuur 6 is het verloop te zien van de hoeveelheid vrije R in grafiek U. Op de
+y-as staat de hoeveelheid vrije R en op de x-as de tijd in uren. Om deze grafiek te maken 
+is parameter Ks_Rm naar nul veranderd. Ks_Rm is verantwoordelijk voor de aanmaak per tijdeenheid van mRNAr.
+Door deze parameter naar nul te veranderen, zal in verloop van tijd geen mRNAr meer worden
+aangemaakt. Dit is te zien in grafiek V waar de hoeveelheid mRNAr bij t ~ 20 constant blijft.
+De hoeveelheid mRNAr wordt niet gebruikt, neemt niet toe en daalt ook niet.
+
+Daarom is in grafiek U te zien dat de hoeveelheid vrije R blijft afnemen, dat
+verloopt tot een constante lijn bij y ~ 40-50 en bij t ~ 20. Omdat vrije R hergebruikt wordt
+zal er altijd een beetje aanwezig blijven en de lijn dus nooit 0 raken.
 
 # Discussion and Conclusion
 ## Discussion
