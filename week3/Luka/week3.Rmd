@@ -389,13 +389,81 @@ verandering_dt <- function (time, parameters, initial.values, D) {
     return(list(c(DR_N.dt, mRNAr.dt, R.dt, DR.dt)))
   })
 }
-
-times <- 0 : 48
-
-par(mfrow = c(1,2))
-verloop.dataset.steady <- ode(initial.values, times, verandering_dt, parameters, D=53.4)
+D <- 53.4
+times <- 0:48
 ```
 
+```{r}
+# Kon / 5
+parameters["Kon"] = 0.00329 / 5
+dataset.kon.g5 <- ode(initial.values, times, verandering_dt, parameters, D = D)
+
+# Kon / 2
+parameters["Kon"] = 0.00329 / 2
+dataset.kon.g2 <- ode(initial.values, times, verandering_dt, parameters, D = D)
+
+# Kon * 5
+parameters["Kon"] = 0.00329 * 5
+dataset.kon.k5 <- ode(initial.values, times, verandering_dt, parameters, D = D)
+
+# Kon * 2
+parameters["Kon"] = 0.00329 * 2
+dataset.kon.k2 <- ode(initial.values, times, verandering_dt, parameters, D = D)
+
+# Kre variabele
+# Kre / 5
+parameters["Kre"] = 0.57 / 5
+dataset.kre.g5 <- ode(initial.values, times, verandering_dt, parameters, D = D)
+
+# Kre / 2
+parameters["Kre"] = 0.57 / 2
+dataset.kre.g2 <- ode(initial.values, times, verandering_dt, parameters, D = D)
+
+# Kre * 5
+parameters["Kre"] = 0.57 * 5
+dataset.kre.k5 <- ode(initial.values, times, verandering_dt, parameters, D = D)
+
+# Kre * 2
+parameters["Kre"] = 0.57 * 2
+dataset.kre.k2 <- ode(initial.values, times, verandering_dt, parameters, D = D)
+
+```
+
+```{r}
+plot(verloop.dataset, main = "Normale model")
+
+# Stel de datasetnamen in een lijst
+dataset_list <- list(dataset.kon.g5, dataset.kon.g2, dataset.kon.k5, dataset.kon.k2, dataset.kre.g5, dataset.kre.g2, dataset.kre.k5, dataset.kre.k2)
+
+# Stel de plotlabels in een lijst
+label_list <- c("mRNAr Kon / 5 (E)", "R Kon / 5 (F)", "mRNAr Kon / 2 (G)", "R Kon / 2 (H)", "mRNAr Kon * 5 (I)", "R Kon * 5 (J)", "mRNAr Kon * 2 (K)", "R Kon * 2 (L)",
+                "mRNAr Kre / 5 (M)", "R Kre / 5 (N)", "mRNAr Kre / 2 (O)" , "R Kre / 2 (P)", "mRNAr Kre * 5 (Q)", "R Kre * 5 (R)", "mRNAr Kre * 2 (S)", "R Kre * 2 (T)")
+
+par(mfrow = c(2, 4))
+
+# Maak een lus om de plots te maken voor elke dataset
+for (i in 1:length(dataset_list)) {
+  plot(dataset_list[[i]][, "mRNAr"], type = "l", main = label_list[2*i-1])
+  plot(dataset_list[[i]][, "R"], type = "l", main = label_list[2*i])
+}
+
+```
+In figuur 4 en 5 zitten in ieder acht plots van zowel mRNAr als R. Deze plots zijn geletterd
+van E t/m T. Verder staan op de y-as de hoeveelheid mRNAr of R en op de x-as de tijd (in uren).
+
+Voor zowel mRNAr en R wordt het verloop weergeven met aangepaste parameters. De parameters 'Kon'
+en 'Kre' worden aangepast op de volgende manier. $Kre$ of $Kon$ worden gedeeld door vijf en twee,
+ook worden ze vermenigvuldigd met vijf en twee.
+
+Allereerste wordt er gelopen door alle grafieken van mRNAr. 
+Bij een deling van vijf bij $Kon$ daalt de grafiek sneller aan het begin tot t = 10 en vervolgens
+neemt het minder snel toe. Bij de deling door twee is er een minuscuul verschil.
+
+Verder is bij een deling van vijf voor $Kre$ een groter verschil. De daling aan het begint
+lijkt indentiek te zijn, maar de toename neemt minder snel toe tot bijna een rechte lijn.
+Bij de deling door twee is er het begin ook bijna identiek, maar is de stijging minder snel.
+
+Vervolgens wordt er gekeken naar vrije R. Bij een deling van vijf
 
 # Discussion and Conclusion
 ## Discussion
