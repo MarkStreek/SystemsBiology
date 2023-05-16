@@ -106,6 +106,7 @@ initial.values <- c(DR_N = 0, mRNAr = 4.74, R = 267, DR = 0)
 ```
 
 ```{r}
+# Functie voor berekenen van formules betrokken bij Glucocorticoid dynamica
 verandering_dt <- function (time, parameters, initial.values, D) {
   with(as.list(c(parameters, initial.values)),{
     # Vergelijking van mRNAr
@@ -128,109 +129,94 @@ verloop.dataset.3 <- ode(initial.values, times, verandering_dt, parameters, D = 
 ```
 
 
-
 ```{r}
-par(mfrow = c(1,2)) 
-
-# plot model 1
-plot(verloop.dataset.1[,"mRNAr"], type = "l", xlim = c(0, 160), ylim = c(0, 6),
-     main = "mRNA conc met lage dosis", 
-     xlab = "tijd (hour)", ylab = "mRNAr concentratie (n)")
-
-# plot medians as line
-lines(medians$mRNA[medians$dose == 0.1] ~ medians$time[medians$dose == 0.1], 
-      type = "l", col = "red", lwd = 2)
-lines(medians$mRNA[medians$dose == 0.3] ~ medians$time[medians$dose == 0.3], 
-      type = "l", col = "green", lwd = 2)
-# plot experimental data points
-points(data$mRNA, cex = 0.7)
-
-# legend for information
-legend("topright", c("MPL model", "Median dose 0.1", "Median dose 0.3",
+legend.graph <- function(){
+  return(legend("topright", c("MPL model", "Median dose 0.1", "Median dose 0.2",
                      "Experimental data"),
        col = c("black", "red", "green", "black"), cex = 0.80, 
        pch = c(NA,NA,NA,1),
-       lwd = c(2,2,2,NA))
+       lwd = c(2,2,2,NA)))
+}
+```
 
+```{r}
+plot.figures <- function(dataset, stof, titel, xvec, yvec){
+  return(plot(dataset[,stof], type = "l", xlim = xvec, ylim = yvec,
+     main = titel, 
+     xlab = "tijd (hour)", ylab = "mRNAr concentratie (n)"))
+}
+
+plot.medians <- function(kolom, dose_value, color){
+  return(# plot median as line
+    lines(medians[,kolom][medians$dose == dose_value] ~ medians$time[medians$dose == dose_value], 
+          type = "l", col = color, lwd = 2))
+}
+```
+
+
+
+
+```{r}
+# Plotting difference between doses' influence to mRNA
+par(mfrow = c(1,2)) 
+
+
+# plot mRNA met doses van 0.1 en 0.3
+# plot model
+plot.figures(verloop.dataset.1, "mRNAr", "mRNA met lage dosis",
+             c(0, 160), c(0, 6))
+# plot median for dose 0.1 
+plot.medians("mRNA", 0.1, "red")
+# plot median for dose 0.3
+plot.medians("mRNA", 0.3, "green")
+# plot experimental mRNA points
+points(data$mRNA, cex = 0.7)
+# plot MPL concentration
 points(medians$MPL_conc[medians$dose == 0.1] ~ medians$time[medians$dose == 0.1],
        col = "orange")
 
-# plot model 3
-plot(verloop.dataset.3[,"mRNAr"], type = "l", xlim = c(0, 160), ylim = c(0, 6),
-     main = "mRNA conc met hoge dosis", 
-     xlab = "tijd (hour)", ylab = "mRNAr concentratie (n)")
-
-# plot medians as line
-lines(medians$mRNA[medians$dose == 0.1] ~ medians$time[medians$dose == 0.1], 
-      type = "l", col = "red", lwd = 2) 
-lines(medians$mRNA[medians$dose == 0.3] ~ medians$time[medians$dose == 0.3], 
-      type = "l", col = "green", lwd = 2)
-# plot experimental data points
+# plot vrije R met doses van 0.1 en 0.3
+plot.figures(verloop.dataset.3,"mRNAr", "mRNA met hoge dosis",
+             c(0, 160), c(0, 6))
+plot.medians("mRNA", 0.1, "red")
+plot.medians("mRNA", 0.3, "green")
 points(data$mRNA, cex = 0.7)
-
-# legend for information
-legend("topright", c("MPL model", "Median dose 0.1", "Median dose 0.3",
-                     "Experimental data"),
-       col = c("black", "red", "green", "black"), cex = 0.80, 
-       pch = c(NA,NA,NA,1),
-       lwd = c(2,2,2,NA))
-
 points(medians$MPL_conc[medians$dose == 0.3] ~ medians$time[medians$dose == 0.3],
        col = "orange")
 ```
 
-
 ```{r}
+verloop.dataset.1 <- ode(initial.values, times, verandering_dt, parameters, D = 39)
+verloop.dataset.3 <- ode(initial.values, times, verandering_dt, parameters, D = 107)
+
+# Plotting difference between doses' influence to free R
 par(mfrow = c(1,2)) 
 
+
+# plot R met doses van 0.1 en 0.3
 # plot model
-plot(verloop.dataset.1[,"R"], type = "l", xlim = c(0, 160), ylim = c(0, 500),
-     main = "R conc met lage dosis", 
-     xlab = "tijd (hour)", ylab = "vrije R concentratie (n)")
-
-# plot medians as line
-lines(medians$Free_receptor[medians$dose == 0.1] ~ medians$time[medians$dose == 0.1], 
-      type = "l", col = "red", lwd = 2)
-lines(medians$Free_receptor[medians$dose == 0.3] ~ medians$time[medians$dose == 0.3], 
-      type = "l", col = "green", lwd = 2)
-# plot experimental data points
+plot.figures(verloop.dataset.1, "R", "Vrije R met lage dosis",
+             c(0, 160), c(0, 500))
+# plot median for dose 0.1 
+plot.medians("Free_receptor", 0.1, "red")
+# plot median for dose 0.3
+plot.medians("Free_receptor", 0.3, "green")
+# plot experimental R points
 points(data$Free_receptor, cex = 0.7)
-
-
-
-# legend for information
-legend("topright", c("MPL model", "Median dose 0.1", "Median dose 0.3",
-                     "Experimental data"),
-       col = c("black", "red", "green", "black"), cex = 0.80, 
-       pch = c(NA,NA,NA,1),
-       lwd = c(2,2,2,NA))
-
+# plot MPL concentration
 points(medians$MPL_conc[medians$dose == 0.1] ~ medians$time[medians$dose == 0.1],
        col = "orange")
 
-# plot model
-plot(verloop.dataset.3[,"R"], type = "l", xlim = c(0, 160), ylim = c(0, 500),
-     main = "R conc met bij hoge dosis", 
-     xlab = "tijd (hour)", ylab = "vrije R concentratie (n)")
-
-# plot medians as line
-lines(medians$Free_receptor[medians$dose == 0.1] ~ medians$time[medians$dose == 0.1], 
-      type = "l", col = "red", lwd = 2)
-lines(medians$Free_receptor[medians$dose == 0.3] ~ medians$time[medians$dose == 0.3], 
-      type = "l", col = "green", lwd = 2)
-# plot experimental data points
+# plot vrije R met doses van 0.1 en 0.3
+plot.figures(verloop.dataset.3,"R", "Vrije R met hoge dosis",
+             c(0, 160), c(0, 500))
+plot.medians("Free_receptor", 0.1, "red")
+plot.medians("Free_receptor", 0.3, "green")
 points(data$Free_receptor, cex = 0.7)
-
-# legend for information
-legend("topright", c("MPL model", "Median dose 0.1", "Median dose 0.3",
-                     "Experimental data"),
-       col = c("black", "red", "green", "black"), cex = 0.80, 
-       pch = c(NA,NA,NA,1),
-       lwd = c(2,2,2,NA))
-
 points(medians$MPL_conc[medians$dose == 0.3] ~ medians$time[medians$dose == 0.3],
        col = "orange")
 ```
+
 
 In figuur 1 worden de experimentele mRNAr concentraties van MPL geplot (zwarte punten)
 Hierdoor heen wordt de model functie getekend (als zwarte lijn) door de punten, 
@@ -291,6 +277,7 @@ initial.values <- c(DR_N = 0, mRNAr = 4.74, R = 267, DR = 0)
 ```
 
 Wat gebeurt er met DR(N) als gesynthetiseerd R niet afhankelijk is van D?
+Uit de formule van "R.dt", wordt D weggehaald uit de keersom met Kon * R.
 
 ```{r}
 verandering_dt <- function (time, parameters, initial.values) {
@@ -348,94 +335,3 @@ Soetaert, K., Petzoldt, T., and Woodrow Setzer, R.: \textit{Solving differential
 
 \end{thebibliography}
 
-
-```{r}
-legend.graph <- function(){
-  return(legend("topright", c("MPL model", "Median dose 0.1", "Median dose 0.2",
-                     "Experimental data"),
-       col = c("black", "red", "green", "black"), cex = 0.80, 
-       pch = c(NA,NA,NA,1),
-       lwd = c(2,2,2,NA)))
-}
-```
-
-```{r}
-plot.figures <- function(dataset, stof, titel, xvec, yvec){
-  return(plot(dataset[,stof], type = "l", xlim = xvec, ylim = yvec,
-     main = titel, 
-     xlab = "tijd (hour)", ylab = "mRNAr concentratie (n)"))
-}
-
-plot.medians <- function(kolom, dose_value, color){
-  return(# plot median as line
-    lines(medians[,kolom][medians$dose == dose_value] ~ medians$time[medians$dose == dose_value], 
-          type = "l", col = color, lwd = 2))
-}
-```
-
-
-
-
-```{r}
-verloop.dataset.1 <- ode(initial.values, times, verandering_dt, parameters, D = 39)
-verloop.dataset.3 <- ode(initial.values, times, verandering_dt, parameters, D = 107)
-
-# Plotting difference between doses' influence to mRNA
-par(mfrow = c(1,2)) 
-
-
-# plot mRNA met doses van 0.1 en 0.3
-# plot model
-plot.figures(verloop.dataset.1, "mRNAr", "mRNA met lage dosis",
-             c(0, 160), c(0, 6))
-# plot median for dose 0.1 
-plot.medians("mRNA", 0.1, "red")
-# plot median for dose 0.3
-plot.medians("mRNA", 0.3, "green")
-# plot experimental mRNA points
-points(data$mRNA, cex = 0.7)
-# plot MPL concentration
-points(medians$MPL_conc[medians$dose == 0.1] ~ medians$time[medians$dose == 0.1],
-       col = "orange")
-
-# plot vrije R met doses van 0.1 en 0.3
-plot.figures(verloop.dataset.3,"mRNAr", "mRNA met hoge dosis",
-             c(0, 160), c(0, 6))
-plot.medians("mRNA", 0.1, "red")
-plot.medians("mRNA", 0.3, "green")
-points(data$mRNA, cex = 0.7)
-points(medians$MPL_conc[medians$dose == 0.3] ~ medians$time[medians$dose == 0.3],
-       col = "orange")
-```
-
-```{r}
-verloop.dataset.1 <- ode(initial.values, times, verandering_dt, parameters, D = 39)
-verloop.dataset.3 <- ode(initial.values, times, verandering_dt, parameters, D = 107)
-
-# Plotting difference between doses' influence to free R
-par(mfrow = c(1,2)) 
-
-
-# plot R met doses van 0.1 en 0.3
-# plot model
-plot.figures(verloop.dataset.1, "R", "Vrije R met lage dosis",
-             c(0, 160), c(0, 500))
-# plot median for dose 0.1 
-plot.medians("Free_receptor", 0.1, "red")
-# plot median for dose 0.3
-plot.medians("Free_receptor", 0.3, "green")
-# plot experimental R points
-points(data$Free_receptor, cex = 0.7)
-# plot MPL concentration
-points(medians$MPL_conc[medians$dose == 0.1] ~ medians$time[medians$dose == 0.1],
-       col = "orange")
-
-# plot vrije R met doses van 0.1 en 0.3
-plot.figures(verloop.dataset.3,"R", "Vrije R met hoge dosis",
-             c(0, 160), c(0, 500))
-plot.medians("Free_receptor", 0.1, "red")
-plot.medians("Free_receptor", 0.3, "green")
-points(data$Free_receptor, cex = 0.7)
-points(medians$MPL_conc[medians$dose == 0.3] ~ medians$time[medians$dose == 0.3],
-       col = "orange")
-```
