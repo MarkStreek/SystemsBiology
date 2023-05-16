@@ -499,19 +499,23 @@ par(mfrow = c(1,2))
 dataset.geen.R.synthese <- ode(initial.values, times, verandering_dt, parameters, D = D, Ks_Rm = Ks_Rm)
 plot(dataset.geen.R.synthese[, "R"], xlab = "Tijd (in uren)", ylab = "hoeveelheid R", type = "l",
 main = "vrije R synthese (U)")
-plot(dataset.geen.R.synthese[, "mRNAr"], xlab = "Tijd (in uren)", ylab = "hoeveelheid R", type = "l",
+plot(dataset.geen.R.synthese[, "mRNAr"], xlab = "Tijd (in uren)", ylab = "hoeveelheid mRNAr", type = "l",
 main = "mRNAr productie (V)")
 ```
-In figuur 6 is het verloop te zien van de hoeveelheid vrije R in grafiek U. Op de
-y-as staat de hoeveelheid vrije R en op de x-as de tijd in uren. Om deze grafiek te maken 
+In figuur 6 is het verloop te zien van de hoeveelheid vrije R in grafiek U.  Om deze grafiek te maken 
 is parameter Ks_Rm naar nul veranderd. Ks_Rm is verantwoordelijk voor de aanmaak per tijdeenheid van mRNAr.
 Door deze parameter naar nul te veranderen, zal in verloop van tijd geen mRNAr meer worden
-aangemaakt. Dit is te zien in grafiek V waar de hoeveelheid mRNAr bij t ~ 20 constant blijft.
-De hoeveelheid mRNAr wordt niet gebruikt, neemt niet toe en daalt ook niet.
+aangemaakt. Dit is te zien in grafiek V waar de hoeveelheid mRNAr bij t ~ 30 constant blijft.
+In grafiek V is te zien dat de hoeveelheid mRNAr is afneemt via de y-as en over tijd
+zal de toename tot bijna constant verlopen.
 
 Daarom is in grafiek U te zien dat de hoeveelheid vrije R blijft afnemen, dat
 verloopt tot een constante lijn bij y ~ 40-50 en bij t ~ 20. Omdat vrije R hergebruikt wordt
 zal er altijd een beetje aanwezig blijven en de lijn dus nooit 0 raken.
+
+
+## Assignment 5
+
 
 # Discussion and Conclusion
 ## Discussion
