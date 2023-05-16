@@ -386,6 +386,54 @@ for (i in 1:length(dataset_list)) {
 
 ```
 
+```{r}
+parameters <- c(Ks_Rm = 2.90, IC50_Rm = 26.2, 
+                Kon = 0.00329, KT = 0.63, 
+                Kre = 0.57, RF = 0.49, 
+                Kd_R = 0.0572, Kd_Rm = 0.612, 
+                Ksr = 3.22)
+
+
+verandering_dt <- function (time, parameters, initial.values, D) {
+  with(as.list(c(parameters, initial.values)),{
+    # Vergelijking van mRNAr
+    mRNAr.dt <- Ks_Rm * (1 - (DR_N / (IC50_Rm + DR_N))) - Kd_Rm * mRNAr
+    # Vergelijking van R
+    R.dt <- Ksr * mRNAr + RF * Kre * DR_N - Kon * R - Kd_R * R
+    # Vergelijking van DR
+    DR.dt <- Kon  * R - KT * DR
+    # Vergelijking van DR(N)
+    DR_N.dt <- KT * DR - Kre * DR_N
+    
+    # Retourneren van de initiële waardes
+    return(list(c(DR_N.dt, mRNAr.dt, R.dt, DR.dt)))
+  })
+}
+
+# ks_Rm = 2.9/5 and kd_Rm = 2.9/5/4.74
+parameters["Ks_Rm"] = 2.9 / 5
+parameters["Kd_Rm"] = 2.9 / 5 / 4.74
+dataset.g5 <- ode(initial.values, times, verandering_dt, parameters, D = D)
+
+# ks_Rm = 2.9/2 and kd_Rm = 2.9/2/4.74
+parameters["Ks_Rm"] = 2.9 / 2
+parameters["Kd_Rm"] = 2.9 / 2 / 4.74 
+dataset.g2 <- ode(initial.values, times, verandering_dt, parameters, D = D)
+
+# ks_Rm =2.9∗5 and kd_Rm =2.9∗5/4.74
+parameters["Ks_Rm"] = 2.9 * 5
+parameters["Kd_Rm"] = 2.9 * 5 / 4.74
+dataset.k5 <- ode(initial.values, times, verandering_dt, parameters, D = D)
+
+# ks_Rm =2.9∗2 and kd_Rm =2.9∗2/4.74
+parameters["Ks_Rm"] = 2.9 * 2
+parameters["Kd_Rm"] = 2.9 * 2 / 4.74
+dataset.k2 <- ode(initial.values, times, verandering_dt, parameters, D = D)
+
+
+plot(dataset.g2)
+
+```
 
 
 
