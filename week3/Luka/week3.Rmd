@@ -52,16 +52,116 @@ library(deSolve)
 
 ## Model configuration
 
-Explain chosen initial state, parameter values and time sequence. Use tables with values as for example below
-\begin{longtable}[l]{l|l|l}
-\caption{Parameter Values} \\ \hline
-\label{param_table}
-$\textbf{Parameter}$             &$\textbf{Value}$& $\textbf{Unit}$              \\ \hline
-\endhead
-$a$       & 0.08  & $hour^{-1}$         \\ \hline
-$b$       & 0.06  & $hour^{-1}$         \\ \hline
-$c$       & 0.06  & $hour^{-1}$         \\ \hline
-\end{longtable}
+```{r}
+# Pakket inladen voor mooiere tabel
+library(pander)
+```
+
+Tabel 1: *Variabelen betrokken bij opzetten experiment opgedeeld in zeven konstantes,
+          drie parameters en vier initiële waarden.*
+          
+```{r}
+# Drie categorieën aan soorten input waarden
+Categorie <- c(rep("Initiële waarden", 4), 
+               rep("Parameters", 10))
+
+# Waarden uit bovenstaande categorieën verkregen van experiment
+# Omdat DR een reactie is tussen D en R gaan de waarden keer elkaar
+Waarden<- c("mRNAr"=4.74, "DR_N"=0, "R"=267, "DR"=0, "ks_Rm"=2.90, 
+          "kd_Rm"= 0.612, "k_re"=0.57, "k_T"=0.63,  "k_on"= 0.00329, 
+          "k_d_R"=0.0572, "k_s_r"=3.22, "IC50_Rm"=26.2, "RF"=0.49, "D"=53.4)
+
+# Eenheden in een vector verwerkt. Met functie 'rep()' kan een iterable X
+# keer herhaald worden.
+Eenheden <- c("fmol / g liver", rep("fmol/mg protein", 3),
+              rep("fmol/g liver/h", 2), rep("1 / h", 2),
+              "L/nmol/h", rep("1 / h", 2), "fmol/mg protein",
+              "", "nmol/L")
+
+
+
+# Dataframe waar vector namen in de header komen, waarde namen als rijnamen 
+# en de daadwerkelijke waarden daarin verwerkt.
+model.conf <- data.frame(Waarden, Categorie, Eenheden)
+# Tekenen van tabel
+pander(model.conf)
+```
+
+Hieronder zijn de parameters gebruikt bij opdracht 1. Wat belangrijk is om op te merken
+is dat D niet in de vectoren wordt verwerkt, omdat de concentraties in het onderzoek varieëren
+van 53.4 tot 39 tot 107. Als oplossing worden de concentraties direct aan functie ode() gegeven.
+
+In deze opgave 1 worden twee simulaties gedraaid met D = 39 en D = 107.
+Verder is de tijdsequentie 200 uur, zodat het verloop over tijd beter te zien is. 
+
+```{r}
+# Definiëren van de parameters
+parameters.1 <- c(Ks_Rm = 2.90, IC50_Rm = 26.2, 
+                Kon = 0.00329, KT = 0.63, 
+                Kre = 0.57, RF = 0.49, 
+                Kd_R = 0.0572, Kd_Rm = 0.612, 
+                Ksr = 3.22)
+# 53.4
+# Tijdspunten definiëren
+times <- 0 : 200
+
+# Het definiëren van de initiële waardes
+initial.values.1 <- c(DR_N = 0, mRNAr = 4.74, R = 267, DR = 0)
+```
+
+Vervolgens veranderd bij opdracht 2 de tijdsequentie naar 48 uur en de D wordt 53.4.
+
+times <- 0 : 48
+
+
+In opdracht drie blijven de waarden van tijd en D hetzelfde. Echter veranderen
+parameters Kre en Kon bij concentraties R en mRNAr. Per concentratie zullen de concentraties
+dissocieren en associeren met vijf en twee door de volgende formules. Waar dissociatie
+wordt bepaald door deling met vijf en twee, associatie wordt bepaald door vermenigvuldiging met twee
+en vijf.
+
+
+```{r}
+# Kon / 5
+kon.parameters.g5 <- parameters["Kon"] = 0.00329 / 5
+dataset.kon.g5 <- ode(initial.values, times, verandering_dt, kon.parameters.g5, D = D)
+
+# Kon / 2
+kon.parameters.g2 <- parameters["Kon"] = 0.00329 / 2
+dataset.kon.g2 <- ode(initial.values, times, verandering_dt, kon.parameters.g2, D = D)
+
+# Kon * 5
+kon.parameters.k5 <- parameters["Kon"] = 0.00329 * 5
+dataset.kon.k5 <- ode(initial.values, times, verandering_dt, kon.parameters.k5, D = D)
+
+# Kon * 2
+kon.parameters.k2 <- parameters["Kon"] = 0.00329 * 2
+dataset.kon.k2 <- ode(initial.values, times, verandering_dt, kon.parameters.k2, D = D)
+
+# Kre variabele
+# Kre / 5
+kre.parameters.g5 <- parameters["Kre"] = 0.57 / 5
+dataset.kre.g5 <- ode(initial.values, times, verandering_dt, kre.parameters.g5, D = D)
+
+# Kre / 2
+kre.parameters.g2 <- parameters["Kre"] = 0.57 / 2
+dataset.kre.g2 <- ode(initial.values, times, verandering_dt, kre.parameters.g2, D = D)
+
+# Kre * 5
+kre.parameters.k5 <- parameters["Kre"] = 0.57 * 5
+dataset.kre.k5 <- ode(initial.values, times, verandering_dt, kre.parameters.k5, D = D)
+
+# Kre * 2
+kre.parameters.k2 <- parameters["Kre"] = 0.57 * 2
+dataset.kre.k2 <- ode(initial.values, times, verandering_dt, kre.parameters.k2, D = D)
+
+```
+
+In opgave vier blijft de tijdsequentie en D hetzelfde, maar Ks_Rm wordt gezet naar nul.
+
+Ks_Rm <- 0
+D <- 53.4
+times <- 0:48
 
 
 # Results
@@ -90,20 +190,6 @@ head(medians)
 library(deSolve)
 ```
 
-```{r}
-# Definiëren van de parameters
-parameters <- c(Ks_Rm = 2.90, IC50_Rm = 26.2, 
-                Kon = 0.00329, KT = 0.63, 
-                Kre = 0.57, RF = 0.49, 
-                Kd_R = 0.0572, Kd_Rm = 0.612, 
-                Ksr = 3.22)
-# 53.4
-# Tijdspunten definiëren
-times <- 0 : 200
-
-# Het definiëren van de initiële waardes
-initial.values <- c(DR_N = 0, mRNAr = 4.74, R = 267, DR = 0)
-```
 
 ```{r}
 # Functie voor berekenen van formules betrokken bij Glucocorticoid dynamica
@@ -261,20 +347,6 @@ Dat wil zeggen het aantal mRNA wordt hoger geschat in het model.
 
 ## Assignment 2
 
-```{r}
-# Definiëren van de parameters
-parameters <- c(Ks_Rm = 2.90, IC50_Rm = 26.2, 
-                Kon = 0.00329, KT = 0.63, 
-                Kre = 0.57, RF = 0.49, 
-                Kd_R = 0.0572, Kd_Rm = 0.612, 
-                Ksr = 3.22)
-
-# Tijdspunten definiëren
-times <- 0 : 48
-
-# Het definiëren van de initiële waardes
-initial.values <- c(DR_N = 0, mRNAr = 4.74, R = 267, DR = 0)
-```
 
 Wat gebeurt er met DR(N) als gesynthetiseerd R niet afhankelijk is van D?
 Uit de formule van "R.dt", wordt D weggehaald uit de keersom met Kon * R.
@@ -296,6 +368,8 @@ verandering_dt <- function (time, parameters, initial.values, D) {
     return(list(c(DR_N.dt, mRNAr.dt, R.dt, DR.dt)))
   })
 }
+
+times.2 <- 0 : 48
 
 # Het aanroepen van de ode functie, waardes worden opgeslagen
 verloop.dataset <- ode(initial.values, times, verandering_dt, parameters, D=53.4)
