@@ -1,0 +1,134 @@
+---
+title: "Glucocorticoid receptor dynamica"
+author: "L T Stein & M van de Streek"
+date: "`r Sys.Date()`"
+
+header-includes:
+   - \usepackage{longtable}
+   - \usepackage{hyperref}
+output:
+    pdf_document:
+      number_sections: yes
+linkcolor: blue
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+\pagebreak
+
+\tableofcontents
+
+\pagebreak
+
+# Afkortingen 
+
+glucocorticoïdereceptor (GR); methylprednisolon (MPL); receptor (R);
+MPL (D); MPL-receptor complex (DR); geactiveerd of in de celkern MPL-receptor complex (DR_N);
+
+\pagebreak
+
+# Introductie
+
+In dit verslag zal er nader gekeken worden naar de werking van glucocorticosteroïden. Er zal worden gekeken naar de dynamica hiervan. Het model wat gebruikt wordt, zal nader worden uitglegd in de theorie. De belangrijkste termen die hier voorbij zullen komen worden alvast kort uitgelegd. 
+
+Glucocorticosteroïden (D) zijn hormonen die worden geproduceerd in de bijnierschors. Het is een samenstelling van glucose, cortex en steroïde. glucocorticosteroïden worden ook vaak gebruikt in de remming van ontstekingen. De glucocorticosteroïden binden aan receptoren (R), er ontstaat dan een glucocorticoïdereceptorcomplex (DR). Dit complex verplaatst naar de celkern en bindt hier aan het DNA (DR_N). De transcriptie van genen die ontstekingen veroorzaken worden tegengehouden door de complexen. Tegelijkertijd worden de genen die ontsteking remmen juist gepromoveerd. Er komen dus meer eiwitten die de ontsteking onderdrukken.
+
+Bij het onderzoek zal gebruik gemaakt worden van experimentele data. Deze data is afkomstig van ratten. De ratten zijn zeven dagen lang geinfecteerd met methylprednisolone (een vorm van een glucocorticosteroïde). De ratten zijn geïnfecteerd met twee verschillende doses: 0.1 en 0.3 mg drug/kg rat/h. Hierover zal meer verteld worden in de theorie. 
+
+Bij het nader kijken wordt er bedoelt dat er aantal situaties worden uitgewerkt. Denk hierbij bijvoorbeeld aan: wat gebeurt er met het systeem als ik een constante vijf keer zo groot maak? Ook wordt er gekeken naar het verloop van het systeem bij een doseringstop na een bepaalde tijd. Al deze situaties worden vergeleken met de experimentele data.
+
+## Doel
+  
+Het doel van dit onderzoek is om erachter te komen welke elementen belangrijk zijn in het model. Dus de elementen die van grote invloed zijn op bepaalde waardes. Aan de hand hiervan kan er ook iets gezegd worden over de hoeveelheid drug die kan toe worden gediend.
+
+Dit doel kan bereikt worden door aanpassingen te doen aan het model en vervolgens te simuleren. Deze simulaties kunnen vergeleken worden met de experimentele data. Aan de hand hiervan kan worden vastgesteld of een aanpassing/weglating van een element in het model van grote invloed is.
+
+De verwachting van het onderzoek is breed. Er zijn een aantal verwachtingen bij het model. Allereerst wordt er verwacht dat het aantal receptoren een belangrijke factor zal zijn. Hier bindt de drug aan en zal dus belangrijk zijn. Verder zal ook het aantal drug een belangrijke rol spelen. Zoals eerder vermeld werden de ratten geïnfecteerd met een dosis van 0.1 (laag) en 0.3 (hoog). De verwachting is dat ergens tussen deze waarden een ideale dosering ligt. 
+
+## Theorie
+
+    - Describe biological model
+    - Picture of the biological model
+
+    ```{r, echo=FALSE, out.width='95%'}
+    #knitr::include_graphics('example.png')
+    ```
+
+    Give an explanation of the model with citations of source \cite{Soertaert10} (replace this with actual source)
+    and formula explanation
+
+    $$\frac{\delta R}{\delta t} = -r * R + m $$
+    Describe each element and the transformations
+
+# Methode
+
+## Het software model
+
+    - Describe the software tools used, as well as the libraries
+    - Describe the software implementation (note: code below is an example)
+    
+Om de dynamica van de systemen eenvoudig weer te geven, moeten de differentiaal vergelijkingen worden uitgevoerd met verschillende waardes. Dit zal gedaan worden met het deSolve pakket \cite{deSolve} (versie 1.35) in R (versie 4.2.2). 
+
+Er worden twee scenario's behandeld. Er wordt allereerst gekeken naar de validiteit van het model. Vervolgens zal er naar simulatie scenario's worden gekeken, d.w.z. wat gebeurt er met het systeem als een waarde wordt aangepast of weggelaten?
+
+```{r}
+library(deSolve)
+# code
+```
+
+## Model configuratie
+
+    Explain chosen initial state, parameter values and time sequence. Use tables with values as for example below
+
+
+# Resultaten
+
+    Introduction of results, how does it answer your research questions.
+    
+Nog in te vullen...
+
+```{r}
+#plot(out)
+#code to generate figures with title, subscripts, legenda etc
+```
+
+    - Describe what can be seen in such way that it leads to an answer to your research questions
+    - Give your figures a number and a descriptive title.
+    - Provide correct axis labels (unit and quantity), legend and caption.
+    - Always refer to and discuss your figures and tables in the text - they never stand alone.
+
+Nog in te vullen...
+
+# Discussie en Conclusie
+
+## Discussie
+
+    - Compare your results with what is expecting from the literature and discuss differences with them.
+    - Discuss striking and surprising results.
+    - Discuss weaknesses in your research and how they could be addressed.
+    
+Nog in te vullen...
+
+## Algemene conclusie en perspectief
+
+    Discuss what your goal was, what the end result is and how you could continue working from here.
+
+Nog in te vullen...
+
+```{=tex}
+\begin{thebibliography}{9}
+
+\bibitem{deSolve}
+Soetaert, K., Petzoldt, T., and Woodrow Setzer, R.: \textit{Solving differential equations in R: package deSolve}, J. Stat. Softw., 33, 1-25, 2010.
+
+\bibitem{NCBI}
+Bergmann MW, Staples KJ, Smith SJ, Barnes PJ, Newton R (2004).,
+Am J Respir Cell Mol Biol 30: 555–563.: \textit{Glucocorticoids effects in degradation of mRNA}
+
+\bibitem{pander}
+Daróczi G, Tsegelskyi R (2022).: \textit{pander: An R 'Pandoc' Writer}. R package version 0.6.5, <https://CRAN.R-project.org/package=pander>.
+
+\end{thebibliography}
+```

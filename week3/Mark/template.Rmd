@@ -52,8 +52,10 @@ Describe each element and the transformations
 
 ## The software model
 
-- Describe the software tools used, as well as the libraries
-- Describe the software implementation (note: code below is an example)
+    - Describe the software tools used, as well as the libraries
+    - Describe the software implementation (note: code below is an example)
+
+
 
 ### Assignment 1
 
