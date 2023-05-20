@@ -75,7 +75,7 @@ parameters <- c(Ks_Rm = 2.90, IC50_Rm = 26.2,
 D <- 53.4
 
 # Tijdspunten definiëren
-times <- 0 : 48
+times <- 0 : 150
 
 # Het definiëren van de initiële waardes
 initial.values <- c(DR_N = 0, mRNAr = 4.74, R = 267, DR = 0)
@@ -132,7 +132,7 @@ points(experiment.data$mRNA, col = "black", pch = 1, cex = .7)
 legend.graph()
 
 # Free receptor R plot - experiment - model
-plot(verloop.dataset[,"R"], type="l", xlab="Time", ylab="mRNAr", lwd = 2, ylim = c(0, 500), xlim = c(0, 150), col = "#21A9AD")
+plot(verloop.dataset[,"R"], type="l", xlab="Time", ylab="vrije receptor (R)", lwd = 2, ylim = c(0, 500), xlim = c(0, 150), col = "#21A9AD")
 lines(medians$Free_receptor[medians$dose == 0.1] ~ medians$time[medians$dose == 0.1], type = "l", lwd = 2, col = "darkred")
 lines(medians$Free_receptor[medians$dose == 0.3] ~ medians$time[medians$dose == 0.3], type = "l", lwd = 2, col = "darkgreen")
 points(experiment.data$Free_receptor, col = "black", pch = 1, cex = .7)

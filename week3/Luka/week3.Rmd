@@ -87,11 +87,13 @@ model.conf <- data.frame(Waarden, Categorie, Eenheden)
 pander(model.conf)
 ```
 
-Hieronder zijn de parameters gebruikt bij opdracht 1. Wat belangrijk is om op te merken
-is dat D niet in de vectoren wordt verwerkt, omdat de concentraties in het onderzoek varieëren
-van 53.4 tot 39 tot 107. Als oplossing worden de concentraties direct aan functie ode() gegeven.
+Zoals eerder vermeld worden er twee situaties uitgewerkt. Er wordt allereerst gekeken naar de validiteit van het model. Hierbij worden een aantal vragen beantwoord. De antwoorden op de vragen bevinden zich in de resultaten sectie. Er moet wel veel verschuiving in de parameters plaatsvinden, dit wordt allemaal in de onderstaande alinea('s) weergegeven.
 
-In deze opgave 1 worden twee simulaties gedraaid met D = 39 en D = 107.
+Hieronder zijn de parameters gebruikt bij vraag 1 van scenario één. Wat belangrijk is om op te merken
+is dat D niet in de vectoren wordt verwerkt, omdat de concentraties in het onderzoek variëren
+van 53.4 tot 39 (dosis 0.1) tot 107 (dosis 0.3). Als oplossing worden de concentraties direct aan functie ode() gegeven.
+
+In vraag 1 worden twee simulaties uitgevoerd met D = 39 en D = 107.
 Verder is de tijdsequentie 200 uur, zodat het verloop over tijd beter te zien is. 
 
 ```{r}
@@ -123,7 +125,7 @@ en vijf.
 
 ```{r}
 # Kon / 5
-kon.parameters.g5 <- parameters["Kon"] = 0.00329 / 5
+kon.parameters.g5 <- parameters.1["Kon"] = 0.00329 / 5
 dataset.kon.g5 <- ode(initial.values, times, verandering_dt, kon.parameters.g5, D = D)
 
 # Kon / 2
@@ -168,7 +170,7 @@ times <- 0:48
 Introduction of results, how does it answer your research questions.
 ```{r}
 # lees excperimentele data in
-data <- read.csv("/homes/ltstein/Kwartaal_8/Thema_opdracht/SystemsBiology_th8/week3/MPL.csv", na.strings = "NA",
+data <- read.csv("../MPL.csv", na.strings = "NA",
                  header = T, sep = ",")
 median_MPL_01 <- median(data$MPL_conc[data$dose==0.1], na.rm=TRUE)
 median_MPL_01
@@ -210,8 +212,8 @@ verandering_dt <- function (time, parameters, initial.values, D) {
 }
 
 # Het aanroepen van de ode functie, waardes worden opgeslagen
-verloop.dataset.1 <- ode(initial.values, times, verandering_dt, parameters, D = 39)
-verloop.dataset.3 <- ode(initial.values, times, verandering_dt, parameters, D = 107)
+verloop.dataset.1 <- ode(initial.values.1, times, verandering_dt, parameters.1, D = 39)
+verloop.dataset.3 <- ode(initial.values.1, times, verandering_dt, parameters.1, D = 107)
 ```
 
 
