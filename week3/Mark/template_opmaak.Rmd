@@ -1,5 +1,5 @@
 ---
-title: "Glucocorticoid receptor, a closer look"
+title: "Glucocorticoid receptor dynamics, a closer look"
 author: "L T Stein & M van de Streek"
 date: "`r Sys.Date()`"
 
@@ -55,7 +55,6 @@ Er zijn een aantal verwachtingen bij het model. Allereerst wordt er verwacht dat
 
 ## Theorie
 
-> Afbeelding van biologisch model
 
 ```{r, echo=FALSE, out.width='50%'}
 knitr::include_graphics('model.png')
@@ -157,6 +156,9 @@ legend.graph <- function(){
 }
 ```
 
+
+\pagebreak
+
 Functie die de verandering berekend. Deze zal worden gebruikt voor scenario één.
 
 ```{r}
@@ -197,6 +199,8 @@ verandering_dt.2.1 <- function (time, parameters, initial.values, D) {
 }
 ```
 
+\pagebreak
+
 Bij vraag 2 van scenario twee wordt er gekeken wat er gebeurt met het verloop als de toevoeging van D stopt na verloop van tijd. Onderstaand wordt hiervoor de gebruikte functie gedefinieerd.
 
 ```{r}
@@ -220,6 +224,8 @@ verandering_dt.2.2 <- function (time, parameters, initial.values, D) {
   })
 }
 ```
+
+
 
 Voor vraag 4 van scenario twee wordt er gekeken naar het stopzetten van de synthese van R. Onderstaand de juiste functie en berekening.
 
@@ -357,14 +363,21 @@ dataset.kre.k2 <- ode(initial.values.1, times.1,
 ```
 
 In opgave vier blijft de tijdsequentie en D hetzelfde, maar Ks_Rm wordt gezet naar nul.
+Dit zorgt ervoor dat de synthese van R tot stop wordt gezet.
 
-Ks_Rm <- 0
-D <- 53.4
-times <- 0:48
+
+
+> Ks_Rm <- 0
+
+> D <- 53.4
+
+> times <- 0:48
+
 
 In opgave vijf veranderen de parameters Ks_Rm en Kd_Rm op basis van toename (keersom) van twee en vijf
 of een afname (deling) van twee en vijf. Echter is Kd_Rm bij iedere toename of afname nog afhankelijk van de
-hoeveelheid mRNAr vanaf t = 0, wat 4.74 is.
+hoeveelheid mRNAr vanaf t = 0, wat 4.74 is. Door het veranderen van deze snelheidsconstanten wordt de aanmaak
+van mRNAr beïnvloed.
 
 ```{r}
 parameters.2 <- c(Ks_Rm = 2.90, IC50_Rm = 26.2, 
@@ -402,7 +415,7 @@ In deze sectie zal er worden gekeken naar de resultaten. Omdat er vragen worden 
 
 ### Median experimantal data (1.1)
 
-```{r, fig.cap="*Figuur 1 geeft het model en de experimentele waardes weer. De verloop van het model is een vloeiende lijn die eerste daalt en vervolgens weer iets stijgt en naar een constante waarde gaat. De rode lijn geeft de experimentele data weer van de lage dosis. De groene lijn geeft de hoge dosis weer. Beide lijnen zijn schokkerige lijnen. De waardes van de experimentele data liggen iets onder de model waardes. De lijnen voor de vrije receptor (figuur 2) zitten ongeveer op dezelfde waardes, halverwege vertoond het experiment een kleine piek.*"}
+```{r, fig.cap="*De bovenstaande figuur geeft het model en de experimentele waardes weer. De verloop van het model is een vloeiende lijn die eerste daalt en vervolgens weer iets stijgt en naar een constante waarde gaat. De rode lijn geeft de experimentele data weer van de lage dosis. De groene lijn geeft de hoge dosis weer. Beide lijnen zijn schokkerige lijnen. De waardes van de experimentele data liggen iets onder de model waardes. De lijnen voor de vrije receptor (figuur 2) zitten ongeveer op dezelfde waardes, halverwege vertoond het experiment een kleine piek.*"}
 verloop.dataset <- ode(initial.values.1, times.1, 
                        verandering_dt.1, parameters.1, D = 53.4)
 verloop.dataset.lage.doses <- ode(initial.values.1, 
@@ -611,14 +624,18 @@ verloop.dataset.steady <- ode(initial.values.1, times.2.1,
                               verandering_dt.2.2, parameters.1, D=53.4)
 
 plot(verloop.dataset.steady[,"DR_N"], 
-     type = "l", main = "C",
-     xlab = "Tijd (in uren)")
+     type = "l", main = "Figuur C",
+     xlab = "Tijd (in uren)",
+     ylab = "Hoeveelheid DR_N (n)")
 
 plot(verloop.dataset.steady[,"mRNAr"],
-     type = "l", main = "D",
-     xlab = "Tijd (in uren)")
+     type = "l", main = "Figuur D",
+     xlab = "Tijd (in uren)",
+     ylab = "Hoeveelheid mRNAr (n)")
 
 ```
+
+
 
 Tabel 2: *Tabel waarin is te zien dat er ongeveer een steady state is bereikt bij t = 35.*
 
@@ -703,9 +720,81 @@ Daarom is in grafiek U te zien dat de hoeveelheid vrije R blijft afnemen, dat
 verloopt tot een constante lijn bij y ~ 40-50 en bij t ~ 20. Omdat vrije R hergebruikt wordt
 zal er altijd een beetje aanwezig blijven en de lijn dus nooit 0 raken.
 
-### Changing Ks_Rm (2.5)
+### Changing Ks_Rm en Kd_Rm (2.5)
 
-> **Nog invullen...**
+In de plotten beneden wordt er gekeken naar wat er gebeurt in het systeem, als de snelheidsconstanten Ks_Rm en Kd_rm die de aanmaak en afbraak van mRNAr beïnvloeden
+toenemen of afnemen. 
+
+
+```{r, fig.cap = "In de bovenstaande figuur staan in de vier grafieken op de x-as het verloop van tijd in uren en op de y-as de verandering in stof verschillend per context. In grafiek B is te zien hoe de hoeveelheid mRNA eerst afneemt bij omzetting naar R. Vervolgens verloopt de aanmaak mRNAr richting een bijna constante lijn vanaf t ~ 10. De hoeveelheid R in grafiek C neemt eerst alleen af, omdat er DR vormt. Over tijd zal R (n) als gevolg van de monotone productie in mRNAr, geen veranderingen meer hebben in toename of afname. Verder is te zien dat de concentraties MPL-complex in grafieken A en D eerst toenemen, maar vervolgens zal de de productie ook niet meer veranderen. Op basis van de bovenstaande bevindingen is te zien, dat het systeem reageert zoals verwacht op het stilliggende gedrag van de productie in mRNAr."}
+
+plot(dataset.g2, main = c("DR_N (A)", "mRNAr (B)", 
+                          "R (C)", "DR (D)"),
+     ylab = c("hoeveelheid DR_N (n)", "hoeveelheid mRNAr (n)",
+              "hoeveelheid R (n)", "hoeveelheid DR (n)"),
+     xlab = "Tijd (in uren)")
+mtext("Ks_Rm en Kd_Rm gedeeld door vijf",                   
+      side = 3,
+      line = - 1,
+      outer = TRUE)
+```
+
+\pagebreak
+
+```{r, fig.cap = "In grafiek B is te zien hoe de hoeveelheid mRNA langzamer afneemt dan bij figuur 9. Vervolgens verloopt de aanmaak vanaf t ~ 20 mRNAr minder snel richting een constante lijn. De hoeveelheid R in grafiek C neemt minder snel af in het begin. De rest van de curve verloopt hetzelfde. Grafieken A en D verlopen nagenoeg hetzelfde."}
+plot(dataset.g5, main = c("DR_N (A)", "mRNAr (B)", 
+                          "R (C)", "DR (D)"),
+     ylab = c("hoeveelheid DR_N (n)", "hoeveelheid mRNAr (n)",
+              "hoeveelheid R (n)", "hoeveelheid DR (n)"),
+     xlab = "Tijd (in uren)")
+mtext("Ks_Rm en Kd_Rm gedeeld door twee",                   
+      side = 3,
+      line = - 1,
+      outer = TRUE)
+```
+
+Het wordt duidelijk dat bij een deling door twee, minder grote impact is op de aanmaak van receptoren dan bij een deling van 5.
+
+&nbsp;
+
+\pagebreak
+
+```{r, fig.cap = "In grafiek B is te zien hoe de hoeveelheid mRNA eerst stijl afneemt bij omzetting naar R. Vervolgens verloopt de aanmaak mRNAr richting een constante lijn, op een gelijke manier als bij figuur 9. Echter begint de aanmaak al bij t ~ 5. In grafiek C neemt R (n) steiler af. Grafieken A en D reageren als gevolg van het gedrag van grafiek B op dezelfde wijze als in figuur 9."}
+plot(dataset.k5, main = c("DR_N (A)", "mRNAr (B)", 
+                          "R (C)", "DR (D)"),
+     ylab = c("hoeveelheid DR_N (n)", "hoeveelheid mRNAr (n)",
+              "hoeveelheid R (n)", "hoeveelheid DR (n)"),
+     xlab = "Tijd (in uren)")
+mtext("Ks_Rm en Kd_Rm keer vijf",                   
+      side = 3,
+      line = - 1,
+      outer = TRUE)
+```
+
+
+Zoals verwacht daalt de hoeveelheid mRNAr veel sneller aan het begin, omdat de afname constante verhoogt is. Tevens
+begint de toename veel eerder door een verhoogte toename constante. 
+
+
+
+```{r, fig.cap = "In grafiek B is te zien hoe de hoeveelheid mRNA iets minder stijl afneemt bij omzetting naar R dan bij figuur 11. Vervolgens verloopt de aanmaak mRNAr iets later, vanaf t ~ 7. Grafieken A, C en D reageren wederom op dezelfde manier."}
+plot(dataset.k2, main = c("DR_N (A)", "mRNAr (B)", 
+                          "R (C)", "DR (D)"),
+     ylab = c("hoeveelheid DR_N (n)", "hoeveelheid mRNAr (n)",
+              "hoeveelheid R (n)", "hoeveelheid DR (n)"),
+     xlab = "Tijd (in uren)")
+mtext("Ks_Rm en Kd_Rm keer twee",                   
+      side = 3,
+      line = - 1,
+      outer = TRUE)
+```
+
+
+Het feit dat de afname minder steil verloopt voldoet aan de verwachting dat, keer twee minder grote invloed uitoefent dan keer vijf.
+Ook de toename wordt met dezelfde logica beïnvloed en neemt iets later pas toe.
+
+\pagebreak
+
 
 # Discussie en Conclusie
 
@@ -713,15 +802,21 @@ zal er altijd een beetje aanwezig blijven en de lijn dus nooit 0 raken.
     
 Uit de resultaten sectie zijn behoorlijke wat resultaten naar voren gekomen. Er waren ook 'weinig' verwachtingen voor het onderzoek, omdat we natuurlijk niet wisten wat het model ging doen bij een specifieke aanpassing. De verwachting was dat het aantal vrije receptoren een belangrijke rol zal spelen. Het bewijs voor deze verwachting werd getoond in (2.1). De grafiek van DR_N vertoond een behoorlijk ander verloop. De stijging is namelijk veel sneller. Als de drug geen effect heeft op de synthese van R, komt er een veel hogere concentratie van R. Hierdoor komt er ook veel meer DR_N en dus ook veel meer bijwerkingen. R speelt dus een belangrijke rol.
 
-Verder werd er ook verwacht dat het aantal D een belangrijke rol speelt. Al snel bleek dat na een bepaalde drug (53.4) de werking niet meer snel stijgt. De grafieken voor een hoge dosis D geven niet een significante hogere uitval.
+Verder werd er ook verwacht dat het aantal D een belangrijke rol speelt. Al snel bleek dat na een bepaalde drug (D=53.4) de werking niet meer snel stijgt. De grafieken voor een hoge dosis D geven niet een significante hogere uitval.
 
-Bij de vraag over het stoppen van het toedienen van D, na het bereiken van de steady state, viel iets op. De grafieken stegen of daalden explosief na het stoppen van het toedienen. Achteraf is dit natuurlijk logisch te verklaren. De hoeveelheid D speelt in alle vergelijkingen door, als deze dus plotseling naar 0 zal gaan, is dit van directe invloed op de andere vergelijkingen.
+&nbsp;
+
+Bij vraag (2.4) over het stoppen van het toedienen van D, na het bereiken van de steady state, viel iets op. De grafieken stegen of daalden explosief na het stoppen van het toedienen. Achteraf is dit natuurlijk logisch te verklaren. De hoeveelheid D speelt in alle vergelijkingen door, als deze dus plotseling naar 0 zal gaan, is dit van directe invloed op de andere vergelijkingen.
+
+In resultaten (2.5) verliepen de grafieken zoals er wiskundig verwacht werd. Bij twee was er minder invloed op de toename of afname van de productie factoren voor mRNAr dan bij vijf. Tevens was op logische wijze te zien dat bij een keersom een versterkende invloed werkte en bij een deling het verzachtend effect.
 
 ## Algemene conclusie en perspectief
 
 Het uiteindelijke doel van het onderzoek was om iets te kunnen zeggen over de 'juiste' hoeveelheid drug. De verwachting was dat deze ergens tussen de lage- en hoge dosis van het experiment zat. Uit de grafieken is gebleken dat bij een hoeveelheid drug dat rond de middengrens van de experimentele zit, een ideaal verloop is voor alle variabelen. Bij een hogere dosis is er niet veel meer resultaat. In combinatie met bijwerkingen is het dus niet noodzakelijk om een hoge dosis te nemen.
 
-Een verbeterpunt voor het volgende onderzoek is het gebruik van de experimentele data. Deze data zou veel meer gebruikt kunnen worden in de figuren. Op deze manier is nog duidelijker om aan te tonen hoe iets 'echt' zou verlopen. Of om juist aan te tonen dat iets significant anders zou verlopen.
+Een verbeterpunt voor het volgende onderzoek is het gebruik van de experimentele data. Deze data zou veel meer gebruikt kunnen worden in de figuren. Op deze manier is het nog duidelijker om aan te tonen hoe iets 'echt' zou verlopen of om juist aan te tonen dat iets significant anders zou verlopen.
+
+\pagebreak
 
 ```{=tex}
 \begin{thebibliography}{9}
