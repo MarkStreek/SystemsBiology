@@ -187,8 +187,6 @@ verandering_dt.2.4 <- function (time, parameters, initial.values, D, Ks_Rm) {
 \pagebreak
 
 ## Model configuratie
-
-> **Nog in te vullen...**
     
 ```{r}
 # Pakket inladen voor mooiere tabel
@@ -251,7 +249,11 @@ tijdverloop voor vraag 1 van scenario twee.
 times.2.1 <- 0 : 48
 ```
 
-Bij scenario twee (simulatie scenario's) zijn veel verschillende parameters gebruikt. Voor vraag 3 moet er worden gekeken wat er gebeurt bij een aanpassing van twee constantes. De aanpassing volgt hieronder. 
+Bij scenario twee (simulatie scenario's) zijn veel verschillende parameters gebruikt. In opdracht drie blijven de waarden van tijd en D hetzelfde. Echter veranderen
+parameters Kre en Kon bij concentraties R en mRNAr. Per concentratie zullen de concentraties
+dissocieren en associeren met vijf en twee door de volgende formules. Waar dissociatie
+wordt bepaald door deling met vijf en twee, associatie wordt bepaald door vermenigvuldiging met twee
+en vijf.
 
 ```{r}
 # Kon / 5
@@ -297,7 +299,15 @@ dataset.kre.k2 <- ode(initial.values.1, times.1,
 
 ```
 
-Bij vraag 4 van scenario twee, moet er een waarde in het model worden aangepast naar nul. Deze waarde is aangepast in de sectie bij het software model. Voor de laatste vraag (5) moeten de waarden van Ks_Rm en Kd_Rm worden aangepast.
+In opgave vier blijft de tijdsequentie en D hetzelfde, maar Ks_Rm wordt gezet naar nul.
+
+Ks_Rm <- 0
+D <- 53.4
+times <- 0:48
+
+In opgave vijf veranderen de parameters Ks_Rm en Kd_Rm op basis van toename (keersom) van twee en vijf
+of een afname (deling) van twee en vijf. Echter is Kd_Rm bij iedere toename of afname nog afhankelijk van de
+hoeveelheid mRNAr vanaf t = 0, wat 4.74 is.
 
 ```{r}
 parameters.2 <- c(Ks_Rm = 2.90, IC50_Rm = 26.2, 
