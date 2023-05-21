@@ -39,7 +39,7 @@ In dit verslag zal er nader gekeken worden naar de werking van glucocorticostero
 
 Glucocorticosteroïden (D) zijn hormonen die worden geproduceerd in de bijnierschors. Het is een samenstelling van glucose, cortex en steroïde. glucocorticosteroïden worden ook vaak gebruikt in de remming van ontstekingen. De glucocorticosteroïden binden aan receptoren (R), er ontstaat dan een glucocorticoïdereceptorcomplex (DR). Dit complex verplaatst naar de celkern en bindt hier aan het DNA (DR_N). De transcriptie van genen die ontstekingen veroorzaken worden tegengehouden door de complexen. Tegelijkertijd worden de genen die ontsteking remmen juist gepromoveerd. Er komen dus meer eiwitten die de ontsteking onderdrukken.
 
-Bij het onderzoek zal gebruik gemaakt worden van experimentele data. Deze data is afkomstig van ratten. De ratten zijn zeven dagen lang geinfecteerd met methylprednisolone (een vorm van een glucocorticosteroïde). De ratten zijn geïnfecteerd met twee verschillende doses: 0.1 en 0.3 mg drug/kg rat/h. Hierover zal meer verteld worden in de theorie. 
+Bij het onderzoek zal gebruik gemaakt worden van experimentele data. Deze data is afkomstig van ratten. De ratten zijn zeven dagen lang geinfecteerd met methylprednisolon (een vorm van een glucocorticosteroïde). De ratten zijn geïnfecteerd met twee verschillende doses: 0.1 en 0.3 mg drug/kg rat/h. Hierover zal meer verteld worden in de theorie. 
 
 Bij het nader kijken wordt er bedoelt dat er aantal situaties worden uitgewerkt. Denk hierbij bijvoorbeeld aan: wat gebeurt er met het systeem als ik een constante vijf keer zo groot maak? Ook wordt er gekeken naar het verloop van het systeem bij een doseringstop na een bepaalde tijd. Al deze situaties worden vergeleken met de experimentele data.
 
@@ -55,7 +55,64 @@ Er zijn een aantal verwachtingen bij het model. Allereerst wordt er verwacht dat
 
 ## Theorie
 
-> **Nog in te vullen...**
+> Afbeelding van biologisch model
+
+```{r, echo=FALSE, out.width='50%'}
+knitr::include_graphics('model.png')
+```
+
+Afbeelding 1: *Biologisch model van Glucocorticoid receptor dynamica*
+
+***
+
+In afbeelding 1 is het biologische model van glucocorticoïde dynamica te zien. Hierbij zijn veel constanten betrokken,
+die invloed uitoefenen op de hoeveelheid van het eindproduct. Deze worden verder op in dit hoofdstuk beschreven. "Glucocorticoids reverse this effect, resulting in rapid degradation of mRNA and reduced inflammatory protein secretion" \cite{NCBI}. 
+
+
+Het artikel beschrijft dat glucocorticoïden (drug) zorgt voor degradatie, ofwel vermindering van mRNA, wat resulteert in ontbrekende eiwitten betrokken bij ontstekingsreacties. Het biologisch model werkt deze constatering uit door naast de formule
+dat verandering in mRNA berekent over tijd, ook drie andere formules geeft die helpen bij het argumenteren wat er daadwerkelijk gebeurt met de receptoren die worden aangemaakt, het MPL-complex en vervolgens wat er dan gebeurt wanneer het MPL-complex in de celkern bevindt. In hoofdstuk Resultaten, is goed te zien hoe alle formules van elkaar afhangen.
+
+&nbsp;
+
+In het biologische model wordt de samenhang van vier vergelijkingen getoond, waar drug (D) reageert
+met receptor (R) tot een Glucocorticoidereceptorcomplex (DR), waar D dus glucocorticoïde is.
+In totaal zijn er veertien variabelen betrokken waar dieper op in wordt gegaan bij hoofdstuk "Model configuratie".
+
+Elke formule hieronder beschreven hangt af van aanmaak en afbraak.  Aan de linker kant wordt
+er stof X in context Y aangemaakt, wat afhankelijk is van een aantal parameters en daartegenover
+is aan de rechter kant van de minus de hoeveelheid dat ervan afgebroken wordt.
+
+De formule waar in dit onderzoek interesse op ligt, berekent de verandering in
+hoeveelheid mRNA dat getranscribeerd wordt tot receptoren afhankelijk van
+de verandering in tijd. Aan de linkerkant van de formule wordt mRNAr aangemaakt: mRNA dat codeert voor receptoren. 
+Snelheidsconstante $ks_{\_Rm}$ beïnvloed het tempo hiervan. Daartegenover beïnvloedt $k_{d\_Rm}$ aan de rechterkant de afbraak.
+
+
+
+$$\frac{dmRNA_R}{dt} = ks_{\_Rm} . (1 - \frac{DR(N)}{IC50_{Rm} + DR(N)}) - k_{d\_Rm} . mRNA_R$$
+
+De volgende formule bepaald hoe de verandering in vrije receptoren afhankelijk is van de verandering in tijd.
+
+Vervolgens is in de tweede formule op receptor niveau de snelheidsconstante $ks_{\_R}$ voor aanmaak van receptoren. Constante $k_{on}$ bepaalt de snelheid dat een MPL-receptor complex (DR) gemaakt, wat dus R kost en $kd_{\_R}$ geeft het tempo van afbraak van receptoren aan.
+
+
+
+
+$$\frac{dR}{dt} = ks_{\_R} . mRNA_R + Rf . k_{re} . DR(N ) - k_{on} . D . R - k_{d\_R} · R$$
+
+Verder wordt er gekeken naar hoe de verandering in glucocorticoïde (D) dat reageert met het aantal receptoren (R) tot DR
+afhankelijk is van de verandering in tijd. Aan de linkerkant is de productiesnelheid van DR afhankelijk van $k_{on}$ en rechts beïnvloedt $k_T$  de vermindering van
+DR in de omgeving. $K_T$ geeft het tempo aan dat het MPL-receptor complex verplaatst richting de nucleus, wat betekent dat de concentratie DR in de omgeving omlaag gaat.
+ 
+$$\frac{dDR}{dt} = k_{on} . D . R - k_T . DR$$
+
+Als laatste wordt de verandering in hoeveelheid DR in de nucleus (DR(N)) gezet tegen
+verandering in tijd. De concentratie DR(N) in de nucleus neemt toe door $k_T$. Vervolgens worden er MPL-receptoren van het
+complex afgehaald. $K_{re}$ geeft het tempo aan, waarmee deze receptoren terug worden getransporteerd naar het cytosol.
+
+$$\frac{dDR(N)}{dt} = k_T . DR - k_{re} . DR(N )$$
+In dit onderzoek worden er doses van methylprednisolon (MPL) toegepast van $D_1$ = 0.1 en $D_2$ = 0.3 mg drug/kg rat/h. De gemeten concentraties van deze dosissen worden gebruikt met $D_1$ = 14.59 ng/ml en $D_2$ = 39.925 ng/ml, maar deze moeten eerst nog worden omgerekend naar nmol / L. Daarop sluiten de volgende berekeningen. $D_1$ wordt $(14.59 . 1000) / 374.471$ en geeft 39.0 nmol / L. $D_2$ wordt $(39.925 . 1000) / 374.471$ en geeft 107 nmol / L.
+
 
 \pagebreak
 
@@ -669,11 +726,15 @@ Een verbeterpunt voor het volgende onderzoek is het gebruik van de experimentele
 ```{=tex}
 \begin{thebibliography}{9}
 
-\bibitem{deSolve}
-Soetaert, K., Petzoldt, T., and Woodrow Setzer, R.: \textit{Solving differential equations in R: package deSolve}, J. Stat. Softw., 33, 1-25, 2010.
+\bibitem{NCBI}
+Bergmann MW, Staples KJ, Smith SJ, Barnes PJ, Newton R (2004).,
+Am J Respir Cell Mol Biol 30: 555–563.: \textit{Glucocorticoids effects in degradation of mRNA}
 
 \bibitem{pander}
 Daróczi G, Tsegelskyi R (2022).: \textit{pander: An R 'Pandoc' Writer}. R package version 0.6.5, <https://CRAN.R-project.org/package=pander>.
+
+\bibitem{deSolve}
+Soetaert, K., Petzoldt, T., and Woodrow Setzer, R.: \textit{Solving differential equations in R: package deSolve}, J. Stat. Softw., 33, 1-25, 2010.
 
 \end{thebibliography}
 ```
