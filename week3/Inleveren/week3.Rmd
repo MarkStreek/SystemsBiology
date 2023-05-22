@@ -1,0 +1,835 @@
+---
+title: "Glucocorticoid receptor dynamics, a closer look"
+author: "L T Stein & M van de Streek"
+date: "`r Sys.Date()`"
+
+header-includes:
+   - \usepackage{longtable}
+   - \usepackage{hyperref}
+output:
+    pdf_document:
+      number_sections: yes
+linkcolor: blue
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+\pagebreak
+
+\tableofcontents
+
+\pagebreak
+
+# Afkortingen 
+
+* Glucocorticoïdereceptor (GR)
+* Methylprednisolon (MPL)
+* Receptor (R)
+* MPL (D)
+* MPL-receptor complex (DR)
+* Geactiveerd of in de celkern MPL-receptor complex (DR_N)
+
+\pagebreak
+
+# Introductie
+
+In dit verslag zal er nader gekeken worden naar de werking van glucocorticosteroïden. Er zal worden gekeken naar de dynamica hiervan. Het model wat gebruikt wordt, zal nader worden uitglegd in de theorie. De belangrijkste termen die hier voorbij zullen komen worden alvast kort uitgelegd. 
+
+Glucocorticosteroïden (D) zijn hormonen die worden geproduceerd in de bijnierschors. Het is een samenstelling van glucose, cortex en steroïde. glucocorticosteroïden worden ook vaak gebruikt in de remming van ontstekingen. De glucocorticosteroïden binden aan receptoren (R), er ontstaat dan een glucocorticoïdereceptorcomplex (DR). Dit complex verplaatst naar de celkern en bindt hier aan het DNA (DR_N). De transcriptie van genen die ontstekingen veroorzaken worden tegengehouden door de complexen. Tegelijkertijd worden de genen die ontsteking remmen juist gepromoveerd. Er komen dus meer eiwitten die de ontsteking onderdrukken.
+
+Bij het onderzoek zal gebruik gemaakt worden van experimentele data. Deze data is afkomstig van ratten. De ratten zijn zeven dagen lang geinfecteerd met methylprednisolon (een vorm van een glucocorticosteroïde). De ratten zijn geïnfecteerd met twee verschillende doses: 0.1 en 0.3 mg drug/kg rat/h. Hierover zal meer verteld worden in de theorie. 
+
+Bij het nader kijken wordt er bedoelt dat er aantal situaties worden uitgewerkt. Denk hierbij bijvoorbeeld aan: wat gebeurt er met het systeem als ik een constante vijf keer zo groot maak? Ook wordt er gekeken naar het verloop van het systeem bij een doseringstop na een bepaalde tijd. Al deze situaties worden vergeleken met de experimentele data.
+
+## Doel
+  
+Het doel van dit onderzoek is om erachter te komen welke elementen belangrijk zijn in het model. Dus de elementen die van grote invloed zijn op bepaalde waardes. Aan de hand hiervan kan er ook iets gezegd worden over de hoeveelheid drug die kan toe worden gediend.
+
+Dit doel kan bereikt worden door aanpassingen te doen aan het model en vervolgens te simuleren. Deze simulaties kunnen vergeleken worden met de experimentele data. Aan de hand hiervan kan worden vastgesteld of een aanpassing/weglating van een element in het model van grote invloed is.
+
+Er zijn een aantal verwachtingen bij het model. Allereerst wordt er verwacht dat het aantal receptoren een belangrijke factor zal zijn. Hier bindt de drug aan en zal dus belangrijk zijn. Verder zal ook het aantal drug een belangrijke rol spelen. Zoals eerder vermeld werden de ratten geïnfecteerd met een dosis van 0.1 (laag) en 0.3 (hoog). De verwachting is dat ergens tussen deze waarden een ideale dosering ligt. 
+
+\pagebreak
+
+## Theorie
+
+
+```{r, echo=FALSE, out.width='50%'}
+knitr::include_graphics('model.png')
+```
+
+Afbeelding 1: *Biologisch model van Glucocorticoid receptor dynamica*
+
+***
+
+In afbeelding 1 is het biologische model van glucocorticoïde dynamica te zien. Hierbij zijn veel constanten betrokken,
+die invloed uitoefenen op de hoeveelheid van het eindproduct. Deze worden verder op in dit hoofdstuk beschreven. "Glucocorticoids reverse this effect, resulting in rapid degradation of mRNA and reduced inflammatory protein secretion" \cite{NCBI}. 
+
+
+Het artikel beschrijft dat glucocorticoïden (drug) zorgt voor degradatie, ofwel vermindering van mRNA, wat resulteert in ontbrekende eiwitten betrokken bij ontstekingsreacties. Het biologisch model werkt deze constatering uit door naast de formule
+dat verandering in mRNA berekent over tijd, ook drie andere formules geeft die helpen bij het argumenteren wat er daadwerkelijk gebeurt met de receptoren die worden aangemaakt, het MPL-complex en vervolgens wat er dan gebeurt wanneer het MPL-complex in de celkern bevindt. In hoofdstuk Resultaten, is goed te zien hoe alle formules van elkaar afhangen.
+
+&nbsp;
+
+In het biologische model wordt de samenhang van vier vergelijkingen getoond, waar drug (D) reageert
+met receptor (R) tot een Glucocorticoidereceptorcomplex (DR), waar D dus glucocorticoïde is.
+In totaal zijn er veertien variabelen betrokken waar dieper op in wordt gegaan bij hoofdstuk "Model configuratie".
+
+Elke formule hieronder beschreven hangt af van aanmaak en afbraak.  Aan de linker kant wordt
+er stof X in context Y aangemaakt, wat afhankelijk is van een aantal parameters en daartegenover
+is aan de rechter kant van de minus de hoeveelheid dat ervan afgebroken wordt.
+
+De formule waar in dit onderzoek interesse op ligt, berekent de verandering in
+hoeveelheid mRNA dat getranscribeerd wordt tot receptoren afhankelijk van
+de verandering in tijd. Aan de linkerkant van de formule wordt mRNAr aangemaakt: mRNA dat codeert voor receptoren. 
+Snelheidsconstante $ks_{\_Rm}$ beïnvloed het tempo hiervan. Daartegenover beïnvloedt $k_{d\_Rm}$ aan de rechterkant de afbraak.
+
+
+
+$$\frac{dmRNA_R}{dt} = ks_{\_Rm} . (1 - \frac{DR(N)}{IC50_{Rm} + DR(N)}) - k_{d\_Rm} . mRNA_R$$
+
+De volgende formule bepaald hoe de verandering in vrije receptoren afhankelijk is van de verandering in tijd.
+
+Vervolgens is in de tweede formule op receptor niveau de snelheidsconstante $ks_{\_R}$ voor aanmaak van receptoren. Constante $k_{on}$ bepaalt de snelheid dat een MPL-receptor complex (DR) gemaakt, wat dus R kost en $kd_{\_R}$ geeft het tempo van afbraak van receptoren aan.
+
+
+
+
+$$\frac{dR}{dt} = ks_{\_R} . mRNA_R + Rf . k_{re} . DR(N ) - k_{on} . D . R - k_{d\_R} · R$$
+
+Verder wordt er gekeken naar hoe de verandering in glucocorticoïde (D) dat reageert met het aantal receptoren (R) tot DR
+afhankelijk is van de verandering in tijd. Aan de linkerkant is de productiesnelheid van DR afhankelijk van $k_{on}$ en rechts beïnvloedt $k_T$  de vermindering van
+DR in de omgeving. $K_T$ geeft het tempo aan dat het MPL-receptor complex verplaatst richting de nucleus, wat betekent dat de concentratie DR in de omgeving omlaag gaat.
+ 
+$$\frac{dDR}{dt} = k_{on} . D . R - k_T . DR$$
+
+Als laatste wordt de verandering in hoeveelheid DR in de nucleus (DR(N)) gezet tegen
+verandering in tijd. De concentratie DR(N) in de nucleus neemt toe door $k_T$. Vervolgens worden er MPL-receptoren van het
+complex afgehaald. $K_{re}$ geeft het tempo aan, waarmee deze receptoren terug worden getransporteerd naar het cytosol.
+
+$$\frac{dDR(N)}{dt} = k_T . DR - k_{re} . DR(N )$$
+In dit onderzoek worden er doses van methylprednisolon (MPL) toegepast van $D_1$ = 0.1 en $D_2$ = 0.3 mg drug/kg rat/h. De gemeten concentraties van deze dosissen worden gebruikt met $D_1$ = 14.59 ng/ml en $D_2$ = 39.925 ng/ml, maar deze moeten eerst nog worden omgerekend naar nmol / L. Daarop sluiten de volgende berekeningen. $D_1$ wordt $(14.59 . 1000) / 374.471$ en geeft 39.0 nmol / L. $D_2$ wordt $(39.925 . 1000) / 374.471$ en geeft 107 nmol / L.
+
+
+\pagebreak
+
+# Methode
+
+## Het software model
+    
+Om de dynamica van de systemen eenvoudig weer te geven, moeten de differentiaal vergelijkingen worden uitgevoerd met verschillende waardes. Dit zal gedaan worden met het deSolve pakket \cite{deSolve} (versie 1.35) in R (versie 4.2.2). 
+
+Er worden twee scenario's behandeld. Er wordt allereerst gekeken naar de validiteit van het model. Vervolgens zal er naar simulatie scenario's worden gekeken, d.w.z. wat gebeurt er met het systeem als een waarde wordt aangepast of weggelaten.
+
+Bij beide scenario's zijn ook vragen. De antwoorden hierop worden in de resultaten sectie gegeven. Hier worden ook alle grafieken geplot.
+
+```{r}
+# Inladen van het deSolve pakket
+library(deSolve)
+```
+
+```{r}
+# Inladen van de experiment data
+experiment.data <- read.csv("../MPL.csv", header = T, sep = ",")
+medians <- aggregate(experiment.data[,c("MPL_conc","mRNA","Free_receptor")],
+                     list(experiment.data$dose,experiment.data$time),
+                     median, na.rm=TRUE)
+
+# Goede namen geven aan de kolommen
+names(medians)[1:2] <- c("dose","time")
+```
+
+Onderstaand een functie die wordt gebruikt voor een legenda bij elke grafiek.
+
+```{r}
+legend.graph <- function(){
+  return(
+    legend("topright", 
+       legend = c("Model", "Median 0.1", "Median 0.3", "Experiment"),
+       col = c("#21A9AD", "darkred", "darkgreen", "grey"),
+       pch = c(NA, NA, NA, 1),
+       lwd = c(2, 2, 2, NA)
+       )
+  )
+}
+```
+
+
+\pagebreak
+
+Functie die de verandering berekend. Deze zal worden gebruikt voor scenario één.
+
+```{r}
+verandering_dt.1 <- function (time, parameters, initial.values, D) {
+  with(as.list(c(parameters, initial.values)),{
+    # Vergelijking van mRNAr
+    mRNAr.dt <- Ks_Rm * (1 - (DR_N / (IC50_Rm + DR_N))) - Kd_Rm * mRNAr
+    # Vergelijking van R
+    R.dt <- Ksr * mRNAr + RF * Kre * DR_N - Kon * D * R - Kd_R * R
+    # Vergelijking van DR
+    DR.dt <- Kon * D * R - KT * DR
+    # Vergelijking van DR(N)
+    DR_N.dt <- KT * DR - Kre * DR_N
+    
+    # Retourneren van de initiële waardes
+    return(list(c(DR_N.dt, mRNAr.dt, R.dt, DR.dt)))
+  })
+}
+```
+
+Onderstaand de functie die wordt gebruikt bij vraag 1 van scenario twee.
+
+```{r}
+verandering_dt.2.1 <- function (time, parameters, initial.values, D) {
+  with(as.list(c(parameters, initial.values)),{
+    # Vergelijking van mRNAr
+    mRNAr.dt <- Ks_Rm * (1 - (DR_N / (IC50_Rm + DR_N))) - Kd_Rm * mRNAr
+    # Vergelijking van R
+    R.dt <- Ksr * mRNAr + RF * Kre * DR_N - Kon * R - Kd_R * R
+    # Vergelijking van DR
+    DR.dt <- Kon * D * R - KT * DR
+    # Vergelijking van DR(N)
+    DR_N.dt <- KT * DR - Kre * DR_N
+    
+    # Retourneren van de initiële waardes
+    return(list(c(DR_N.dt, mRNAr.dt, R.dt, DR.dt)))
+  })
+}
+```
+
+\pagebreak
+
+Bij vraag 2 van scenario twee wordt er gekeken wat er gebeurt met het verloop als de toevoeging van D stopt na verloop van tijd. Onderstaand wordt hiervoor de gebruikte functie gedefinieerd.
+
+```{r}
+verandering_dt.2.2 <- function (time, parameters, initial.values, D) {
+  with(as.list(c(parameters, initial.values)),{
+    # D steady
+    if (time>35) {
+    D <- 0
+    } 
+    # Vergelijking van mRNAr
+    mRNAr.dt <- Ks_Rm * (1 - (DR_N / (IC50_Rm + DR_N))) - Kd_Rm * mRNAr
+    # Vergelijking van R
+    R.dt <- Ksr * mRNAr + RF * Kre * DR_N - Kon * D * R - Kd_R * R
+    # Vergelijking van DR
+    DR.dt <- Kon * D * R - KT * DR
+    # Vergelijking van DR(N)
+    DR_N.dt <- KT * DR - Kre * DR_N
+    
+    # Retourneren van de initiële waardes
+    return(list(c(DR_N.dt, mRNAr.dt, R.dt, DR.dt)))
+  })
+}
+```
+
+
+
+Voor vraag 4 van scenario twee wordt er gekeken naar het stopzetten van de synthese van R. Onderstaand de juiste functie en berekening.
+
+```{r}
+verandering_dt.2.4 <- function (time, parameters, initial.values, D, Ks_Rm) {
+  with(as.list(c(parameters, initial.values)),{
+    # Vergelijking van mRNAr
+    mRNAr.dt <- Ks_Rm * (1 - (DR_N / (IC50_Rm + DR_N))) - Kd_Rm * mRNAr
+    # Vergelijking van R
+    R.dt <- Ksr * mRNAr + RF * Kre * DR_N - Kon * D * R - Kd_R * R
+    # Vergelijking van DR
+    DR.dt <- Kon * D * R - KT * DR
+    # Vergelijking van DR(N)
+    DR_N.dt <- KT * DR - Kre * DR_N
+    
+    # Retourneren van de initiële waardes
+    return(list(c(DR_N.dt, mRNAr.dt, R.dt, DR.dt)))
+  })
+}
+```
+
+\pagebreak
+
+## Model configuratie
+    
+```{r}
+# Pakket inladen voor mooiere tabel
+library(pander)
+```
+
+Tabel 1: *Variabelen betrokken bij opzetten experiment opgedeeld in zeven konstantes, drie parameters en vier initiële waarden.*
+          
+```{r}
+# Drie categorieën aan soorten input waarden
+Categorie <- c(rep("Initiële waarden", 4), 
+               rep("Parameters", 10))
+
+# Waarden uit bovenstaande categorieën verkregen van experiment
+# Omdat DR een reactie is tussen D en R gaan de waarden keer elkaar
+Waarden<- c("mRNAr"=4.74, "DR_N"=0, "R"=267, "DR"=0, "ks_Rm"=2.90, 
+          "kd_Rm"= 0.612, "k_re"=0.57, "k_T"=0.63,  "k_on"= 0.00329, 
+          "k_d_R"=0.0572, "k_s_r"=3.22, "IC50_Rm"=26.2, "RF"=0.49, "D"=53.4)
+
+# Eenheden in een vector verwerkt. Met functie 'rep()' kan een iterable X
+# keer herhaald worden.
+Eenheden <- c("fmol / g liver", rep("fmol/mg protein", 3),
+              rep("fmol/g liver/h", 2), rep("1 / h", 2),
+              "L/nmol/h", rep("1 / h", 2), "fmol/mg protein",
+              "", "nmol/L")
+
+
+
+# Dataframe waar vector namen in de header komen, waarde namen als rijnamen 
+# en de daadwerkelijke waarden daarin verwerkt.
+model.conf <- data.frame(Waarden, Categorie, Eenheden)
+# Tekenen van tabel
+pander(model.conf)
+```
+
+Zoals eerder vermeld worden er twee situaties uitgewerkt. Er wordt allereerst gekeken naar de validiteit van het model. Hierbij worden een aantal vragen beantwoord. De antwoorden op de vragen bevinden zich in de resultaten sectie. Er moet wel veel verschuiving in de parameters plaatsvinden, dit wordt allemaal in de onderstaande alinea('s) weergegeven.
+
+Hieronder staan de parameters die gebruikt zijn bij scenario één. Wat belangrijk is om op te merken
+is dat D niet in de vectoren wordt verwerkt, omdat de concentraties in het onderzoek variëren
+van 53.4 tot 39 (dosis 0.1) tot 107 (dosis 0.3). Als oplossing worden de concentraties direct aan functie ode() gegeven.
+
+```{r}
+# Definiëren van de parameters
+parameters.1 <- c(Ks_Rm = 2.90, IC50_Rm = 26.2, 
+                Kon = 0.00329, KT = 0.63, 
+                Kre = 0.57, RF = 0.49, 
+                Kd_R = 0.0572, Kd_Rm = 0.612, 
+                Ksr = 3.22)
+# 53.4
+# Tijdspunten definiëren
+times.1 <- 0 : 200
+
+# Het definiëren van de initiële waardes
+initial.values.1 <- c(DR_N = 0, mRNAr = 4.74, R = 267, DR = 0)
+```
+
+tijdverloop voor vraag 1 van scenario twee.
+
+```{r}
+times.2.1 <- 0 : 48
+```
+
+Bij scenario twee (simulatie scenario's) zijn veel verschillende parameters gebruikt. In opdracht drie blijven de waarden van tijd en D hetzelfde. Echter veranderen
+parameters Kre en Kon bij concentraties R en mRNAr. Per concentratie zullen de concentraties
+dissocieren en associeren met vijf en twee door de volgende formules. Waar dissociatie
+wordt bepaald door deling met vijf en twee, associatie wordt bepaald door vermenigvuldiging met twee
+en vijf.
+
+```{r}
+# Kon / 5
+parameters.1["Kon"] = 0.00329 / 5
+dataset.kon.g5 <- ode(initial.values.1, times.1, 
+                      verandering_dt.1, parameters.1, D = 53.4)
+
+# Kon / 2
+parameters.1["Kon"] = 0.00329 / 2
+dataset.kon.g2 <- ode(initial.values.1, times.1, 
+                      verandering_dt.1, parameters.1, D = 53.4)
+
+# Kon * 5
+parameters.1["Kon"] = 0.00329 * 5
+dataset.kon.k5 <- ode(initial.values.1, times.1, 
+                      verandering_dt.1, parameters.1, D = 53.4)
+
+# Kon * 2
+parameters.1["Kon"] = 0.00329 * 2
+dataset.kon.k2 <- ode(initial.values.1, times.1, 
+                      verandering_dt.1, parameters.1, D = 53.4)
+
+# Kre variabele
+# Kre / 5
+parameters.1["Kre"] = 0.57 / 5
+dataset.kre.g5 <- ode(initial.values.1, times.1, 
+                      verandering_dt.1, parameters.1, D = 53.4)
+
+# Kre / 2
+parameters.1["Kre"] = 0.57 / 2
+dataset.kre.g2 <- ode(initial.values.1, times.1,
+                      verandering_dt.1, parameters.1, D = 53.4)
+
+# Kre * 5
+parameters.1["Kre"] = 0.57 * 5
+dataset.kre.k5 <- ode(initial.values.1, times.1,
+                      verandering_dt.1, parameters.1, D = 53.4)
+
+# Kre * 2
+parameters.1["Kre"] = 0.57 * 2
+dataset.kre.k2 <- ode(initial.values.1, times.1, 
+                      verandering_dt.1, parameters.1, D = 53.4)
+
+```
+
+In opgave vier blijft de tijdsequentie en D hetzelfde, maar Ks_Rm wordt gezet naar nul.
+Dit zorgt ervoor dat de synthese van R tot stop wordt gezet.
+
+
+
+> Ks_Rm <- 0
+
+> D <- 53.4
+
+> times <- 0:48
+
+
+In opgave vijf veranderen de parameters Ks_Rm en Kd_Rm op basis van toename (keersom) van twee en vijf
+of een afname (deling) van twee en vijf. Echter is Kd_Rm bij iedere toename of afname nog afhankelijk van de
+hoeveelheid mRNAr vanaf t = 0, wat 4.74 is. Door het veranderen van deze snelheidsconstanten wordt de aanmaak
+van mRNAr beïnvloed.
+
+```{r}
+parameters.2 <- c(Ks_Rm = 2.90, IC50_Rm = 26.2, 
+                Kon = 0.00329, KT = 0.63, 
+                Kre = 0.57, RF = 0.49, 
+                Kd_R = 0.0572, Kd_Rm = 0.612, 
+                Ksr = 3.22)
+
+
+parameters.2["Ks_Rm"] = 2.9 / 5
+parameters.2["Kd_Rm"] = 2.9 / 5 / 4.74
+dataset.g5 <- ode(initial.values.1, times.2.1, verandering_dt.2.4, parameters.2, D = 53.4)
+
+
+parameters.2["Ks_Rm"] = 2.9 / 2
+parameters.2["Kd_Rm"] = 2.9 / 2 / 4.74 
+dataset.g2 <- ode(initial.values.1, times.2.1, verandering_dt.2.4, parameters.2, D = 53.4)
+
+
+parameters.2["Ks_Rm"] = 2.9 * 5
+parameters.2["Kd_Rm"] = 2.9 * 5 / 4.74
+dataset.k5 <- ode(initial.values.1, times.2.1, verandering_dt.2.4, parameters.2, D = 53.4)
+
+
+parameters.2["Ks_Rm"] = 2.9 * 2
+parameters.2["Kd_Rm"] = 2.9 * 2 / 4.74
+dataset.k2 <- ode(initial.values.1, times.2.1, verandering_dt.2.4, parameters.2, D = 53.4)
+```
+
+\pagebreak
+
+# Resultaten
+    
+In deze sectie zal er worden gekeken naar de resultaten. Omdat er vragen worden  beantwoordt, zal per code worden aangegeven bij de titel om welke vraag(nummer) het gaat.
+
+### Median experimantal data (1.1)
+
+```{r, fig.cap="*De bovenstaande figuur geeft het model en de experimentele waardes weer. De verloop van het model is een vloeiende lijn die eerste daalt en vervolgens weer iets stijgt en naar een constante waarde gaat. De rode lijn geeft de experimentele data weer van de lage dosis. De groene lijn geeft de hoge dosis weer. Beide lijnen zijn schokkerige lijnen. De waardes van de experimentele data liggen iets onder de model waardes. De lijnen voor de vrije receptor (figuur 2) zitten ongeveer op dezelfde waardes, halverwege vertoond het experiment een kleine piek.*"}
+verloop.dataset <- ode(initial.values.1, times.1, 
+                       verandering_dt.1, parameters.1, D = 53.4)
+verloop.dataset.lage.doses <- ode(initial.values.1, 
+                            times.1, verandering_dt.1, parameters.1, D = 39)
+verloop.dataset.hoge.doses <- ode(initial.values.1, 
+                            times.1, verandering_dt.1, parameters.1, D = 107)
+
+# mRNA plot - experiment - model
+
+plot(verloop.dataset[,"mRNAr"], 
+     type="l",
+     main = "Verloop van mRNAr (zowel model als experiment)",
+     xlab="Time", ylab="mRNAr", 
+     lwd = 2, ylim = c(0, 8), xlim = c(0, 150), 
+     col = "#21A9AD")
+
+lines(medians$mRNA[medians$dose == 0.1] ~ medians$time[medians$dose == 0.1], 
+      type = "l", lwd = 2, col = "darkred")
+
+lines(medians$mRNA[medians$dose == 0.3] ~ medians$time[medians$dose == 0.3], 
+      type = "l", lwd = 2, col = "darkgreen")
+
+points(experiment.data$mRNA, 
+       col = "black", pch = 1, cex = .7)
+
+legend.graph()
+
+# Free receptor R plot - experiment - model
+
+plot(verloop.dataset[,"R"], 
+     type="l",
+    main = "Verloop van R (zowel model als experiment)",
+     xlab="Time", ylab="vrije receptor (R)", 
+     lwd = 2, ylim = c(0, 500), xlim = c(0, 150), 
+     col = "#21A9AD")
+
+lines(medians$Free_receptor[medians$dose == 0.1] ~ medians$time[medians$dose == 0.1], 
+      type = "l", lwd = 2, col = "darkred")
+
+lines(medians$Free_receptor[medians$dose == 0.3] ~ medians$time[medians$dose == 0.3], 
+      type = "l", lwd = 2, col = "darkgreen")
+
+points(experiment.data$Free_receptor, 
+       col = "black", pch = 1, cex = .7)
+
+legend.graph()
+```
+
+Door het plotten van een mediaan wordt het midden van de data gevisualiseerd. De helft van de data
+ligt boven de lijn en de andere helft eronder. De data wordt niet naar beneden (getrokken) door uitschieters,
+daarom is het een mooie methode om het verloop te zien.
+
+### Adjusting D value  (1.2)
+
+```{r, fig.cap="*Voor figuur 3 en 4 geldt hetzelfde verhaal als voor figuur 1 en 2. Er wordt nu voor zowel mRNA als R een grafiek weergegeven voor een lage dosis D en een hoge dosis D. Bij de grafieken van R zijn de pieken halverwge hoger*"}
+par(mfrow = c(1,2))
+
+# Verloop van mRNAr
+
+plot(verloop.dataset.lage.doses[,"mRNAr"],
+     main = "mRNAr met lage dosis",
+     type="l", xlab="Time", ylab="mRNAr", 
+     lwd = 2, xlim = c(0, 150), ylim = c(0, 8), col = "#21A9AD")
+
+lines(medians$mRNA[medians$dose == 0.1] ~ medians$time[medians$dose == 0.1],
+      type = "l", lwd = 2, col = "darkred")
+
+lines(medians$mRNA[medians$dose == 0.3] ~ medians$time[medians$dose == 0.3], 
+      type = "l", lwd = 2, col = "darkgreen")
+
+points(experiment.data$mRNA, col = "black", pch = 1, cex = .7)
+
+legend.graph()
+
+plot(verloop.dataset.hoge.doses[,"mRNAr"], 
+     main = "mRNAr met hoge dosis",
+     type="l", xlab="Time", ylab="Free receptor", 
+     lwd = 2, xlim = c(0, 150), ylim = c(0, 8), 
+     col = "#21A9AD")
+
+lines(medians$mRNA[medians$dose == 0.1] ~ medians$time[medians$dose == 0.1], 
+      type = "l", lwd = 2, col = "darkred")
+
+lines(medians$mRNA[medians$dose == 0.3] ~ medians$time[medians$dose == 0.3], 
+      type = "l", lwd = 2, col = "darkgreen")
+
+points(experiment.data$mRNA, pch = 1, cex = .7, 
+       col = "black")
+
+legend.graph()
+
+# Verloop bij vrije receptoren
+
+par(mfrow = c(1,2))
+plot(verloop.dataset.lage.doses[,"R"],
+     main = "Free receptor (R) met lage dosis",
+     type="l", xlab="Time", 
+     ylab="Free receptor", 
+     lwd = 2, xlim = c(0, 140), 
+     ylim = c(0, 500), 
+     col = "#21A9AD")
+
+lines(medians$Free_receptor[medians$dose == 0.1] ~ medians$time[medians$dose == 0.1], 
+      type = "l", 
+      lwd = 2, 
+      col = "darkred")
+
+lines(medians$Free_receptor[medians$dose == 0.3] ~ medians$time[medians$dose == 0.3], 
+      type = "l", 
+      lwd = 2, 
+      col = "darkgreen")
+
+points(experiment.data$Free_receptor, 
+       col = "black", 
+       pch = 1, 
+       cex = .7)
+
+points(medians$MPL_conc[medians$dose == 0.1] ~ medians$time[medians$dose == 0.1], 
+       lwd = 2, col = "orange")
+
+legend.graph()
+
+plot(verloop.dataset.hoge.doses[,"R"],
+     main = "Free receptor (R) met hoge dosis",
+     type="l", 
+     xlab="Time", 
+     ylab="Free receptor", 
+     lwd = 2, xlim = c(0, 140), 
+     ylim = c(0, 500), 
+     col = "#21A9AD")
+
+lines(medians$Free_receptor[medians$dose == 0.1] ~ medians$time[medians$dose == 0.1], 
+      type = "l", 
+      lwd = 2, col = "darkred")
+
+lines(medians$Free_receptor[medians$dose == 0.3] ~ medians$time[medians$dose == 0.3], 
+      type = "l", 
+      lwd = 2, 
+      col = "darkgreen")
+
+points(experiment.data$Free_receptor, 
+       col = "black", 
+       pch = 1, 
+       cex = .7)
+
+points(medians$MPL_conc[medians$dose == 0.3] ~ medians$time[medians$dose == 0.3],
+       lwd = 1, col = "orange", type = "b")
+
+legend.graph()
+```
+
+In het verloop van mRNA is weinig verandering te zien afhankelijk van de dosis. Er is weliswaar bij een hoge dosis
+een lager aantal mRNA, dit is absoluut niet significant. Verder is er wel een groot verschil bij het aantal vrije
+receptoren door een hogere dosis drug (D).
+
+Dit is goed te verklaren doordat bij een hogere hoeveelheid er meer MPL bindt aan de receptoren, dus dit betekent
+dat de concentratie van het MPL-complex omhoog gaat.
+
+### Results in line with experiment  (1.3)
+
+De resultaten van het model liggen over het algemeen op een goede lijn met de experimentele data.
+Bij het aantal vrije receptoren ligt het verloop van het model tussen de twee medianen, dus
+overlapt het model goed met experimentele data. Echter is er wel een lagere werkelijkheid bij het aantal mRNA.
+Dat wil zeggen het aantal mRNA wordt hoger geschat in het model.
+
+### No auto-regulation (2.1)
+
+```{r, fig.cap="*Figuren die het verloop van de concentraties weergeven over tijd. Bij elke figuur is op de x-as de tijd (in uren) zichtbaar. Op de y-as staat de concentratie in de juiste eenheid. Grafiek 1 geeft het verloop van de concentratie MPL-complex in de celkern weer. Grafiek 2 geeft de concentratie mRNA receptoren weer. Grafiek 3 geeft het verloop van vrije receptoren weer. En de laatste grafiek (4) geeft het verloop van het MPL-complex weer wat niet geactiveerd is.*"} 
+
+# Het aanroepen van de ode functie, waardes worden opgeslagen
+verloop.dataset.r.niet.afhankelijk <- ode(initial.values.1, 
+                      times.2.1, verandering_dt.2.1, parameters.1, D=53.4)
+
+# plotten van vier formules in vier grafieken
+par(mfrow = c(1,2))
+plot(verloop.dataset.r.niet.afhankelijk[,"DR_N"], 
+     lwd = 2.5,
+     main = "Figuur A",
+     xlab = "Tijd (in uren)",
+     ylab = "Aantal stof (in fmol/mg eiwit)",
+     col = "darkblue",
+     type = "l")
+
+plot(verloop.dataset.r.niet.afhankelijk[,"mRNAr"],
+     lwd = 2.5,
+     main = "figuur B",
+     xlab = "Tijd (in uren)",
+     ylab = "Aantal stof (in fmol/g lever)",
+     col = "blue",
+     type = "l")
+```
+
+In figuur 5 wordt het model geplot nadat D weggehaald wordt uit de formule van 
+"R.dt" uit de keersom met Kon * R. Het doel is om te kijken wat er gebeurt met de concentratie DR_N wanneer
+R niet afhankelijk is aan D. We halen D uit de formule, omdat het de synthese van mRNA voor vrije receptor betreft.
+
+Op de x-as staat de hoeveelheid stof in fmol/mg eiwit en de y-as geeft de tijd in uren. In grafiek A
+is het verloop van DR_N te zien, die eerst snel toeneemt en vervolgens minder snel toeneemt in een lineaire lijn. 
+Tevens is in figuur B het verloop van mRNA receptoren te zien, waar het eerst sterk afneemt en vervolgens langzaam
+lineair door blijft dalen. 
+
+### Steady state (2.2)
+
+```{r, fig.cap="*In figuur 6/7 is het verloop te zien van grafiek C en D (DR_N en mRNAr) waarbij doses (D) naar nul gaat zodra de steady state wordt bereikt bij t = 35. Op de x-as staat de hoeveelheid stof in fmol/mg eiwit en de y-as geeft de tijd in uren.*"}
+verloop.dataset.steady <- ode(initial.values.1, times.2.1, 
+                              verandering_dt.2.2, parameters.1, D=53.4)
+
+plot(verloop.dataset.steady[,"DR_N"], 
+     type = "l", main = "Figuur C",
+     xlab = "Tijd (in uren)",
+     ylab = "Hoeveelheid DR_N (n)")
+
+plot(verloop.dataset.steady[,"mRNAr"],
+     type = "l", main = "Figuur D",
+     xlab = "Tijd (in uren)",
+     ylab = "Hoeveelheid mRNAr (n)")
+
+```
+
+
+
+Tabel 2: *Tabel waarin is te zien dat er ongeveer een steady state is bereikt bij t = 35.*
+
+```{r}
+pander(verloop.dataset[30:40,])
+```
+
+Het is duidelijk te zien in beide grafieken wanneer de drug dosis naar 0 gaat.
+
+### Changing Kre/Kon (2.3)
+
+```{r, fig.cap="*In figuur 8 en 9 zitten in ieder acht plots van zowel mRNAr als R. Deze plots zijn geletterd van E t/m T. Verder staan op de y-as de hoeveelheid mRNAr of R en op de x-as de tijd (in uren).*"}
+# Stel de datasetnamen in een lijst
+dataset_list <- list(dataset.kon.g5, dataset.kon.g2, 
+                     dataset.kon.k5, dataset.kon.k2, dataset.kre.g5, 
+                     dataset.kre.g2, dataset.kre.k5, dataset.kre.k2)
+
+# Stel de plotlabels in een lijst
+label_list <- c("mRNAr Kon / 5 (E)", "R Kon / 5 (F)", "mRNAr Kon / 2 (G)", 
+                "R Kon / 2 (H)", "mRNAr Kon * 5 (I)", "R Kon * 5 (J)", 
+                "mRNAr Kon * 2 (K)", "R Kon * 2 (L)",
+                "mRNAr Kre / 5 (M)", "R Kre / 5 (N)", "mRNAr Kre / 2 (O)" , 
+                "R Kre / 2 (P)", "mRNAr Kre * 5 (Q)", "R Kre * 5 (R)", 
+                "mRNAr Kre * 2 (S)", "R Kre * 2 (T)")
+
+par(mfrow = c(2, 4))
+
+# Maak een lus om de plots te maken voor elke dataset
+for (i in 1:length(dataset_list)) {
+  plot(dataset_list[[i]][, "mRNAr"], type = "l", main = label_list[2*i-1])
+  plot(dataset_list[[i]][, "R"], type = "l", main = label_list[2*i])
+}
+```
+
+Voor zowel mRNAr en R wordt het verloop weergeven met aangepaste parameters. De parameters 'Kon'
+en 'Kre' worden aangepast op de volgende manier. $Kre$ of $Kon$ worden gedeeld door vijf en twee,
+ook worden ze vermenigvuldigd met vijf en twee.
+
+Allereerste wordt er gekeken naar de verandering in mRNAr.
+Bij een deling van vijf bij $Kon$ daalt de grafiek sneller aan het begin tot t = 10. Vervolgens
+neemt het minder snel toe. Bij de deling door twee is er een minuscuul verschil. De vermenigvuldiging van $Kon$ vertoont bij vijf een snellere daling. Het tweede deel van de grafiek vertoont geen verschil met de originele waarde. Dit geldt ook bij de vermenigvuldiging van twee.
+
+Verder is bij een deling van vijf voor $Kre$ een groter verschil. De daling aan het begint
+lijkt indentiek te zijn, maar de toename neemt minder snel toe tot bijna een rechte lijn.
+Bij de deling door twee is er het begin ook bijna identiek, maar is de stijging minder snel. Voor de vermenigvuldiging van $Kre$ met vijf is er een sneller daling aan het begin en vervolgens een snellere stijging. De steady state is ook hoger dan in het originele model. Bij de vermenigvuldiging van twee geldt hetzelfde verhaal, maar dan in mindere mate, d.w.z, de stijging is iets minder snel dan bij de vermenigvuldiging van vijf.
+
+&nbsp;
+
+Nu de mRNA behandelt is, kan er gekeken worden naar het verloop van de vrije receptoren.
+
+Alle grafieken van R vertonen kleine veranderingen. Om te beginnen met de deling van vijf voor $Kon$. Bij deze grafiek is de afname minder snel dan bij het originele. De deling van twee vertoont bijna een identiek beeld met de deling van vijf. Voor de vermenigvuldiging geldt een omgekeerde beeld. De afname is voor zowel, vijf als twee, sneller. De vermenigvuldiging van vijf vertoont een significant sneller beeld. 
+
+Voor de correcties van $Kre$ heeft de deling meer effect dan de vermenigvuldiging. Bij de vermenigvuldiging (zowel vijf als twee) ontstaan grafieken die bijna hetzelfde beeld vertonen als het originele model. Alleen de stijging is een fractie sneller. De deling komt wel een ander beeld naar voren. De stijging is bij de vermenigvuldiging van vijf een stuk sneller. De steady state een stuk lager als bij het originele model. Voor de vermenigvuldiging van twee is de stijging sneller, maar niet sneller dan die van vijf. De steady state komt ook hier lager uit.
+
+### Blocking synthesis (2.4)
+
+```{r, fig.cap="*In figuur 10 is het verloop te zien van de hoeveelheid vrije R en mRNAr waarbij de constante kS_rm is veranderd naar 0. Beide grafieken lijken op het 'normale/originele model'*"}
+dataset.geen.R.synthese <- ode(initial.values.1, times.2.1, 
+                      verandering_dt.2.4, parameters.1, D = 53.4, Ks_Rm = 0)
+par(mfrow = c(1,2))
+plot(dataset.geen.R.synthese[, "R"], 
+     xlab = "Tijd (in uren)", 
+     ylab = "hoeveelheid R", 
+     type = "l",
+     main = "vrije R synthese (U)")
+
+plot(dataset.geen.R.synthese[, "mRNAr"], 
+     xlab = "Tijd (in uren)", 
+     ylab = "hoeveelheid mRNAr", 
+     type = "l",
+     main = "mRNAr productie (V)")
+```
+
+In figuur 10 is het verloop te zien van de hoeveelheid vrije R in grafiek U. Om deze grafiek te maken 
+is parameter Ks_Rm naar nul veranderd. Ks_Rm is verantwoordelijk voor de aanmaak per tijdeenheid van mRNAr.
+Door deze parameter naar nul te veranderen, zal in verloop van tijd geen mRNAr meer worden
+aangemaakt. Dit is te zien in grafiek V waar de hoeveelheid mRNAr bij t ~ 30 constant blijft.
+In grafiek V is te zien dat de hoeveelheid mRNAr is afneemt via de y-as en over tijd
+zal de toename tot bijna constant verlopen.
+
+Daarom is in grafiek U te zien dat de hoeveelheid vrije R blijft afnemen, dat
+verloopt tot een constante lijn bij y ~ 40-50 en bij t ~ 20. Omdat vrije R hergebruikt wordt
+zal er altijd een beetje aanwezig blijven en de lijn dus nooit 0 raken.
+
+### Changing Ks_Rm en Kd_Rm (2.5)
+
+In de plotten beneden wordt er gekeken naar wat er gebeurt in het systeem, als de snelheidsconstanten Ks_Rm en Kd_rm die de aanmaak en afbraak van mRNAr beïnvloeden
+toenemen of afnemen. 
+
+
+```{r, fig.cap = "In de bovenstaande figuur staan in de vier grafieken op de x-as het verloop van tijd in uren en op de y-as de verandering in stof verschillend per context. In grafiek B is te zien hoe de hoeveelheid mRNA eerst afneemt bij omzetting naar R. Vervolgens verloopt de aanmaak mRNAr richting een bijna constante lijn vanaf t ~ 10. De hoeveelheid R in grafiek C neemt eerst alleen af, omdat er DR vormt. Over tijd zal R (n) als gevolg van de monotone productie in mRNAr, geen veranderingen meer hebben in toename of afname. Verder is te zien dat de concentraties MPL-complex in grafieken A en D eerst toenemen, maar vervolgens zal de de productie ook niet meer veranderen. Op basis van de bovenstaande bevindingen is te zien, dat het systeem reageert zoals verwacht op het stilliggende gedrag van de productie in mRNAr."}
+
+plot(dataset.g2, main = c("DR_N (A)", "mRNAr (B)", 
+                          "R (C)", "DR (D)"),
+     ylab = c("hoeveelheid DR_N (n)", "hoeveelheid mRNAr (n)",
+              "hoeveelheid R (n)", "hoeveelheid DR (n)"),
+     xlab = "Tijd (in uren)")
+mtext("Ks_Rm en Kd_Rm gedeeld door vijf",                   
+      side = 3,
+      line = - 1,
+      outer = TRUE)
+```
+
+\pagebreak
+
+```{r, fig.cap = "In grafiek B is te zien hoe de hoeveelheid mRNA langzamer afneemt dan bij figuur 9. Vervolgens verloopt de aanmaak vanaf t ~ 20 mRNAr minder snel richting een constante lijn. De hoeveelheid R in grafiek C neemt minder snel af in het begin. De rest van de curve verloopt hetzelfde. Grafieken A en D verlopen nagenoeg hetzelfde."}
+plot(dataset.g5, main = c("DR_N (A)", "mRNAr (B)", 
+                          "R (C)", "DR (D)"),
+     ylab = c("hoeveelheid DR_N (n)", "hoeveelheid mRNAr (n)",
+              "hoeveelheid R (n)", "hoeveelheid DR (n)"),
+     xlab = "Tijd (in uren)")
+mtext("Ks_Rm en Kd_Rm gedeeld door twee",                   
+      side = 3,
+      line = - 1,
+      outer = TRUE)
+```
+
+Het wordt duidelijk dat bij een deling door twee, minder grote impact is op de aanmaak van receptoren dan bij een deling van 5.
+
+&nbsp;
+
+\pagebreak
+
+```{r, fig.cap = "In grafiek B is te zien hoe de hoeveelheid mRNA eerst stijl afneemt bij omzetting naar R. Vervolgens verloopt de aanmaak mRNAr richting een constante lijn, op een gelijke manier als bij figuur 9. Echter begint de aanmaak al bij t ~ 5. In grafiek C neemt R (n) steiler af. Grafieken A en D reageren als gevolg van het gedrag van grafiek B op dezelfde wijze als in figuur 9."}
+plot(dataset.k5, main = c("DR_N (A)", "mRNAr (B)", 
+                          "R (C)", "DR (D)"),
+     ylab = c("hoeveelheid DR_N (n)", "hoeveelheid mRNAr (n)",
+              "hoeveelheid R (n)", "hoeveelheid DR (n)"),
+     xlab = "Tijd (in uren)")
+mtext("Ks_Rm en Kd_Rm keer vijf",                   
+      side = 3,
+      line = - 1,
+      outer = TRUE)
+```
+
+
+Zoals verwacht daalt de hoeveelheid mRNAr veel sneller aan het begin, omdat de afname constante verhoogt is. Tevens
+begint de toename veel eerder door een verhoogte toename constante. 
+
+
+
+```{r, fig.cap = "In grafiek B is te zien hoe de hoeveelheid mRNA iets minder stijl afneemt bij omzetting naar R dan bij figuur 11. Vervolgens verloopt de aanmaak mRNAr iets later, vanaf t ~ 7. Grafieken A, C en D reageren wederom op dezelfde manier."}
+plot(dataset.k2, main = c("DR_N (A)", "mRNAr (B)", 
+                          "R (C)", "DR (D)"),
+     ylab = c("hoeveelheid DR_N (n)", "hoeveelheid mRNAr (n)",
+              "hoeveelheid R (n)", "hoeveelheid DR (n)"),
+     xlab = "Tijd (in uren)")
+mtext("Ks_Rm en Kd_Rm keer twee",                   
+      side = 3,
+      line = - 1,
+      outer = TRUE)
+```
+
+
+Het feit dat de afname minder steil verloopt voldoet aan de verwachting dat, keer twee minder grote invloed uitoefent dan keer vijf.
+Ook de toename wordt met dezelfde logica beïnvloed en neemt iets later pas toe.
+
+\pagebreak
+
+
+# Discussie en Conclusie
+
+## Discussie
+    
+Uit de resultaten sectie zijn behoorlijke wat resultaten naar voren gekomen. Er waren ook 'weinig' verwachtingen voor het onderzoek, omdat we natuurlijk niet wisten wat het model ging doen bij een specifieke aanpassing. De verwachting was dat het aantal vrije receptoren een belangrijke rol zal spelen. Het bewijs voor deze verwachting werd getoond in (2.1). De grafiek van DR_N vertoond een behoorlijk ander verloop. De stijging is namelijk veel sneller. Als de drug geen effect heeft op de synthese van R, komt er een veel hogere concentratie van R. Hierdoor komt er ook veel meer DR_N en dus ook veel meer bijwerkingen. R speelt dus een belangrijke rol.
+
+Verder werd er ook verwacht dat het aantal D een belangrijke rol speelt. Al snel bleek dat na een bepaalde drug (D=53.4) de werking niet meer snel stijgt. De grafieken voor een hoge dosis D geven niet een significante hogere uitval.
+
+&nbsp;
+
+Bij vraag (2.4) over het stoppen van het toedienen van D, na het bereiken van de steady state, viel iets op. De grafieken stegen of daalden explosief na het stoppen van het toedienen. Achteraf is dit natuurlijk logisch te verklaren. De hoeveelheid D speelt in alle vergelijkingen door, als deze dus plotseling naar 0 zal gaan, is dit van directe invloed op de andere vergelijkingen.
+
+In resultaten (2.5) verliepen de grafieken zoals er wiskundig verwacht werd. Bij twee was er minder invloed op de toename of afname van de productie factoren voor mRNAr dan bij vijf. Tevens was op logische wijze te zien dat bij een keersom een versterkende invloed werkte en bij een deling het verzachtend effect.
+
+## Algemene conclusie en perspectief
+
+Het uiteindelijke doel van het onderzoek was om iets te kunnen zeggen over de 'juiste' hoeveelheid drug. De verwachting was dat deze ergens tussen de lage- en hoge dosis van het experiment zat. Uit de grafieken is gebleken dat bij een hoeveelheid drug dat rond de middengrens van de experimentele zit, een ideaal verloop is voor alle variabelen. Bij een hogere dosis is er niet veel meer resultaat. In combinatie met bijwerkingen is het dus niet noodzakelijk om een hoge dosis te nemen.
+
+Een verbeterpunt voor het volgende onderzoek is het gebruik van de experimentele data. Deze data zou veel meer gebruikt kunnen worden in de figuren. Op deze manier is het nog duidelijker om aan te tonen hoe iets 'echt' zou verlopen of om juist aan te tonen dat iets significant anders zou verlopen.
+
+\pagebreak
+
+```{=tex}
+\begin{thebibliography}{9}
+
+\bibitem{NCBI}
+Bergmann MW, Staples KJ, Smith SJ, Barnes PJ, Newton R (2004).,
+Am J Respir Cell Mol Biol 30: 555–563.: \textit{Glucocorticoids effects in degradation of mRNA}
+
+\bibitem{pander}
+Daróczi G, Tsegelskyi R (2022).: \textit{pander: An R 'Pandoc' Writer}. R package version 0.6.5, <https://CRAN.R-project.org/package=pander>.
+
+\bibitem{deSolve}
+Soetaert, K., Petzoldt, T., and Woodrow Setzer, R.: \textit{Solving differential equations in R: package deSolve}, J. Stat. Softw., 33, 1-25, 2010.
+
+\end{thebibliography}
+```
