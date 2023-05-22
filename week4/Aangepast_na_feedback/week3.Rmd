@@ -41,8 +41,17 @@ Glucocorticosteroïden (D) zijn hormonen die worden geproduceerd in de bijniersc
 
 Bij het onderzoek zal gebruik gemaakt worden van experimentele data. Deze data is afkomstig van ratten. De ratten zijn zeven dagen lang geinfecteerd met methylprednisolon (een vorm van een glucocorticosteroïde). De ratten zijn geïnfecteerd met twee verschillende doses: 0.1 en 0.3 mg drug/kg rat/h. Hierover zal meer verteld worden in de theorie. 
 
-Bij het nader kijken wordt er bedoelt dat er aantal situaties worden uitgewerkt. Denk hierbij bijvoorbeeld aan: wat gebeurt er met het systeem als ik een constante vijf keer zo groot maak? Ook wordt er gekeken naar het verloop van het systeem bij een doseringstop na een bepaalde tijd. Al deze situaties worden vergeleken met de experimentele data.
+Bij het nader kijken wordt er bedoelt dat er aantal situaties worden uitgewerkt. Denk hierbij bijvoorbeeld aan: wat gebeurt er met het systeem als ik een constante vijf keer zo groot maak? Ook wordt er gekeken naar het verloop van het systeem bij een doseringstop na een bepaalde tijd. Al deze situaties worden vergeleken met de experimentele data. De situaties zullen er als volgt uit zien:
 
+- Het testen van de validiteit van het model
+  * Het plotten van de experimentele data samen met het model
+- Simulatie scenario's
+  * Verloop van het model zonder auto-regulatie
+  * Toevoer van de drug (D) stoppen na het bereiken van de stabiele toestand
+  * Het modificeren van de constanten $k_{re}$ en $k_{on}$
+  * Het blokkeren van de synthese van de vrije receptor
+  * Het modificeren van de constanten $k_{s\_Rm}$ en $k_{d\_Rm}$
+  
 ## Doel
   
 Het doel van dit onderzoek is om erachter te komen welke elementen belangrijk zijn in het model. Dus de elementen die van grote invloed zijn op bepaalde waardes. Aan de hand hiervan kan er ook iets gezegd worden over de hoeveelheid drug die kan toe worden gediend. De uitleg over deze elementen wordt in de theorie toegelicht.
@@ -360,22 +369,22 @@ parameters.2 <- c(Ks_Rm = 2.90, IC50_Rm = 26.2,
 
 parameters.2["Ks_Rm"] = 2.9 / 5
 parameters.2["Kd_Rm"] = 2.9 / 5 / 4.74
-dataset.g5 <- ode(initial.values.1, times.2.1, verandering_dt.2.4, parameters.2, D = 53.4)
+dataset.g5 <- ode(initial.values.1, times.2.1, verandering_dt.1, parameters.2, D = 53.4)
 
 
 parameters.2["Ks_Rm"] = 2.9 / 2
 parameters.2["Kd_Rm"] = 2.9 / 2 / 4.74 
-dataset.g2 <- ode(initial.values.1, times.2.1, verandering_dt.2.4, parameters.2, D = 53.4)
+dataset.g2 <- ode(initial.values.1, times.2.1, verandering_dt.1, parameters.2, D = 53.4)
 
 
 parameters.2["Ks_Rm"] = 2.9 * 5
 parameters.2["Kd_Rm"] = 2.9 * 5 / 4.74
-dataset.k5 <- ode(initial.values.1, times.2.1, verandering_dt.2.4, parameters.2, D = 53.4)
+dataset.k5 <- ode(initial.values.1, times.2.1, verandering_dt.1, parameters.2, D = 53.4)
 
 
 parameters.2["Ks_Rm"] = 2.9 * 2
 parameters.2["Kd_Rm"] = 2.9 * 2 / 4.74
-dataset.k2 <- ode(initial.values.1, times.2.1, verandering_dt.2.4, parameters.2, D = 53.4)
+dataset.k2 <- ode(initial.values.1, times.2.1, verandering_dt.1, parameters.2, D = 53.4)
 ```
 
 \pagebreak
@@ -664,8 +673,10 @@ Voor de correcties van $Kre$ heeft de deling meer effect dan de vermenigvuldigin
 ### Blocking synthesis (2.4)
 
 ```{r, fig.cap="*In figuur 10 is het verloop te zien van de hoeveelheid vrije R en mRNAr waarbij de constante kS_rm is veranderd naar 0. Beide grafieken lijken op het 'normale/originele model'*"}
+parameters.1["Ks_Rm"] = 0
+
 dataset.geen.R.synthese <- ode(initial.values.1, times.2.1, 
-                      verandering_dt.2.4, parameters.1, D = 53.4, Ks_Rm = 0)
+                      verandering_dt.1, parameters.1, D = 53.4)
 par(mfrow = c(1,2))
 plot(dataset.geen.R.synthese[, "R"], 
      xlab = "Tijd (in uren)", 
