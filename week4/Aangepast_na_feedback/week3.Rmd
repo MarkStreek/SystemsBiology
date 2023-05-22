@@ -45,7 +45,9 @@ Bij het nader kijken wordt er bedoelt dat er aantal situaties worden uitgewerkt.
 
 ## Doel
   
-Het doel van dit onderzoek is om erachter te komen welke elementen belangrijk zijn in het model. Dus de elementen die van grote invloed zijn op bepaalde waardes. Aan de hand hiervan kan er ook iets gezegd worden over de hoeveelheid drug die kan toe worden gediend.
+Het doel van dit onderzoek is om erachter te komen welke elementen belangrijk zijn in het model. Dus de elementen die van grote invloed zijn op bepaalde waardes. Aan de hand hiervan kan er ook iets gezegd worden over de hoeveelheid drug die kan toe worden gediend. De uitleg over deze elementen wordt in de theorie toegelicht.
+
+> **Moet er in het doel al iets verteld worden over elementen of is dit iets voor de theorie sectie?**
 
 Dit doel kan bereikt worden door aanpassingen te doen aan het model en vervolgens te simuleren. Deze simulaties kunnen vergeleken worden met de experimentele data. Aan de hand hiervan kan worden vastgesteld of een aanpassing/weglating van een element in het model van grote invloed is.
 
@@ -54,7 +56,6 @@ Er zijn een aantal verwachtingen bij het model. Allereerst wordt er verwacht dat
 \pagebreak
 
 ## Theorie
-
 
 ```{r, echo=FALSE, out.width='50%'}
 knitr::include_graphics('model.png')
@@ -123,8 +124,6 @@ Om de dynamica van de systemen eenvoudig weer te geven, moeten de differentiaal 
 
 Er worden twee scenario's behandeld. Er wordt allereerst gekeken naar de validiteit van het model. Vervolgens zal er naar simulatie scenario's worden gekeken, d.w.z. wat gebeurt er met het systeem als een waarde wordt aangepast of weggelaten.
 
-Bij beide scenario's zijn ook vragen. De antwoorden hierop worden in de resultaten sectie gegeven. Hier worden ook alle grafieken geplot.
-
 ```{r}
 # Inladen van het deSolve pakket
 library(deSolve)
@@ -156,10 +155,9 @@ legend.graph <- function(){
 }
 ```
 
-
 \pagebreak
 
-Functie die de verandering berekend. Deze zal worden gebruikt voor scenario één.
+Voor de 'normale' werking van het model zal onderstaande functie worden gebruikt (validiteit van het model). 
 
 ```{r}
 verandering_dt.1 <- function (time, parameters, initial.values, D) {
@@ -179,39 +177,13 @@ verandering_dt.1 <- function (time, parameters, initial.values, D) {
 }
 ```
 
-Onderstaand de functie die wordt gebruikt bij vraag 1 van scenario twee.
+Onderstaand de functie die wordt gebruikt bij de situatie die de blokkering van auto-regulatie behandeld (simulatie van scenario's).
 
 ```{r}
 verandering_dt.2.1 <- function (time, parameters, initial.values, D) {
   with(as.list(c(parameters, initial.values)),{
     # Vergelijking van mRNAr
-    mRNAr.dt <- Ks_Rm * (1 - (DR_N / (IC50_Rm + DR_N))) - Kd_Rm * mRNAr
-    # Vergelijking van R
-    R.dt <- Ksr * mRNAr + RF * Kre * DR_N - Kon * R - Kd_R * R
-    # Vergelijking van DR
-    DR.dt <- Kon * D * R - KT * DR
-    # Vergelijking van DR(N)
-    DR_N.dt <- KT * DR - Kre * DR_N
-    
-    # Retourneren van de initiële waardes
-    return(list(c(DR_N.dt, mRNAr.dt, R.dt, DR.dt)))
-  })
-}
-```
-
-\pagebreak
-
-Bij vraag 2 van scenario twee wordt er gekeken wat er gebeurt met het verloop als de toevoeging van D stopt na verloop van tijd. Onderstaand wordt hiervoor de gebruikte functie gedefinieerd.
-
-```{r}
-verandering_dt.2.2 <- function (time, parameters, initial.values, D) {
-  with(as.list(c(parameters, initial.values)),{
-    # D steady
-    if (time>35) {
-    D <- 0
-    } 
-    # Vergelijking van mRNAr
-    mRNAr.dt <- Ks_Rm * (1 - (DR_N / (IC50_Rm + DR_N))) - Kd_Rm * mRNAr
+    mRNAr.dt <- Ks_Rm - Kd_Rm * mRNAr
     # Vergelijking van R
     R.dt <- Ksr * mRNAr + RF * Kre * DR_N - Kon * D * R - Kd_R * R
     # Vergelijking van DR
@@ -225,13 +197,17 @@ verandering_dt.2.2 <- function (time, parameters, initial.values, D) {
 }
 ```
 
+\pagebreak
 
-
-Voor vraag 4 van scenario twee wordt er gekeken naar het stopzetten van de synthese van R. Onderstaand de juiste functie en berekening.
+Bij de simulatie scenario's wordt er gekeken naar het verloop van het systeem, als de toevoeging van D stopt na het bereiken van de steady state. Onderstaand de functie die hierbij gebruikt wordt.
 
 ```{r}
-verandering_dt.2.4 <- function (time, parameters, initial.values, D, Ks_Rm) {
+verandering_dt.2.2 <- function (time, parameters, initial.values, D) {
   with(as.list(c(parameters, initial.values)),{
+    # D steady
+    if (time>35) {
+    D <- 0
+    } 
     # Vergelijking van mRNAr
     mRNAr.dt <- Ks_Rm * (1 - (DR_N / (IC50_Rm + DR_N))) - Kd_Rm * mRNAr
     # Vergelijking van R
@@ -276,8 +252,6 @@ Eenheden <- c("fmol / g liver", rep("fmol/mg protein", 3),
               "L/nmol/h", rep("1 / h", 2), "fmol/mg protein",
               "", "nmol/L")
 
-
-
 # Dataframe waar vector namen in de header komen, waarde namen als rijnamen 
 # en de daadwerkelijke waarden daarin verwerkt.
 model.conf <- data.frame(Waarden, Categorie, Eenheden)
@@ -285,11 +259,12 @@ model.conf <- data.frame(Waarden, Categorie, Eenheden)
 pander(model.conf)
 ```
 
-Zoals eerder vermeld worden er twee situaties uitgewerkt. Er wordt allereerst gekeken naar de validiteit van het model. Hierbij worden een aantal vragen beantwoord. De antwoorden op de vragen bevinden zich in de resultaten sectie. Er moet wel veel verschuiving in de parameters plaatsvinden, dit wordt allemaal in de onderstaande alinea('s) weergegeven.
+Zoals eerder vermeld worden er twee situaties uitgewerkt. Er wordt allereerst gekeken naar de validiteit van het model. Er moet wel verschuiving in de parameters plaatsvinden, dit wordt allemaal in de onderstaande alinea('s) weergegeven.
 
-Hieronder staan de parameters die gebruikt zijn bij scenario één. Wat belangrijk is om op te merken
-is dat D niet in de vectoren wordt verwerkt, omdat de concentraties in het onderzoek variëren
-van 53.4 tot 39 (dosis 0.1) tot 107 (dosis 0.3). Als oplossing worden de concentraties direct aan functie ode() gegeven.
+### Scenario 1: Validiteit van het model
+
+Hieronder staan de parameters die gebruikt zijn bij het scenario die kijkt naar de validiteit van het model. Goed om op te merken is dat D niet in de vectoren wordt verwerkt, omdat de concentraties in het onderzoek variëren
+van 53.4 tot 39 (dosis 0.1) tot 107 (dosis 0.3). Als oplossing worden de concentraties direct aan de functie ode() gegeven.
 
 ```{r}
 # Definiëren van de parameters
@@ -298,7 +273,7 @@ parameters.1 <- c(Ks_Rm = 2.90, IC50_Rm = 26.2,
                 Kre = 0.57, RF = 0.49, 
                 Kd_R = 0.0572, Kd_Rm = 0.612, 
                 Ksr = 3.22)
-# 53.4
+
 # Tijdspunten definiëren
 times.1 <- 0 : 200
 
@@ -306,17 +281,15 @@ times.1 <- 0 : 200
 initial.values.1 <- c(DR_N = 0, mRNAr = 4.74, R = 267, DR = 0)
 ```
 
-tijdverloop voor vraag 1 van scenario twee.
+Tijdssequentie die gebruikt wordt bij de sectie die kijkt naar de juistheid van het model
 
 ```{r}
 times.2.1 <- 0 : 48
 ```
 
-Bij scenario twee (simulatie scenario's) zijn veel verschillende parameters gebruikt. In opdracht drie blijven de waarden van tijd en D hetzelfde. Echter veranderen
-parameters Kre en Kon bij concentraties R en mRNAr. Per concentratie zullen de concentraties
-dissocieren en associeren met vijf en twee door de volgende formules. Waar dissociatie
-wordt bepaald door deling met vijf en twee, associatie wordt bepaald door vermenigvuldiging met twee
-en vijf.
+### Scenario 2: Simulatie scenario's
+
+Bij scenario twee (simulatie scenario's) zijn veel verschillende parameters gebruikt. Er zal bij een situatie worden gekeken wat er gebeurt bij een aanpassing aan $Kon$ (snelheidsconstante vorming DR) en $Kre$ (afbraakconstante DR_N naar R). Per concentratie zullen de concentraties dissociëren en associëren met vijf en twee door de volgende formules. Waar dissociatie wordt bepaald door deling met vijf en twee, associatie wordt bepaald door vermenigvuldiging met twee en vijf. Onderstaand volgt de uitwerking hiervan.
 
 ```{r}
 # Kon / 5
@@ -362,10 +335,7 @@ dataset.kre.k2 <- ode(initial.values.1, times.1,
 
 ```
 
-In opgave vier blijft de tijdsequentie en D hetzelfde, maar Ks_Rm wordt gezet naar nul.
-Dit zorgt ervoor dat de synthese van R tot stop wordt gezet.
-
-
+Er wordt in een situatie gekeken naar stopzetting van de synthese van vrije R. Hiervoor zullen de volgende parameters gebruikt worden.
 
 > Ks_Rm <- 0
 
@@ -373,6 +343,7 @@ Dit zorgt ervoor dat de synthese van R tot stop wordt gezet.
 
 > times <- 0:48
 
+>**Hier gebleven.........**
 
 In opgave vijf veranderen de parameters Ks_Rm en Kd_Rm op basis van toename (keersom) van twee en vijf
 of een afname (deling) van twee en vijf. Echter is Kd_Rm bij iedere toename of afname nog afhankelijk van de
