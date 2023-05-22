@@ -1,0 +1,51 @@
+Beoordeling week 3:
+Introductie:
+Ziet er goed uit.
+
+Doel:
+Vaag aangegeven wat er met 'elementen' wordt bedoeld hierdoor komt het 
+hele doel niet duidelijk over. Tevens hadden wij het gevoel dat er niet
+terug gerefereerd werd naar dit doel. Ook wordt er gezegd dat de simulaties
+vergeleken wordt met de experimentele data, en ook dit gebeurt niet. De
+simulaties worden vergeleken met de biologische realiteit.
+
+Methode:
+Ziet er ook goed uit, soms wat lastig om de referentie van resultaten
+terug naar configuratie te maken.
+
+Resultaten:
+Opdracht 1 en 2.1 kloppen niet. 2x keer dezelfde plot in opdracht 1,
+en in 2.1 zit de auto regulatie er nog in. K_on zegt iets over de 'rate
+of association', dit zegt iets over de binding van medicatie met de 
+receptor.
+
+In figuur A wordt er gesproken over 'aantal stof' dit is niet duidelijk.
+Als de titel van de plot bijvoorbeeld 'Dichtheid vrije receptor' was, 
+dan was aantal wel duidelijk geweest. 
+
+Ook worden een aantal dingen besproken in resultaten wat wij in de 
+discussie verwachten. 
+
+De andere opdrachten zagen er goed uit, ook is het netjes dat alles bij
+de methode al klaargezet is, hierdoor hoef je bij de resultaten alleen
+nog maar de plotten. 
+
+Discussie:
+Omdat de antwoorden in de opdracht 2.1 verkeerd waren is het stukje over
+het doel van het aantonen van de belangerijkheid van de vrije receptor niet
+helemaal correct. 
+
+Het stukje over de dosis van het MPL was goed, en zowel 2.4 als 2.5 was 
+prima.
+
+Conclusie:
+Wij weten niet of je iets over de juiste hoeveelheid van MPL kan zeggen.
+Naar onze mening is de werking niet goed te zien uit de resultaten. Er is
+immers geen informatie over de transcriptie van anti-inflammatoire genen.
+Je kan er vanuit gaan, maar je hebt het niet daadwerkelijk kunnen bewijzen
+in de resultaten. 
+
+Ook zien we hier het terug referenen naar het doel met de elementen niet
+terug.
+
+Verder is het kijken naar vervolg onderzoek netjes gedaan.
