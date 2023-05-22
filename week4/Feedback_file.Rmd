@@ -1,0 +1,83 @@
+---
+title: "Feedback_file"
+author: "M van de Streek & L T Stein"
+date: "`r Sys.Date()`"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Feedback
+
+In deze file wordt de feedback gegeven voor het week3 verslag. 
+
+## Algemene opmaak
+
+Het is misschien overzichtelijker om elk nieuw hoofstuk op een nieuwe lege pagina te beginnen. Bijvoorbeeld het hoofdstuk methode begint helemaal onderaan een pagina. Dat zou netter zijn om gewoon op een nieuwe pagina te beginnen.
+
+Misschien een idee om een pagina met afkortingen te nemen, op deze manier is het voor de lezer meteen duidelijk wat alle stoffen/afkortingen betekenen. 
+
+Beschrijvingen van een figuur horen onder het figuur en beschrijvingen van een tabel horen boven de tabel.
+
+## Introductie
+
+De introductie ziet er goed uit. Duidelijk een korte inleiding gegeven. Het benoemen van de gemeten eenheden hoort misschien beter thuis in de model configuratie sectie, omdat je hier ook alle andere eenheden benoemt.
+
+## Doel
+
+Het verhaal is behoorlijk lang. Daarom is het handig om de alinea's op te breken in meerdere stukken om het iets leesbaarder te maken voor de lezer. Stijlheid is met een ei, steilheid. Verder benoemen jullie zeer goed per vraag wat de verwachting is. Dit hebben wij bijvoorbeeld niet gedaan, maar had wel gemoeten!
+
+Variabele namen kunnen tussen een dollar teken geplaatst worden, hierdoor springt het iets meer uit de tekst. Je ziet snel een variabele zoals $Kon$ over het hoofd, omdat het natuurlijk gewoon leest als een normaal woord.
+
+## Theorie
+
+Jullie benoemen: "Kon is de vorming van DR", maar misschien beter: "Kon is de snelheidsconstante voor de vorming van DR". Verder bereken je niet de concentratie maar juist de verandring in concentratie tegen de verandering in tijd (dr/dt). Dit geldt voor alle vier de vergelijkingen. 
+
+Voor de rest is de inhoud goed en duidelijk. Het is nog wel even goed om alle constanten te checken op juistheid.
+
+## Het software model
+
+Pander hoeft niet benoemd te worden, maar mag simpelweg gewoon in de referenties. DeSolve is wel dusdanig belangrijk om benoemd te worden en dat gebeurt ook juist. Verder is er niks op het software model aan te merken.
+
+## Model configuratie
+
+Het inlezen van de experimentele data wordt hier gedaan, maar kan beter verplaatst worden naar het software model. Het heeft niks te maken met beschrijven van variabelen.
+
+Bij een aantal vragen moeten de constanten worden aangepast. Gedeeld door vijf of keer vijf, etc. Dit hoort wel benoemd te worden in de model configuratie, want het zegt iets over de variabelen. Nu worden de variabelen misschien aangepast zonder het meteen duidelijk is waar of hoe.
+
+## Resultaten
+
+Misschien handig om het berekenen van de mediaan ook te verplaatsen naar het software model, omdat dit verder niks te maken heeft met de resultaten.
+
+Het bijschrift van figuur 1 mist. Dit kan komen door te weinig lege ruimte onder het code blok. De code is wel duidelijk leesbaar! Ook zeer overzichtelijk om voor assignment 1 gewoon 1 plot te maken waarin alle vier de grafieken leesbaar zijn. Zo wordt het geen chaos (wat wij wel hebben...).
+
+Goede introductie voor de model simulaties! 
+
+Wij hadden zelf een andere waarde die belangrijk was voor het stilleggen van de auto-regulatie. Maar na het zien van dit, lijkt dit beter. Ook duidelijk uitgelegd. Bij figuur 2 moet ook een extra witregel geplaatst worden om de omschrijving weer te geven. Het herdefiniëren van het model hoort niet thuis in de resultaten.
+
+Let een beetje op de grammatica bij de figuur bijschriften. Benoem ook wat er op de x- en y-as staat. Getallen onder de 20, moeten worden uitgeschreven in woorden.
+
+De plotjes bij het stoppen van de medicatie zijn echt mooi. Duidelijk om gewoon twee keer de out te plotten. Wij hebben het zelf met een if/else gedaan, maar deze manier is beter te visualiseren. 
+
+### Verschillende cortiostereoiden als medicijn
+
+Parameters horen wederom thuis in de model configuratie. Duidelijk om eerst het 'normale' model weer te printen en een goede figuur omschrijving. De code valt buiten het blok. Handig om volgende keer een enter toe te voegen aan het einde van de regel. Tip: gebruik een for loop om alle grafieken te plotten. 
+
+De inhoud van alle beschrijvingen is goed en het klopt ook.
+
+## Discussie en conclusie
+
+Het citaat is goed gebruikt. Er wordt wel heel veel informatie gegeven, hierdoor valt de inhoud een beetje weg. De extra informatie zou je bijvoorbeeld in de theorie kunnen plaatsen. Wel heel goed dat er wordt gerefereerd naar de biologie. 
+
+## Conclusie
+
+Kort en bondig, maar goed.
+
+
+
+
+
+
+
