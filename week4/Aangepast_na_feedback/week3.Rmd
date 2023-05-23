@@ -285,8 +285,14 @@ parameters.1 <- c(Ks_Rm = 2.90, IC50_Rm = 26.2,
                 Kd_R = 0.0572, Kd_Rm = 0.612, 
                 Ksr = 3.22)
 
+parameters.experiment <- c(Ks_Rm = 2.90, IC50_Rm = 26.2, 
+                Kon = 0.00329, KT = 0.63, 
+                Kre = 0.57, RF = 0.49, 
+                Kd_R = 0.0572, Kd_Rm = 0.612, 
+                Ksr = 3.22)
+
 # Tijdspunten definiëren
-times.1 <- 0 : 200
+times.1 <- 0 : 168
 
 # Het definiëren van de initiële waardes
 initial.values.1 <- c(DR_N = 0, mRNAr = 4.74, R = 267, DR = 0)
@@ -391,55 +397,64 @@ In deze sectie zal er worden gekeken naar de resultaten.
 ### Plotten van de experimentele data samen met het model
 
 ```{r, fig.cap="*De bovenstaande figuur geeft het model en de experimentele waardes weer. De verloop van het model is een vloeiende lijn die eerste daalt en vervolgens weer iets stijgt en naar een constante waarde gaat. De rode lijn geeft de experimentele data weer van de lage dosis. De groene lijn geeft de hoge dosis weer. Beide lijnen zijn schokkerige lijnen. De waardes van de experimentele data liggen iets onder de model waardes. De lijnen voor de vrije receptor (figuur 2) zitten ongeveer op dezelfde waardes, halverwege vertoond het experiment een kleine piek.*"}
-verloop.dataset <- ode(initial.values.1, times.1, 
-                       verandering_dt.1, parameters.1, D = 53.4)
-verloop.dataset.lage.doses <- ode(initial.values.1, 
-                            times.1, verandering_dt.1, parameters.1, D = 39)
-verloop.dataset.hoge.doses <- ode(initial.values.1, 
-                            times.1, verandering_dt.1, parameters.1, D = 107)
 
-# mRNA plot - experiment - model
+layout(matrix(c(1 ,2, 3, 4), ncol = 2, nrow = 2, byrow = TRUE))
 
-plot(verloop.dataset[,"mRNAr"], 
-     type="l",
-     main = "Verloop van mRNAr (zowel model als experiment)",
-     xlab="Time", ylab="mRNAr", 
-     lwd = 2, ylim = c(0, 8), xlim = c(0, 150), 
-     col = "#21A9AD")
+parameters.1 <- c(Ks_Rm = 2.90, IC50_Rm = 26.2, 
+                Kon = 0.00329, KT = 0.63, 
+                Kre = 0.57, RF = 0.49, 
+                Kd_R = 0.0572, Kd_Rm = 0.612, 
+                Ksr = 3.22)
 
-lines(medians$mRNA[medians$dose == 0.1] ~ medians$time[medians$dose == 0.1], 
+verloop.dataset <- ode(initial.values.1, times.1, verandering_dt.1, parameters.1, D = 53.4)
+verloop.dataset.lage.doses <- ode(initial.values.1, times.1, verandering_dt.1, parameters.experiment, D = 39)
+verloop.dataset.hoge.doses <- ode(initial.values.1, times.1, verandering_dt.1, parameters.experiment, D = 107)
+
+# mRNA lage dosis
+
+plot(verloop.dataset.lage.doses[,"mRNAr"],
+     main = "mRNAr met lage dosis",
+     type="l", xlab="Time", ylab="mRNAr", 
+     lwd = 2, xlim = c(0, 150), ylim = c(0, 8), col = "#21A9AD")
+
+lines(medians$mRNA[medians$dose == 0.1] ~ medians$time[medians$dose == 0.1],
       type = "l", lwd = 2, col = "darkred")
+
+points(experiment.data$mRNA, col = "black", pch = 1, cex = .7)
+
+# mRNA hoge dosis
+
+plot(verloop.dataset.hoge.doses[,"mRNAr"], 
+     main = "mRNAr met hoge dosis",
+     type="l", xlab="Time", ylab="Free receptor", 
+     lwd = 2, xlim = c(0, 150), ylim = c(0, 8), 
+     col = "#21A9AD")
 
 lines(medians$mRNA[medians$dose == 0.3] ~ medians$time[medians$dose == 0.3], 
       type = "l", lwd = 2, col = "darkgreen")
 
-points(experiment.data$mRNA, 
-       col = "black", pch = 1, cex = .7)
+points(experiment.data$mRNA, pch = 1, cex = .7, 
+       col = "black")
 
-legend.graph()
+# Vrije R lage dosis
+
+plot(verloop.dataset.lage.doses[,"R"],main = "Free receptor (R) met lage dosis",type="l", xlab="Time", ylab="Free receptor", lwd = 2, xlim = c(0, 140), ylim = c(0, 500), col = "#21A9AD")
+
+lines(medians$Free_receptor[medians$dose == 0.1] ~ medians$time[medians$dose == 0.1], type = "l", lwd = 2, col = "darkred")
+
+points(experiment.data$Free_receptor, col = "black", pch = 1, cex = .7)
+
+# Vrije R hoge dosis
+
+plot(verloop.dataset.hoge.doses[,"R"],main = "Free receptor (R) met hoge dosis",type="l", xlab="Time", ylab="Free receptor", lwd = 2, xlim = c(0, 140), ylim = c(0, 500), col = "#21A9AD")
+
+lines(medians$Free_receptor[medians$dose == 0.3] ~ medians$time[medians$dose == 0.3], type = "l", lwd = 2, col = "darkgreen")
+
+points(experiment.data$Free_receptor, col = "black", pch = 1, cex = .7)
 
 ```
 
 ```{r, fig.cap="*De bovenstaande figuur geeft het model en de experimentele waardes weer. De verloop van het model is een vloeiende lijn die eerste daalt en vervolgens weer iets stijgt en naar een constante waarde gaat. De rode lijn geeft de experimentele data weer van de lage dosis. De groene lijn geeft de hoge dosis weer. Beide lijnen zijn schokkerige lijnen. De waardes van de experimentele data liggen iets onder de model waardes. De lijnen voor de vrije receptor (figuur 2) zitten ongeveer op dezelfde waardes, halverwege vertoond het experiment een kleine piek.*"}
-# Free receptor R plot - experiment - model
-
-plot(verloop.dataset[,"R"], 
-     type="l",
-    main = "Verloop van R (zowel model als experiment)",
-     xlab="Time", ylab="vrije receptor (R)", 
-     lwd = 2, ylim = c(0, 500), xlim = c(0, 150), 
-     col = "#21A9AD")
-
-lines(medians$Free_receptor[medians$dose == 0.1] ~ medians$time[medians$dose == 0.1], 
-      type = "l", lwd = 2, col = "darkred")
-
-lines(medians$Free_receptor[medians$dose == 0.3] ~ medians$time[medians$dose == 0.3], 
-      type = "l", lwd = 2, col = "darkgreen")
-
-points(experiment.data$Free_receptor, 
-       col = "black", pch = 1, cex = .7)
-
-legend.graph()
 ```
 
 \pagebreak
@@ -453,108 +468,17 @@ daarom is het een mooie methode om het verloop te zien.
 \pagebreak
 
 ```{r, fig.cap="*Voor figuur 3 en 4 geldt hetzelfde verhaal als voor figuur 1 en 2. Er wordt nu voor zowel mRNA als R een grafiek weergegeven voor een lage dosis D en een hoge dosis D. Bij de grafieken van R zijn de pieken halverwge hoger*"}
-par(mfrow = c(1,2))
-
-# Verloop van mRNAr
-
-plot(verloop.dataset.lage.doses[,"mRNAr"],
-     main = "mRNAr met lage dosis",
-     type="l", xlab="Time", ylab="mRNAr", 
-     lwd = 2, xlim = c(0, 150), ylim = c(0, 8), col = "#21A9AD")
-
-lines(medians$mRNA[medians$dose == 0.1] ~ medians$time[medians$dose == 0.1],
-      type = "l", lwd = 2, col = "darkred")
-
-lines(medians$mRNA[medians$dose == 0.3] ~ medians$time[medians$dose == 0.3], 
-      type = "l", lwd = 2, col = "darkgreen")
-
-points(experiment.data$mRNA, col = "black", pch = 1, cex = .7)
-
-legend.graph()
+x <- 1
 ```
 
 ```{r, fig.cap="*Voor figuur 3 en 4 geldt hetzelfde verhaal als voor figuur 1 en 2. Er wordt nu voor zowel mRNA als R een grafiek weergegeven voor een lage dosis D en een hoge dosis D. Bij de grafieken van R zijn de pieken halverwge hoger*"}
-plot(verloop.dataset.hoge.doses[,"mRNAr"], 
-     main = "mRNAr met hoge dosis",
-     type="l", xlab="Time", ylab="Free receptor", 
-     lwd = 2, xlim = c(0, 150), ylim = c(0, 8), 
-     col = "#21A9AD")
-
-lines(medians$mRNA[medians$dose == 0.1] ~ medians$time[medians$dose == 0.1], 
-      type = "l", lwd = 2, col = "darkred")
-
-lines(medians$mRNA[medians$dose == 0.3] ~ medians$time[medians$dose == 0.3], 
-      type = "l", lwd = 2, col = "darkgreen")
-
-points(experiment.data$mRNA, pch = 1, cex = .7, 
-       col = "black")
-
-legend.graph()
-
 ```
 
 ```{r, fig.cap="*Voor figuur 3 en 4 geldt hetzelfde verhaal als voor figuur 1 en 2. Er wordt nu voor zowel mRNA als R een grafiek weergegeven voor een lage dosis D en een hoge dosis D. Bij de grafieken van R zijn de pieken halverwge hoger*"}
-# Verloop bij vrije receptoren
-
-par(mfrow = c(1,2))
-plot(verloop.dataset.lage.doses[,"R"],
-     main = "Free receptor (R) met lage dosis",
-     type="l", xlab="Time", 
-     ylab="Free receptor", 
-     lwd = 2, xlim = c(0, 140), 
-     ylim = c(0, 500), 
-     col = "#21A9AD")
-
-lines(medians$Free_receptor[medians$dose == 0.1] ~ medians$time[medians$dose == 0.1], 
-      type = "l", 
-      lwd = 2, 
-      col = "darkred")
-
-lines(medians$Free_receptor[medians$dose == 0.3] ~ medians$time[medians$dose == 0.3], 
-      type = "l", 
-      lwd = 2, 
-      col = "darkgreen")
-
-points(experiment.data$Free_receptor, 
-       col = "black", 
-       pch = 1, 
-       cex = .7)
-
-points(medians$MPL_conc[medians$dose == 0.1] ~ medians$time[medians$dose == 0.1], 
-       lwd = 2, col = "orange")
-
-legend.graph()
 ```
 
 
 ```{r, fig.cap="*Voor figuur 3 en 4 geldt hetzelfde verhaal als voor figuur 1 en 2. Er wordt nu voor zowel mRNA als R een grafiek weergegeven voor een lage dosis D en een hoge dosis D. Bij de grafieken van R zijn de pieken halverwge hoger*"}
-plot(verloop.dataset.hoge.doses[,"R"],
-     main = "Free receptor (R) met hoge dosis",
-     type="l", 
-     xlab="Time", 
-     ylab="Free receptor", 
-     lwd = 2, xlim = c(0, 140), 
-     ylim = c(0, 500), 
-     col = "#21A9AD")
-
-lines(medians$Free_receptor[medians$dose == 0.1] ~ medians$time[medians$dose == 0.1], 
-      type = "l", 
-      lwd = 2, col = "darkred")
-
-lines(medians$Free_receptor[medians$dose == 0.3] ~ medians$time[medians$dose == 0.3], 
-      type = "l", 
-      lwd = 2, 
-      col = "darkgreen")
-
-points(experiment.data$Free_receptor, 
-       col = "black", 
-       pch = 1, 
-       cex = .7)
-
-points(medians$MPL_conc[medians$dose == 0.3] ~ medians$time[medians$dose == 0.3],
-       lwd = 1, col = "orange", type = "b")
-
-legend.graph()
 ```
 
 In het verloop van mRNA is weinig verandering te zien afhankelijk van de dosis. Er is weliswaar bij een hoge dosis
