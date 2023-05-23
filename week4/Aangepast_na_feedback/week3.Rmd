@@ -417,6 +417,7 @@ verloop.dataset.hoge.doses <- ode(initial.values.1, times.1, verandering_dt.1, p
 
 # mRNA lage dosis
 
+
 plot(verloop.dataset.lage.doses[,"mRNAr"],
      main = "mRNAr met lage dosis",
      type="l", xlab="Time", ylab="mRNAr", 
@@ -429,6 +430,7 @@ lines(medians$mRNA[medians$dose == 0.1] ~ medians$time[medians$dose == 0.1],
       type = "l", lwd = 2, col = "darkred")
 
 points(experiment.data$mRNA, col = "black", pch = 1, cex = .7)
+
 
 # mRNA hoge dosis
 
