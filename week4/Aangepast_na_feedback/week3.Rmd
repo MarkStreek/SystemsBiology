@@ -154,7 +154,7 @@ Onderstaand een functie die wordt gebruikt voor een legenda bij elke grafiek.
 ```{r}
 legend.graph <- function(){
   return(
-    legend("topright", 
+    legend("topleft", 
        legend = c("Model", "Median 0.1", "Median 0.3", "Experiment"),
        col = c("#21A9AD", "darkred", "darkgreen", "grey"),
        pch = c(NA, NA, NA, 1),
@@ -396,9 +396,14 @@ In deze sectie zal er worden gekeken naar de resultaten.
 
 ### Plotten van de experimentele data samen met het model
 
+
 ```{r, fig.cap="*De bovenstaande figuur geeft het model en de experimentele waardes weer. De verloop van het model is een vloeiende lijn die eerste daalt en vervolgens weer iets stijgt en naar een constante waarde gaat. De rode lijn geeft de experimentele data weer van de lage dosis. De groene lijn geeft de hoge dosis weer. Beide lijnen zijn schokkerige lijnen. De waardes van de experimentele data liggen iets onder de model waardes. De lijnen voor de vrije receptor (figuur 2) zitten ongeveer op dezelfde waardes, halverwege vertoond het experiment een kleine piek.*"}
 
-layout(matrix(c(1 ,2, 3, 4), ncol = 2, nrow = 2, byrow = TRUE))
+layout(matrix(c(1 ,2, 3, 4, 5), ncol = 2, nrow = 3, byrow = TRUE))
+
+layout(mat = matrix(c(1,1, 0, 2,2, 0,0, 3,3, 0,
+                      4,4, 5,5), nrow = 2, byrow = TRUE))
+layout.show(n = 5)
 
 parameters.1 <- c(Ks_Rm = 2.90, IC50_Rm = 26.2, 
                 Kon = 0.00329, KT = 0.63, 
@@ -417,6 +422,9 @@ plot(verloop.dataset.lage.doses[,"mRNAr"],
      type="l", xlab="Time", ylab="mRNAr", 
      lwd = 2, xlim = c(0, 150), ylim = c(0, 8), col = "#21A9AD")
 
+rect(par("usr")[1], par("usr")[3], par("usr")[2], par("usr")[4], col = "#ebebeb")
+grid(nx = NULL, ny = NULL, lty = 1, col = "white", lwd = 2)
+
 lines(medians$mRNA[medians$dose == 0.1] ~ medians$time[medians$dose == 0.1],
       type = "l", lwd = 2, col = "darkred")
 
@@ -430,6 +438,9 @@ plot(verloop.dataset.hoge.doses[,"mRNAr"],
      lwd = 2, xlim = c(0, 150), ylim = c(0, 8), 
      col = "#21A9AD")
 
+rect(par("usr")[1], par("usr")[3], par("usr")[2], par("usr")[4], col = "#ebebeb")
+grid(nx = NULL, ny = NULL, lty = 1, col = "white", lwd = 2)
+
 lines(medians$mRNA[medians$dose == 0.3] ~ medians$time[medians$dose == 0.3], 
       type = "l", lwd = 2, col = "darkgreen")
 
@@ -438,7 +449,10 @@ points(experiment.data$mRNA, pch = 1, cex = .7,
 
 # Vrije R lage dosis
 
-plot(verloop.dataset.lage.doses[,"R"],main = "Free receptor (R) met lage dosis",type="l", xlab="Time", ylab="Free receptor", lwd = 2, xlim = c(0, 140), ylim = c(0, 500), col = "#21A9AD")
+plot(verloop.dataset.lage.doses[,"R"],main = "Free (R) met lage dosis",type="l", xlab="Time", ylab="Free receptor", lwd = 2, xlim = c(0, 140), ylim = c(0, 500), col = "#21A9AD")
+
+rect(par("usr")[1], par("usr")[3], par("usr")[2], par("usr")[4], col = "#ebebeb")
+grid(nx = NULL, ny = NULL, lty = 1, col = "white", lwd = 2)
 
 lines(medians$Free_receptor[medians$dose == 0.1] ~ medians$time[medians$dose == 0.1], type = "l", lwd = 2, col = "darkred")
 
@@ -446,13 +460,21 @@ points(experiment.data$Free_receptor, col = "black", pch = 1, cex = .7)
 
 # Vrije R hoge dosis
 
-plot(verloop.dataset.hoge.doses[,"R"],main = "Free receptor (R) met hoge dosis",type="l", xlab="Time", ylab="Free receptor", lwd = 2, xlim = c(0, 140), ylim = c(0, 500), col = "#21A9AD")
+
+plot(verloop.dataset.hoge.doses[,"R"],main = "Free (R) met hoge dosis",type="l", xlab="Time", ylab="Free receptor", lwd = 2, xlim = c(0, 140), ylim = c(0, 500), col = "#21A9AD")
+
+rect(par("usr")[1], par("usr")[3], par("usr")[2], par("usr")[4], col = "#ebebeb")
+grid(nx = NULL, ny = NULL, lty = 1, col = "white", lwd = 2)
 
 lines(medians$Free_receptor[medians$dose == 0.3] ~ medians$time[medians$dose == 0.3], type = "l", lwd = 2, col = "darkgreen")
 
 points(experiment.data$Free_receptor, col = "black", pch = 1, cex = .7)
 
+plot(NULL ,xaxt='n',yaxt='n',bty='n',ylab='',xlab='', xlim=0:1, ylim=0:1)
+legend.graph()
 ```
+
+
 
 ```{r, fig.cap="*De bovenstaande figuur geeft het model en de experimentele waardes weer. De verloop van het model is een vloeiende lijn die eerste daalt en vervolgens weer iets stijgt en naar een constante waarde gaat. De rode lijn geeft de experimentele data weer van de lage dosis. De groene lijn geeft de hoge dosis weer. Beide lijnen zijn schokkerige lijnen. De waardes van de experimentele data liggen iets onder de model waardes. De lijnen voor de vrije receptor (figuur 2) zitten ongeveer op dezelfde waardes, halverwege vertoond het experiment een kleine piek.*"}
 ```
@@ -468,7 +490,7 @@ daarom is het een mooie methode om het verloop te zien.
 \pagebreak
 
 ```{r, fig.cap="*Voor figuur 3 en 4 geldt hetzelfde verhaal als voor figuur 1 en 2. Er wordt nu voor zowel mRNA als R een grafiek weergegeven voor een lage dosis D en een hoge dosis D. Bij de grafieken van R zijn de pieken halverwge hoger*"}
-x <- 1
+
 ```
 
 ```{r, fig.cap="*Voor figuur 3 en 4 geldt hetzelfde verhaal als voor figuur 1 en 2. Er wordt nu voor zowel mRNA als R een grafiek weergegeven voor een lage dosis D en een hoge dosis D. Bij de grafieken van R zijn de pieken halverwge hoger*"}
