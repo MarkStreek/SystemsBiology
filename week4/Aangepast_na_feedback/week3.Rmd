@@ -235,7 +235,9 @@ verandering_dt.2.2 <- function (time, parameters, initial.values, D) {
 \pagebreak
 
 ## Model configuratie
-    
+
+In dit hoofdstuk worden alle parameters behandeld die gebruikt en gemodificeerd worden.
+
 ```{r}
 # Pakket inladen voor mooiere tabel
 library(pander)
@@ -344,19 +346,11 @@ dataset.kre.k2 <- ode(initial.values.1, times.1,
 
 ```
 
-Er wordt in een situatie gekeken naar stopzetting van de synthese van vrije R. Hiervoor zullen de volgende parameters gebruikt worden.
+Verder wordt er in een situatie gekeken naar stopzetting van de synthese van vrije R. Er wordt het standaard model gebruikt, waar $Ks_{Rm}$ = 0, $D$ = 53.4 en de tijdssequentie is $t$ = 48 uur.
 
-> Ks_Rm <- 0
-
-> D <- 53.4
-
-> times <- 0:48
-
->**Hier gebleven.........**
-
-In opgave vijf veranderen de parameters Ks_Rm en Kd_Rm op basis van toename (keersom) van twee en vijf
-of een afname (deling) van twee en vijf. Echter is Kd_Rm bij iedere toename of afname nog afhankelijk van de
-hoeveelheid mRNAr vanaf t = 0, wat 4.74 is. Door het veranderen van deze snelheidsconstanten wordt de aanmaak
+In de laatste situatie veranderen de parameters $Ks_{Rm}$ en $Kd_{Rm}$ op basis van toename (keersom) van twee en vijf
+of een afname (deling) van twee en vijf. Echter is $Kd_{Rm}$ bij iedere toename of afname nog afhankelijk van de
+hoeveelheid mRNAr vanaf $t$ = 0, wat 4.74 is. Door het veranderen van deze snelheidsconstanten wordt de aanmaak
 van mRNAr beïnvloed.
 
 ```{r}
@@ -391,9 +385,10 @@ dataset.k2 <- ode(initial.values.1, times.2.1, verandering_dt.1, parameters.2, D
 
 # Resultaten
     
-In deze sectie zal er worden gekeken naar de resultaten. Omdat er vragen worden  beantwoordt, zal per code worden aangegeven bij de titel om welke vraag(nummer) het gaat.
+In deze sectie zal er worden gekeken naar de resultaten. 
 
-### Median experimantal data (1.1)
+
+### Plotten van de experimentele data samen met het model
 
 ```{r, fig.cap="*De bovenstaande figuur geeft het model en de experimentele waardes weer. De verloop van het model is een vloeiende lijn die eerste daalt en vervolgens weer iets stijgt en naar een constante waarde gaat. De rode lijn geeft de experimentele data weer van de lage dosis. De groene lijn geeft de hoge dosis weer. Beide lijnen zijn schokkerige lijnen. De waardes van de experimentele data liggen iets onder de model waardes. De lijnen voor de vrije receptor (figuur 2) zitten ongeveer op dezelfde waardes, halverwege vertoond het experiment een kleine piek.*"}
 verloop.dataset <- ode(initial.values.1, times.1, 
@@ -423,6 +418,9 @@ points(experiment.data$mRNA,
 
 legend.graph()
 
+```
+
+```{r, fig.cap="*De bovenstaande figuur geeft het model en de experimentele waardes weer. De verloop van het model is een vloeiende lijn die eerste daalt en vervolgens weer iets stijgt en naar een constante waarde gaat. De rode lijn geeft de experimentele data weer van de lage dosis. De groene lijn geeft de hoge dosis weer. Beide lijnen zijn schokkerige lijnen. De waardes van de experimentele data liggen iets onder de model waardes. De lijnen voor de vrije receptor (figuur 2) zitten ongeveer op dezelfde waardes, halverwege vertoond het experiment een kleine piek.*"}
 # Free receptor R plot - experiment - model
 
 plot(verloop.dataset[,"R"], 
@@ -444,11 +442,15 @@ points(experiment.data$Free_receptor,
 legend.graph()
 ```
 
+\pagebreak
+
 Door het plotten van een mediaan wordt het midden van de data gevisualiseerd. De helft van de data
 ligt boven de lijn en de andere helft eronder. De data wordt niet naar beneden (getrokken) door uitschieters,
 daarom is het een mooie methode om het verloop te zien.
 
-### Adjusting D value  (1.2)
+&nbsp;
+
+\pagebreak
 
 ```{r, fig.cap="*Voor figuur 3 en 4 geldt hetzelfde verhaal als voor figuur 1 en 2. Er wordt nu voor zowel mRNA als R een grafiek weergegeven voor een lage dosis D en een hoge dosis D. Bij de grafieken van R zijn de pieken halverwge hoger*"}
 par(mfrow = c(1,2))
@@ -469,7 +471,9 @@ lines(medians$mRNA[medians$dose == 0.3] ~ medians$time[medians$dose == 0.3],
 points(experiment.data$mRNA, col = "black", pch = 1, cex = .7)
 
 legend.graph()
+```
 
+```{r, fig.cap="*Voor figuur 3 en 4 geldt hetzelfde verhaal als voor figuur 1 en 2. Er wordt nu voor zowel mRNA als R een grafiek weergegeven voor een lage dosis D en een hoge dosis D. Bij de grafieken van R zijn de pieken halverwge hoger*"}
 plot(verloop.dataset.hoge.doses[,"mRNAr"], 
      main = "mRNAr met hoge dosis",
      type="l", xlab="Time", ylab="Free receptor", 
@@ -487,6 +491,9 @@ points(experiment.data$mRNA, pch = 1, cex = .7,
 
 legend.graph()
 
+```
+
+```{r, fig.cap="*Voor figuur 3 en 4 geldt hetzelfde verhaal als voor figuur 1 en 2. Er wordt nu voor zowel mRNA als R een grafiek weergegeven voor een lage dosis D en een hoge dosis D. Bij de grafieken van R zijn de pieken halverwge hoger*"}
 # Verloop bij vrije receptoren
 
 par(mfrow = c(1,2))
@@ -517,7 +524,10 @@ points(medians$MPL_conc[medians$dose == 0.1] ~ medians$time[medians$dose == 0.1]
        lwd = 2, col = "orange")
 
 legend.graph()
+```
 
+
+```{r, fig.cap="*Voor figuur 3 en 4 geldt hetzelfde verhaal als voor figuur 1 en 2. Er wordt nu voor zowel mRNA als R een grafiek weergegeven voor een lage dosis D en een hoge dosis D. Bij de grafieken van R zijn de pieken halverwge hoger*"}
 plot(verloop.dataset.hoge.doses[,"R"],
      main = "Free receptor (R) met hoge dosis",
      type="l", 
@@ -554,14 +564,14 @@ receptoren door een hogere dosis drug (D).
 Dit is goed te verklaren doordat bij een hogere hoeveelheid er meer MPL bindt aan de receptoren, dus dit betekent
 dat de concentratie van het MPL-complex omhoog gaat.
 
-### Results in line with experiment  (1.3)
+&nbsp;
 
 De resultaten van het model liggen over het algemeen op een goede lijn met de experimentele data.
 Bij het aantal vrije receptoren ligt het verloop van het model tussen de twee medianen, dus
 overlapt het model goed met experimentele data. Echter is er wel een lagere werkelijkheid bij het aantal mRNA.
 Dat wil zeggen het aantal mRNA wordt hoger geschat in het model.
 
-### No auto-regulation (2.1)
+### Verloop van het model zonder auto-regulatie
 
 ```{r, fig.cap="*Figuren die het verloop van de concentraties weergeven over tijd. Bij elke figuur is op de x-as de tijd (in uren) zichtbaar. Op de y-as staat de concentratie in de juiste eenheid. Grafiek 1 geeft het verloop van de concentratie MPL-complex in de celkern weer. Grafiek 2 geeft de concentratie mRNA receptoren weer. Grafiek 3 geeft het verloop van vrije receptoren weer. En de laatste grafiek (4) geeft het verloop van het MPL-complex weer wat niet geactiveerd is.*"} 
 
@@ -597,7 +607,8 @@ is het verloop van DR_N te zien, die eerst snel toeneemt en vervolgens minder sn
 Tevens is in figuur B het verloop van mRNA receptoren te zien, waar het eerst sterk afneemt en vervolgens langzaam
 lineair door blijft dalen. 
 
-### Steady state (2.2)
+
+### Toevoer van de drug (D) stoppen na het bereiken van de stabiele toestand
 
 ```{r, fig.cap="*In figuur 6/7 is het verloop te zien van grafiek C en D (DR_N en mRNAr) waarbij doses (D) naar nul gaat zodra de steady state wordt bereikt bij t = 35. Op de x-as staat de hoeveelheid stof in fmol/mg eiwit en de y-as geeft de tijd in uren.*"}
 verloop.dataset.steady <- ode(initial.values.1, times.2.1, 
@@ -625,7 +636,7 @@ pander(verloop.dataset[30:40,])
 
 Het is duidelijk te zien in beide grafieken wanneer de drug dosis naar 0 gaat.
 
-### Changing Kre/Kon (2.3)
+### Het modificeren van de constanten $k_{re}$ en $k_{on}$
 
 ```{r, fig.cap="*In figuur 8 en 9 zitten in ieder acht plots van zowel mRNAr als R. Deze plots zijn geletterd van E t/m T. Verder staan op de y-as de hoeveelheid mRNAr of R en op de x-as de tijd (in uren).*"}
 # Stel de datasetnamen in een lijst
@@ -670,7 +681,7 @@ Alle grafieken van R vertonen kleine veranderingen. Om te beginnen met de deling
 
 Voor de correcties van $Kre$ heeft de deling meer effect dan de vermenigvuldiging. Bij de vermenigvuldiging (zowel vijf als twee) ontstaan grafieken die bijna hetzelfde beeld vertonen als het originele model. Alleen de stijging is een fractie sneller. De deling komt wel een ander beeld naar voren. De stijging is bij de vermenigvuldiging van vijf een stuk sneller. De steady state een stuk lager als bij het originele model. Voor de vermenigvuldiging van twee is de stijging sneller, maar niet sneller dan die van vijf. De steady state komt ook hier lager uit.
 
-### Blocking synthesis (2.4)
+### Het blokkeren van de synthese van de vrije receptor
 
 ```{r, fig.cap="*In figuur 10 is het verloop te zien van de hoeveelheid vrije R en mRNAr waarbij de constante kS_rm is veranderd naar 0. Beide grafieken lijken op het 'normale/originele model'*"}
 parameters.1["Ks_Rm"] = 0
@@ -702,7 +713,7 @@ Daarom is in grafiek U te zien dat de hoeveelheid vrije R blijft afnemen, dat
 verloopt tot een constante lijn bij y ~ 40-50 en bij t ~ 20. Omdat vrije R hergebruikt wordt
 zal er altijd een beetje aanwezig blijven en de lijn dus nooit 0 raken.
 
-### Changing Ks_Rm en Kd_Rm (2.5)
+### Het modificeren van de constanten $k_{s\_Rm}$ en $k_{d\_Rm}$
 
 In de plotten beneden wordt er gekeken naar wat er gebeurt in het systeem, als de snelheidsconstanten Ks_Rm en Kd_rm die de aanmaak en afbraak van mRNAr beïnvloeden
 toenemen of afnemen. 
