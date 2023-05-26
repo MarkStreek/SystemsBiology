@@ -208,32 +208,6 @@ verandering_dt.2.1 <- function (time, parameters, initial.values, D) {
 
 \pagebreak
 
-Bij de simulatie scenario's wordt er gekeken naar het verloop van het systeem, als de toevoeging van D stopt na het bereiken van de steady state. Onderstaand de functie die hierbij gebruikt wordt.
-
-```{r}
-verandering_dt.2.2 <- function (time, parameters, initial.values, D) {
-  with(as.list(c(parameters, initial.values)),{
-    # D steady
-    if (time>35) {
-    D <- 0
-    } 
-    # Vergelijking van mRNAr
-    mRNAr.dt <- Ks_Rm * (1 - (DR_N / (IC50_Rm + DR_N))) - Kd_Rm * mRNAr
-    # Vergelijking van R
-    R.dt <- Ksr * mRNAr + RF * Kre * DR_N - Kon * D * R - Kd_R * R
-    # Vergelijking van DR
-    DR.dt <- Kon * D * R - KT * DR
-    # Vergelijking van DR(N)
-    DR_N.dt <- KT * DR - Kre * DR_N
-    
-    # Retourneren van de initiële waardes
-    return(list(c(DR_N.dt, mRNAr.dt, R.dt, DR.dt)))
-  })
-}
-```
-
-\pagebreak
-
 ## Model configuratie
 
 In dit hoofdstuk worden alle parameters behandeld die gebruikt en gemodificeerd worden.
@@ -302,7 +276,6 @@ Tijdssequentie die gebruikt wordt bij de sectie die kijkt naar de juistheid van 
 
 ```{r}
 times.2.1 <- 0 : 48
-times.2.2 <- 0 : 96
 ```
 
 ### Scenario 2: Simulatie scenario's
@@ -354,6 +327,12 @@ dataset.kre.k2 <- ode(initial.values.1, times.1,
 ```
 
 Verder wordt er in een situatie gekeken naar stopzetting van de synthese van vrije R. Er wordt het standaard model gebruikt, waar $Ks_{Rm}$ = 0, $D$ = 53.4 en de tijdssequentie is $t$ = 48 uur.
+
+Er zal ook worden gekeken naar het stoppen van de toevoeging van D na het bereiken van de steady state. Onderstaand de tijdssequentie die hierbij gebruikt wordt.
+
+```{r}
+times.2.2 <- 48 : 96
+```
 
 In de laatste situatie veranderen de parameters $Ks_{Rm}$ en $Kd_{Rm}$ op basis van toename (keersom) van twee en vijf
 of een afname (deling) van twee en vijf. Echter is $Kd_{Rm}$ bij iedere toename of afname nog afhankelijk van de
@@ -565,44 +544,41 @@ lineair door blijft dalen.
 
 ### Toevoer van de drug (D) stoppen na het bereiken van de stabiele toestand
 
-```{r, fig.cap="*Nog invullen*"}
-verloop.dataset.steady <- ode(initial.values.1, times.2.2, 
-                              verandering_dt.2.2, parameters.1, D=53.4)
+```{r}
+verloop.dataset.48.uur <- ode(y=initial.values.1, times=times.2.1,func=verandering_dt.1,parms=parameters.1,D=53.4)
 
-verloop.dataset.96 <- ode(initial.values.1, times.2.2, 
-                              verandering_dt.1, parameters.1, D=53.4)
+initial.values.2 <- verloop.dataset.48.uur[48, 2:5]
 
+verloop.steady.state <- ode(y=initial.values.2, times=times.2.2,func=verandering_dt.1,parms=parameters.1, D=0)
 
+normaal.verloop.48.uur <- data.frame(
+  time = verloop.dataset.48.uur[, 1],
+  DR_N = verloop.dataset.48.uur[, 2],
+  mRNAr = verloop.dataset.48.uur[, 3])
+  
 steady.state <- data.frame(
-  time = verloop.dataset.steady[, 1],
-  DR_N = verloop.dataset.steady[, 2],
-  mRNAr = verloop.dataset.steady[, 3]
-)
+  time = verloop.steady.state[, 1],
+  DR_N = verloop.steady.state[, 2],
+  mRNAr = verloop.steady.state[, 3])
+```
 
-normaal.verloop <- data.frame (
-  time = verloop.dataset.96[, 1],
-  DR_N = verloop.dataset.96[, 2],
-  mRNAr = verloop.dataset.96[, 3]
-)
-
+```{r, fig.cap = "*Nog in te vullen....*"}
 ggplot() +
-  geom_line(data = normaal.verloop, mapping = aes(x = time, y = mRNAr, colour = "mRNAr"), linewidth = 1.2) +
-  geom_line(data = normaal.verloop, mapping = aes(x = time, y = DR_N, colour = "DR_NR"), linewidth = 1.2) +
-  scale_colour_manual(values = c("darkred", "steelblue")) +
-  labs(title = "Verloop van [mRNAr] en [DR_N]", subtitle = "Normale situatie") +
+  geom_line(data = normaal.verloop.48.uur, mapping = aes(x = time, y = DR_N, colour = "DR_N normaal verloop"), linewidth = 1.2) +
+  geom_line(data = steady.state, mapping = aes(x = time, y = DR_N, colour = "DR_N steady state"), linewidth = 1.2, linetype = "dashed") +
+  scale_colour_manual(values = c("black", "darkred")) +
+  labs(title = "Verloop [DR_N]", subtitle = "De toediening van D stopt na het bereiken van de steady state") +
   theme(plot.title = element_text(color="black", size=12, face="bold.italic"),
         plot.subtitle = element_text(color = "red", size = 10))
 
 ggplot() +
-  geom_line(data = steady.state, mapping = aes(x = time, y = mRNAr, colour = "mRNAr"), linewidth = 1.2) +
-  geom_line(data = steady.state, mapping = aes(x = time, y = DR_N, colour = "DR_NR"), linewidth = 1.2) +
-  scale_colour_manual(values = c("darkred", "steelblue")) +
-  labs(title = "Verloop van [mRNAr] en [DR_N]", subtitle = "Toedienen van D stopt na bereiking van de steady state") +
+  geom_line(data = normaal.verloop.48.uur, mapping = aes(x = time, y = mRNAr, colour = "mRNAr normaal verloop"), linewidth = 1.2) +
+  geom_line(data = steady.state, mapping = aes(x = time, y = mRNAr, colour = "mRNAr steady state"), linewidth = 1.2, linetype = "dashed") +
+  scale_colour_manual(values = c("black", "darkred")) +
+  labs(title = "Verloop [mRNAr]", subtitle = "De toediening van D stopt na het bereiken van de steady state") +
   theme(plot.title = element_text(color="black", size=12, face="bold.italic"),
         plot.subtitle = element_text(color = "red", size = 10))
 ```
-
-
 
 Tabel 2: *Tabel waarin is te zien dat er ongeveer een steady state is bereikt bij t = 35.*
 
@@ -660,22 +636,31 @@ Voor de correcties van $Kre$ heeft de deling meer effect dan de vermenigvuldigin
 ### Het blokkeren van de synthese van de vrije receptor
 
 ```{r, fig.cap="*In figuur 10 is het verloop te zien van de hoeveelheid vrije R en mRNAr waarbij de constante kS_rm is veranderd naar 0. Beide grafieken lijken op het 'normale/originele model'*"}
+
+# TODO: vertalen van deze funtie naar ggplot, denk aan de tijdseenheid van 48 uur.
+
 parameters.1["Ks_Rm"] = 0
 
 dataset.geen.R.synthese <- ode(initial.values.1, times.2.1, 
                       verandering_dt.1, parameters.1, D = 53.4)
-par(mfrow = c(1,2))
-plot(dataset.geen.R.synthese[, "R"], 
-     xlab = "Tijd (in uren)", 
-     ylab = "hoeveelheid R", 
-     type = "l",
-     main = "vrije R synthese (U)")
 
-plot(dataset.geen.R.synthese[, "mRNAr"], 
-     xlab = "Tijd (in uren)", 
-     ylab = "hoeveelheid mRNAr", 
-     type = "l",
-     main = "mRNAr productie (V)")
+verloop.dataset.48.uur.wel.R <- data.frame(
+  time = verloop.dataset.48.uur[, 1],
+  R = verloop.dataset.48.uur[, 4],
+  mRNAr = verloop.dataset.48.uur[, 3])
+
+dataset.48.uur.geen.R.synthese <- data.frame(
+  time = dataset.geen.R.synthese[, 1],
+  R = dataset.geen.R.synthese[, 4],
+  mRNAr = dataset.geen.R.synthese[, 3])
+
+ggplot() +
+  geom_line(data = verloop.dataset.48.uur.wel.R, mapping = aes(x = time, y = R, colour = "Wel R"), linewidth = 1.2) +
+  geom_line(data = dataset.48.uur.geen.R.synthese, mapping = aes(x = time, y = R, colour = "Geen R"), linewidth = 1.2) +
+  scale_colour_manual(values = c("darkred", "steelblue")) +
+  labs(title = "Verloop [R]", subtitle = "Zowel met als zonder de synthese blokkering") +
+  theme(plot.title = element_text(color="black", size=12, face="bold.italic"),
+        plot.subtitle = element_text(color = "red", size = 10))
 ```
 
 In figuur 10 is het verloop te zien van de hoeveelheid vrije R in grafiek U. Om deze grafiek te maken 
