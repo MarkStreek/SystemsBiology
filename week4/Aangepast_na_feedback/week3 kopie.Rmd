@@ -505,6 +505,10 @@ Dat wil zeggen het aantal mRNA wordt hoger geschat in het model.
 ### Verloop van het model zonder auto-regulatie
 
 ```{r} 
+# Het aanroepen van de ode functie, waardes worden opgeslagen
+verloop.dataset.r.niet.afhankelijk <- ode(initial.values.1,
+                                          times.2.1, verandering_dt.2.1, parameters.1, D=53.4)
+
 R.afhankelijk <- data.frame(
   time = verloop.dataset[, 1],
   DR_N = verloop.dataset[, 2],
@@ -533,14 +537,14 @@ R.niet.afhankelijk.plot.DR_N <- ggplot(mapping = aes(x = time, y = DR_N)) +
 
 R.afhankelijk.plot.mRNAr <- ggplot(mapping = aes(x = time, y = mRNAr)) +
   geom_line(data = R.afhankelijk, aes(colour = "Model"), linewidth = 1.5) +
-  scale_colour_manual(values = "blue") + 
+  scale_colour_manual(values = "steelblue") + 
   labs(title = "Verloop van [mRNAr]", subtitle = "R afhankelijk (Normale situatie)") +
   theme(plot.title = element_text(color="black", size=7, face="bold.italic"),
         plot.subtitle = element_text(color = "red", size = 5))
 
 R.niet.afhankelijk.plot.mRNAr <- ggplot(mapping = aes(x = time, y = mRNAr)) +
   geom_line(data = R.niet.afhankelijk, aes(colour = "Model"), linewidth = 1.5) +
-  scale_colour_manual(values = "blue") + 
+  scale_colour_manual(values = "steelblue") + 
   labs(title = "Verloop van [mRNAr]", subtitle = "R niet afhankelijk") +
   theme(plot.title = element_text(color="black", size=7, face="bold.italic"),
         plot.subtitle = element_text(color = "red", size = 5))
@@ -561,14 +565,13 @@ lineair door blijft dalen.
 
 ### Toevoer van de drug (D) stoppen na het bereiken van de stabiele toestand
 
-```{r, fig.cap="*In figuur 6/7 is het verloop te zien van grafiek C en D (DR_N en mRNAr) waarbij doses (D) naar nul gaat zodra de steady state wordt bereikt bij t = 35. Op de x-as staat de hoeveelheid stof in fmol/mg eiwit en de y-as geeft de tijd in uren.*"}
+```{r, fig.cap="*Nog invullen*"}
 verloop.dataset.steady <- ode(initial.values.1, times.2.2, 
                               verandering_dt.2.2, parameters.1, D=53.4)
 
 verloop.dataset.96 <- ode(initial.values.1, times.2.2, 
                               verandering_dt.1, parameters.1, D=53.4)
 
-plot(verloop.dataset.steady)
 
 steady.state <- data.frame(
   time = verloop.dataset.steady[, 1],
@@ -582,16 +585,21 @@ normaal.verloop <- data.frame (
   mRNAr = verloop.dataset.96[, 3]
 )
 
+ggplot() +
+  geom_line(data = normaal.verloop, mapping = aes(x = time, y = mRNAr, colour = "mRNAr"), linewidth = 1.2) +
+  geom_line(data = normaal.verloop, mapping = aes(x = time, y = DR_N, colour = "DR_NR"), linewidth = 1.2) +
+  scale_colour_manual(values = c("darkred", "steelblue")) +
+  labs(title = "Verloop van [mRNAr] en [DR_N]", subtitle = "Normale situatie") +
+  theme(plot.title = element_text(color="black", size=12, face="bold.italic"),
+        plot.subtitle = element_text(color = "red", size = 10))
 
 ggplot() +
-  geom_line(data = steady.state, mapping = aes(x = time, y = mRNAr, colour = "Model")) +
-  geom_line(data = steady.state, mapping = aes(x = time, y = DR_N, colour = "DR_NR"))
-
-ggplot() +
-  geom_line(data = normaal.verloop, mapping = aes(x = time, y = mRNAr, colour = "Model")) +
-  geom_line(data = normaal.verloop, mapping = aes(x = time, y = DR_N, colour = "DR_NR"))
-
-
+  geom_line(data = steady.state, mapping = aes(x = time, y = mRNAr, colour = "mRNAr"), linewidth = 1.2) +
+  geom_line(data = steady.state, mapping = aes(x = time, y = DR_N, colour = "DR_NR"), linewidth = 1.2) +
+  scale_colour_manual(values = c("darkred", "steelblue")) +
+  labs(title = "Verloop van [mRNAr] en [DR_N]", subtitle = "Toedienen van D stopt na bereiking van de steady state") +
+  theme(plot.title = element_text(color="black", size=12, face="bold.italic"),
+        plot.subtitle = element_text(color = "red", size = 10))
 ```
 
 
