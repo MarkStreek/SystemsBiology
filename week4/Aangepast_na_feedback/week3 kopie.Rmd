@@ -302,6 +302,7 @@ Tijdssequentie die gebruikt wordt bij de sectie die kijkt naar de juistheid van 
 
 ```{r}
 times.2.1 <- 0 : 48
+times.2.2 <- 0 : 96
 ```
 
 ### Scenario 2: Simulatie scenario's
@@ -393,90 +394,89 @@ dataset.k2 <- ode(initial.values.1, times.2.1, verandering_dt.1, parameters.2, D
     
 In deze sectie zal er worden gekeken naar de resultaten. 
 
+## Scenario één, testen van de validiteit
+
 ### Plotten van de experimentele data samen met het model
 
-```{r, fig.cap="*De bovenstaande figuur geeft het model en de experimentele waardes weer. De verloop van het model is een vloeiende lijn die eerste daalt en vervolgens weer iets stijgt en naar een constante waarde gaat. De rode lijn geeft de experimentele data weer van de lage dosis. De groene lijn geeft de hoge dosis weer. Beide lijnen zijn schokkerige lijnen. De waardes van de experimentele data liggen iets onder de model waardes. De lijnen voor de vrije receptor (figuur 2) zitten ongeveer op dezelfde waardes, halverwege vertoond het experiment een kleine piek.*"}
-
-layout(matrix(c(1 ,2, 3, 4), ncol = 2, nrow = 2, byrow = TRUE))
-
+```{r}
+# Het uitvoeren van de testen met de juiste Drug waardes
 verloop.dataset <- ode(initial.values.1, times.1, verandering_dt.1, parameters.1, D = 53.4)
 verloop.dataset.lage.doses <- ode(initial.values.1, times.1, verandering_dt.1, parameters.experiment, D = 39)
 verloop.dataset.hoge.doses <- ode(initial.values.1, times.1, verandering_dt.1, parameters.experiment, D = 107)
-
-# mRNA lage dosis
-
-# Plotten van het model
-plot(verloop.dataset.lage.doses[,"mRNAr"],main = "mRNAr met lage dosis",type="l", xlab="Time", ylab="mRNAr", lwd = 2, xlim = c(0, 150), ylim = c(0, 8), col = "#21A9AD")
-# Toevoegen experementiele mediaan lage dosis
-lines(medians$mRNA[medians$dose == 0.1] ~ medians$time[medians$dose == 0.1],type = "l", lwd = 2, col = "darkred")
-# Toevoegen losse experiment punten
-points(experiment.data$mRNA, col = "black", pch = 1, cex = .7)
-
-# mRNA hoge dosis
-
-# Plotten van het model
-plot(verloop.dataset.hoge.doses[,"mRNAr"], main = "mRNAr met hoge dosis",type="l", xlab="Time", ylab="Free receptor", lwd = 2, xlim = c(0, 150), ylim = c(0, 8), col = "#21A9AD")
-# Toevoegen experementiele mediaan hoge dosis
-lines(medians$mRNA[medians$dose == 0.3] ~ medians$time[medians$dose == 0.3], type = "l", lwd = 2, col = "darkred")
-# Toevoegen losse experiment punten
-points(experiment.data$mRNA, pch = 1, cex = .7, col = "black")
-
-# Vrije R lage dosis
-
-# Plotten van het model
-plot(verloop.dataset.lage.doses[,"R"],main = "Free receptor (R) met lage dosis",type="l", xlab="Time", ylab="Free receptor", lwd = 2, xlim = c(0, 140), ylim = c(0, 500), col = "#21A9AD")
-# Toevoegen experementiele mediaan lage dosis
-lines(medians$Free_receptor[medians$dose == 0.1] ~ medians$time[medians$dose == 0.1], type = "l", lwd = 2, col = "darkred")
-# Toevoegen losse experiment punten
-points(experiment.data$Free_receptor, col = "black", pch = 1, cex = .7)
-
-# Vrije R hoge dosis
-
-# Plotten van het model
-plot(verloop.dataset.hoge.doses[,"R"],main = "Free receptor (R) met hoge dosis",type="l", xlab="Time", ylab="Free receptor", lwd = 2, xlim = c(0, 140), ylim = c(0, 500), col = "#21A9AD")
-# Toevoegen experementiele mediaan hoge dosis
-lines(medians$Free_receptor[medians$dose == 0.3] ~ medians$time[medians$dose == 0.3], type = "l", lwd = 2, col = "darkred")
-# Toevoegen losse experiment punten
-points(experiment.data$Free_receptor, col = "black", pch = 1, cex = .7)
-
 ```
 
-```{r, fig.cap="**Hier moet de omschrijving van het figuur komen.**"}
+```{r}
+# Voor het gebruik van ggplot, moet de data eerst in dataframes worden gezet
+# Dit wordt hieronder gedaan
+lage.dosis <- data.frame(
+  time = verloop.dataset.lage.doses[, 1],
+  mRNAr_waarde = verloop.dataset.lage.doses[, 3],
+  R_waarde = verloop.dataset.lage.doses[, 4])
+
+experiment.lage.dosis <- data.frame(
+  time = medians$time[medians$dose == 0.1],
+  mRNAr_waarde = medians$mRNA[medians$dose == 0.1],
+  R_waarde = medians$Free_receptor[medians$dose == 0.1])
+
+hoge.dosis <- data.frame(
+  time = verloop.dataset.hoge.doses[, 1],
+  mRNAr_waarde = verloop.dataset.hoge.doses[, 3],
+  R_waarde = verloop.dataset.hoge.doses[, 4])
+
+experiment.hoge.dosis <- data.frame(
+  time = medians$time[medians$dose == 0.3],
+  mRNAr_waarde = medians$mRNA[medians$dose == 0.3],
+  R_waarde = medians$Free_receptor[medians$dose == 0.3])
+
+experiment.punten <- data.frame(
+  mRNAr_waarde = experiment.data$mRNA, 
+  time = experiment.data$time,
+  R_waarde = experiment.data$Free_receptor)
+```
+
+\pagebreak
+
+```{r, fig.cap = "*Nog in te vullen*"}
+# Inladen van de juiste pakketten voor het maken van de figuren
 library(ggplot2)
 library(patchwork)
 
-data <- data.frame(
-  time = verloop.dataset.lage.doses[, 1],
-  waarde = verloop.dataset.lage.doses[, 3])
+# Het definiëren van de plots
+mRNAr_lage.dosis <- ggplot(mapping = aes(x = time, y = mRNAr_waarde)) +
+  geom_line(data = lage.dosis, aes(colour = "Model"), linewidth = 1.5) +
+  geom_line(data = experiment.lage.dosis, aes(colour = "Experimentele data"), linewidth = 1.5) + 
+  scale_colour_manual(values = c("darkred", "steelblue")) + ylim(0,8) + 
+  labs(title = "Verloop [mRNAr] lage dosis", subtitle = "Dosis: 0.1") +
+  theme(plot.title = element_text(color="black", size=7, face="bold.italic"),
+        plot.subtitle = element_text(color = "red", size = 5))
 
-data2 <- data.frame(
-  time = medians$time[medians$dose == 0.1],
-  waarde = medians$mRNA[medians$dose == 0.1])
+mRNAr_hoge.dosis <- ggplot(mapping = aes(x = time, y = mRNAr_waarde)) +
+  geom_line(data = hoge.dosis, aes(colour = "Model"), linewidth = 1.5) +
+  geom_line(data = experiment.hoge.dosis, aes(colour = "Experiment"), linewidth = 1.5) +
+  scale_colour_manual(values = c("darkred", "steelblue", "black")) + ylim(0,8) + 
+  labs(title = "Verloop [mRNAr] hoge dosis", subtitle = "Dosis: 0.3") +
+  theme(plot.title = element_text(color="black", size=7, face="bold.italic"),
+        plot.subtitle = element_text(color = "red", size = 5))
 
-plot1 <- ggplot(mapping = aes(x = time, y = waarde)) +
-  geom_line(data = data, aes(colour = "Model"), size = 1.5) +
-  geom_line(data = data2, aes(colour = "Experimentele data"), size = 1.5) +
-  scale_colour_manual(values = c("darkred", "steelblue")) + ylim(0,5)
+R_lage.dosis <- ggplot(mapping = aes(x = time, y = R_waarde)) +
+  geom_line(data = lage.dosis, aes(colour = "Model"), linewidth = 1.5) +
+  geom_line(data = experiment.lage.dosis, aes(colour = "Experimentele data"), linewidth = 1.5) +
+  scale_colour_manual(values = c("darkred", "steelblue")) + ylim(0, 500) + 
+  labs(title = "Verloop [R] lage dosis", subtitle = "Dosis: 0.1") +
+  theme(plot.title = element_text(color="black", size=7, face="bold.italic"),
+        plot.subtitle = element_text(color = "red", size = 5))
 
-data3 <- data.frame(
-  time = verloop.dataset.hoge.doses[, 1],
-  waarde = verloop.dataset.hoge.doses[, 3]
-)
+R_hoge.dosis <- ggplot(mapping = aes(x = time, y = R_waarde)) +
+  geom_line(data = hoge.dosis, aes(colour = "Model"), linewidth = 1.5) +
+  geom_line(data = experiment.hoge.dosis, aes(colour = "Experimentele data"), linewidth = 1.5) + 
+  scale_colour_manual(values = c("darkred", "steelblue")) + ylim(0, 500) + 
+  labs(title = "Verloop [R] hoge dosis", subtitle = "Dosis: 0.3") +
+  theme(plot.title = element_text(color="black", size=7, face="bold.italic"),
+        plot.subtitle = element_text(color = "red", size = 5))
 
-data4 <- data.frame(
-  time = medians$time[medians$dose == 0.3],
-  waarde = medians$mRNA[medians$dose == 0.3]
-)
-
-plot2 <- ggplot(mapping = aes(x = time, y = waarde)) +
-  geom_line(data = data3, aes(colour = "Model"), size = 1.5) +
-  geom_line(data = data4, aes(colour = "Experiment"), size = 1.5) +
-  scale_colour_manual(values = c("darkred", "steelblue")) + ylim(0,5)
-
-
-p1 + p2 + p1 + p2
+# Naast elkaar plotten van de figuren
+mRNAr_lage.dosis + mRNAr_hoge.dosis + R_lage.dosis + R_hoge.dosis
 ```
-
 
 \pagebreak
 
@@ -500,31 +500,53 @@ Bij het aantal vrije receptoren ligt het verloop van het model tussen de twee me
 overlapt het model goed met experimentele data. Echter is er wel een lagere werkelijkheid bij het aantal mRNA.
 Dat wil zeggen het aantal mRNA wordt hoger geschat in het model.
 
+## Scenario twee, simulatie scenario's
+
 ### Verloop van het model zonder auto-regulatie
 
-```{r, fig.cap="*Figuren die het verloop van de concentraties weergeven over tijd. Bij elke figuur is op de x-as de tijd (in uren) zichtbaar. Op de y-as staat de concentratie in de juiste eenheid. Grafiek 1 geeft het verloop van de concentratie MPL-complex in de celkern weer. Grafiek 2 geeft de concentratie mRNA receptoren weer. Grafiek 3 geeft het verloop van vrije receptoren weer. En de laatste grafiek (4) geeft het verloop van het MPL-complex weer wat niet geactiveerd is.*"} 
+```{r} 
+R.afhankelijk <- data.frame(
+  time = verloop.dataset[, 1],
+  DR_N = verloop.dataset[, 2],
+  mRNAr = verloop.dataset[, 3])
 
-# Het aanroepen van de ode functie, waardes worden opgeslagen
-verloop.dataset.r.niet.afhankelijk <- ode(initial.values.1, 
-                      times.2.1, verandering_dt.2.1, parameters.1, D=53.4)
+R.niet.afhankelijk <- data.frame(
+  time = verloop.dataset.r.niet.afhankelijk[, 1],
+  DR_N = verloop.dataset.r.niet.afhankelijk[, 2],
+  mRNAr = verloop.dataset.r.niet.afhankelijk[, 3])
+```
 
-# plotten van vier formules in vier grafieken
-par(mfrow = c(1,2))
-plot(verloop.dataset.r.niet.afhankelijk[,"DR_N"], 
-     lwd = 2.5,
-     main = "Figuur A",
-     xlab = "Tijd (in uren)",
-     ylab = "Aantal stof (in fmol/mg eiwit)",
-     col = "darkblue",
-     type = "l")
+```{r, fig.cap="*Nog in te vullen....*"}
+R.afhankelijk.plot.DR_N <- ggplot(mapping = aes(x = time, y = DR_N)) +
+  geom_line(data = R.afhankelijk, aes(colour = "Model"), linewidth = 1.5) +
+  scale_colour_manual(values = "darkred") + 
+  labs(title = "Verloop van [DR_N]", subtitle = "R afhankelijk (Normale siuatie)") +
+  theme(plot.title = element_text(color="black", size=7, face="bold.italic"),
+        plot.subtitle = element_text(color = "red", size = 5))
 
-plot(verloop.dataset.r.niet.afhankelijk[,"mRNAr"],
-     lwd = 2.5,
-     main = "figuur B",
-     xlab = "Tijd (in uren)",
-     ylab = "Aantal stof (in fmol/g lever)",
-     col = "blue",
-     type = "l")
+R.niet.afhankelijk.plot.DR_N <- ggplot(mapping = aes(x = time, y = DR_N)) +
+  geom_line(data = R.niet.afhankelijk, aes(colour = "Model"), linewidth = 1.5) +
+  scale_colour_manual(values = "darkred") + 
+  labs(title = "Verloop van [DR_N]", subtitle = "R niet afhankelijk") +
+  theme(plot.title = element_text(color="black", size=7, face="bold.italic"),
+        plot.subtitle = element_text(color = "red", size = 5))
+
+R.afhankelijk.plot.mRNAr <- ggplot(mapping = aes(x = time, y = mRNAr)) +
+  geom_line(data = R.afhankelijk, aes(colour = "Model"), linewidth = 1.5) +
+  scale_colour_manual(values = "blue") + 
+  labs(title = "Verloop van [mRNAr]", subtitle = "R afhankelijk (Normale situatie)") +
+  theme(plot.title = element_text(color="black", size=7, face="bold.italic"),
+        plot.subtitle = element_text(color = "red", size = 5))
+
+R.niet.afhankelijk.plot.mRNAr <- ggplot(mapping = aes(x = time, y = mRNAr)) +
+  geom_line(data = R.niet.afhankelijk, aes(colour = "Model"), linewidth = 1.5) +
+  scale_colour_manual(values = "blue") + 
+  labs(title = "Verloop van [mRNAr]", subtitle = "R niet afhankelijk") +
+  theme(plot.title = element_text(color="black", size=7, face="bold.italic"),
+        plot.subtitle = element_text(color = "red", size = 5))
+
+
+R.afhankelijk.plot.DR_N + R.niet.afhankelijk.plot.DR_N + R.afhankelijk.plot.mRNAr + R.niet.afhankelijk.plot.mRNAr
 ```
 
 In figuur 5 wordt het model geplot nadat D weggehaald wordt uit de formule van 
@@ -540,18 +562,35 @@ lineair door blijft dalen.
 ### Toevoer van de drug (D) stoppen na het bereiken van de stabiele toestand
 
 ```{r, fig.cap="*In figuur 6/7 is het verloop te zien van grafiek C en D (DR_N en mRNAr) waarbij doses (D) naar nul gaat zodra de steady state wordt bereikt bij t = 35. Op de x-as staat de hoeveelheid stof in fmol/mg eiwit en de y-as geeft de tijd in uren.*"}
-verloop.dataset.steady <- ode(initial.values.1, times.2.1, 
+verloop.dataset.steady <- ode(initial.values.1, times.2.2, 
                               verandering_dt.2.2, parameters.1, D=53.4)
 
-plot(verloop.dataset.steady[,"DR_N"], 
-     type = "l", main = "Figuur C",
-     xlab = "Tijd (in uren)",
-     ylab = "Hoeveelheid DR_N (n)")
+verloop.dataset.96 <- ode(initial.values.1, times.2.2, 
+                              verandering_dt.1, parameters.1, D=53.4)
 
-plot(verloop.dataset.steady[,"mRNAr"],
-     type = "l", main = "Figuur D",
-     xlab = "Tijd (in uren)",
-     ylab = "Hoeveelheid mRNAr (n)")
+plot(verloop.dataset.steady)
+
+steady.state <- data.frame(
+  time = verloop.dataset.steady[, 1],
+  DR_N = verloop.dataset.steady[, 2],
+  mRNAr = verloop.dataset.steady[, 3]
+)
+
+normaal.verloop <- data.frame (
+  time = verloop.dataset.96[, 1],
+  DR_N = verloop.dataset.96[, 2],
+  mRNAr = verloop.dataset.96[, 3]
+)
+
+
+ggplot() +
+  geom_line(data = steady.state, mapping = aes(x = time, y = mRNAr, colour = "Model")) +
+  geom_line(data = steady.state, mapping = aes(x = time, y = DR_N, colour = "DR_NR"))
+
+ggplot() +
+  geom_line(data = normaal.verloop, mapping = aes(x = time, y = mRNAr, colour = "Model")) +
+  geom_line(data = normaal.verloop, mapping = aes(x = time, y = DR_N, colour = "DR_NR"))
+
 
 ```
 
