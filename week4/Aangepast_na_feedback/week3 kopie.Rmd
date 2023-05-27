@@ -13,7 +13,7 @@ linkcolor: blue
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(echo = TRUE, warning=FALSE)
 ```
 
 \pagebreak
@@ -51,16 +51,33 @@ Bij het nader kijken wordt er bedoelt dat er aantal situaties worden uitgewerkt.
   * Het modificeren van de constanten $k_{re}$ en $k_{on}$
   * Het blokkeren van de synthese van de vrije receptor
   * Het modificeren van de constanten $k_{s\_Rm}$ en $k_{d\_Rm}$
-  
+
+\pagebreak
+
 ## Doel
   
 Het doel van dit onderzoek is om erachter te komen welke elementen belangrijk zijn in het model. Dus de elementen die van grote invloed zijn op bepaalde waardes. Aan de hand hiervan kan er ook iets gezegd worden over de hoeveelheid drug die kan toe worden gediend. De uitleg over deze elementen wordt in de theorie toegelicht.
+
+Er zijn een aantal verwachtingen bij het model. Allereerst wordt er verwacht dat het aantal receptoren een belangrijke factor zal zijn. Hier bindt de drug aan en zal dus belangrijk zijn. Verder zal ook het aantal drug een belangrijke rol spelen. Zoals eerder vermeld werden de ratten geïnfecteerd met een dosis van 0.1 (laag) en 0.3 (hoog). De verwachting is dat ergens tussen deze waarden een ideale dosering ligt. 
+
 
 > **Moet er in het doel al iets verteld worden over elementen of is dit iets voor de theorie sectie?**
 
 Dit doel kan bereikt worden door aanpassingen te doen aan het model en vervolgens te simuleren. Deze simulaties kunnen vergeleken worden met de experimentele data. Aan de hand hiervan kan worden vastgesteld of een aanpassing/weglating van een element in het model van grote invloed is.
 
-Er zijn een aantal verwachtingen bij het model. Allereerst wordt er verwacht dat het aantal receptoren een belangrijke factor zal zijn. Hier bindt de drug aan en zal dus belangrijk zijn. Verder zal ook het aantal drug een belangrijke rol spelen. Zoals eerder vermeld werden de ratten geïnfecteerd met een dosis van 0.1 (laag) en 0.3 (hoog). De verwachting is dat ergens tussen deze waarden een ideale dosering ligt. 
+&nbsp;
+
+Verder zijn er verwachtingen van wat er zal gebeuren per simulatie. In de eerste scenario (4.1) wordt er gekeken hoe valide het model werkt vergeleken met de experimentele data, bij twee verschillende doses. Hierbij wordt verwacht dat de grafiek van het model vloeiender zal dan de experimentele data, omdat in het echt altijd afwijkingen zullen zijn. In scenario 2 (4.2) worden in meerdere simulaties parameters aangepast om te zien wat voor invloed ze uitoefenen. 
+
+In simulatie één (4.2.1) wordt gekeken naar het verloop van $DR_N$ en $mRNAr$, wanneer de synthese van $R$ wel en niet wordt gereguleerd. Er wordt verwacht dat wanneer de synthese van $R$ niet gereguleerd wordt, dat de zowel de $mRNAr$ als $DR_N$ synthese hoger zal zijn. Dit komt doordat er niet wordt aangegeven, dat de aanmaak van $R$ moet minderen. 
+
+Vervolgens wordt in simulatie twee (4.2.2) de toevoer van de drug (D) gestopt na het bereiken van een stabiele toestand. Zodra de toevoer D zal stoppen wordt er verwacht dat de synthese van $R$ toeneemt, doordat het niet meer wordt gereguleerd door $D$, zoals in simulatie 1 specifiek wordt bekeken. Door afwezigheid van $D$ kan er geen MPL-complex (DR) meer gevormd worden en dus ook geen geactiveerd MPL-complex (DR_N). 
+
+De aanmaak van $mRNAr$ en $R$ wordt beïnvloedt door de constanten $k_{re}$ en $k_{on}$ te modificeren door keer/gedeeld door met vijf en twee op verschillende wijzen in simulatie drie (4.2.3). Er wordt verwacht dat bij keer vijf en twee de aanmaak zal stijgen, maar vijf zorgt voor een hogere stijging. Het omgekeerde wordt verwacht bij een deling, waarbij vijf zorgt voor sterkere dalingen.
+
+In simulatie vier (4.2.4) wordt de synthese van $R$ geblokkeerd. De aanname is dat over tijd het model zal dalen en vervolgens constant verlopen. Door afwezigheid van $R$ kan geen nieuwe $DR$ en $DR_N$ gevormd worden, wat als gevolg zal afnemen totdat er een evenwicht is bereikt.
+
+Zoals in simulatie drie worden er constanten in simulatie vijf (4.2.5) gemodificeerd met twee en vijf, namelijk $k_{s\_Rm}$ en $k_{d\_Rm}$ . Bij een keersom van vijf en twee wordt er verwacht dat er meer complex $DR$ en $DR_N$ gevormd zal worden, daartegenover is de synthese van de complexen lager bij een deling van twee en vijf.
 
 \pagebreak
 
