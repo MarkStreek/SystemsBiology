@@ -61,8 +61,6 @@ Het doel van dit onderzoek is om erachter te komen welke elementen belangrijk zi
 Er zijn een aantal verwachtingen bij het model. Allereerst wordt er verwacht dat het aantal receptoren een belangrijke factor zal zijn. Hier bindt de drug aan en zal dus belangrijk zijn. Verder zal ook het aantal drug een belangrijke rol spelen. Zoals eerder vermeld werden de ratten geïnfecteerd met een dosis van 0.1 (laag) en 0.3 (hoog). De verwachting is dat ergens tussen deze waarden een ideale dosering ligt. 
 
 
-> **Moet er in het doel al iets verteld worden over elementen of is dit iets voor de theorie sectie?**
-
 Dit doel kan bereikt worden door aanpassingen te doen aan het model en vervolgens te simuleren. Deze simulaties kunnen vergeleken worden met de experimentele data. Aan de hand hiervan kan worden vastgesteld of een aanpassing/weglating van een element in het model van grote invloed is.
 
 &nbsp;
@@ -73,9 +71,9 @@ In simulatie één (4.2.1) wordt gekeken naar het verloop van $DR_N$ en $mRNAr$,
 
 Vervolgens wordt in simulatie twee (4.2.2) de toevoer van de drug (D) gestopt na het bereiken van een stabiele toestand. Zodra de toevoer D zal stoppen wordt er verwacht dat de synthese van $R$ toeneemt, doordat het niet meer wordt gereguleerd door $D$, zoals in simulatie 1 specifiek wordt bekeken. Door afwezigheid van $D$ kan er geen MPL-complex (DR) meer gevormd worden en dus ook geen geactiveerd MPL-complex (DR_N). 
 
-De aanmaak van $mRNAr$ en $R$ wordt beïnvloedt door de constanten $k_{re}$ en $k_{on}$ te modificeren door keer/gedeeld door met vijf en twee op verschillende wijzen in simulatie drie (4.2.3). Er wordt verwacht dat bij keer vijf en twee de aanmaak zal stijgen, maar vijf zorgt voor een hogere stijging. Het omgekeerde wordt verwacht bij een deling, waarbij vijf zorgt voor sterkere dalingen.
+De aanmaak van $mRNAr$ en $R$ wordt beïnvloedt door de constanten $k_{re}$ en $k_{on}$ te modificeren door keer/gedeeld door met vijf en twee op verschillende wijzen in simulatie drie (4.2.3). Er wordt verwacht dat bij keer vijf en twee de aanmaak zal stijgen, maar vijf zorgt voor hogere stijgingen. Het omgekeerde wordt verwacht bij een deling, waarbij vijf zorgt voor sterkere dalingen.
 
-In simulatie vier (4.2.4) wordt de synthese van $R$ geblokkeerd. De aanname is dat over tijd het model zal dalen en vervolgens constant verlopen. Door afwezigheid van $R$ kan geen nieuwe $DR$ en $DR_N$ gevormd worden, wat als gevolg zal afnemen totdat er een evenwicht is bereikt.
+In simulatie vier (4.2.4) wordt de synthese van $R$ geblokkeerd. De aanname is dat over tijd de hoeveelheid zal dalen en vervolgens constant verlopen. Deze daling zal stoppen wanneer er te weinig $R$ is om nieuwe $DR$ en $DR_N$ te vormen.
 
 Zoals in simulatie drie worden er constanten in simulatie vijf (4.2.5) gemodificeerd met twee en vijf, namelijk $k_{s\_Rm}$ en $k_{d\_Rm}$ . Bij een keersom van vijf en twee wordt er verwacht dat er meer complex $DR$ en $DR_N$ gevormd zal worden, daartegenover is de synthese van de complexen lager bij een deling van twee en vijf.
 
@@ -771,15 +769,37 @@ Ook de toename wordt met dezelfde logica beïnvloed en neemt iets later pas toe.
 
 ## Discussie
     
-Uit de resultaten sectie zijn behoorlijke wat resultaten naar voren gekomen. Er waren ook 'weinig' verwachtingen voor het onderzoek, omdat we natuurlijk niet wisten wat het model ging doen bij een specifieke aanpassing. De verwachting was dat het aantal vrije receptoren een belangrijke rol zal spelen. Het bewijs voor deze verwachting werd getoond in (2.1). De grafiek van DR_N vertoond een behoorlijk ander verloop. De stijging is namelijk veel sneller. Als de drug geen effect heeft op de synthese van R, komt er een veel hogere concentratie van R. Hierdoor komt er ook veel meer DR_N en dus ook veel meer bijwerkingen. R speelt dus een belangrijke rol.
+Uit de resultaten sectie zijn behoorlijk wat resultaten naar voren gekomen. 
 
-Verder werd er ook verwacht dat het aantal D een belangrijke rol speelt. Al snel bleek dat na een bepaalde drug (D=53.4) de werking niet meer snel stijgt. De grafieken voor een hoge dosis D geven niet een significante hogere uitval.
+Ten eerste werd er verwacht dat het aantal $D$ een belangrijke rol zou spelen. Dit werd duidelijk in (4.1.1). Al snel bleek dat na een dose van (0.3) minder $mRNAr$ en $R$ aanwezig was over de gehele tijdsequentie. Dit komt doordat hoe meer $D$ er is, hoe meer deze kan binden met $R$ tot een MPL-complex. Hiermee wordt aangetoond dat $D$ inderdaad reageert in het systeem en dus belangrijke rol speelt. 
+
+Verder werd er ook verwacht dat het aantal vrije receptoren een belangrijke rol speelt. Het bewijs voor deze verwachting werd getoond in (4.2.1). De grafiek van $DR_N$ vertoond een behoorlijk ander verloop. De stijging is namelijk veel sneller. Als de drug geen effect heeft op de synthese van $R$, komt er een veel hogere concentratie van $R$. Hierdoor komt er ook veel meer $DR_N$ en dus ook veel meer bijwerkingen. $R$ speelt dus een belangrijke rol.
+
 
 &nbsp;
 
-Bij vraag (2.4) over het stoppen van het toedienen van D, na het bereiken van de steady state, viel iets op. De grafieken stegen of daalden explosief na het stoppen van het toedienen. Achteraf is dit natuurlijk logisch te verklaren. De hoeveelheid D speelt in alle vergelijkingen door, als deze dus plotseling naar 0 zal gaan, is dit van directe invloed op de andere vergelijkingen.
+Bij vraagstuk (4.2.2) over het stoppen van het toedienen van $D$, na het bereiken van de steady state, viel iets op. De grafieken stegen of daalden explosief na het stoppen van het toedienen. Achteraf is dit natuurlijk logisch te verklaren. De hoeveelheid $D$ speelt in alle vergelijkingen door. Als deze dus plotseling naar nul zal gaan, is dit van directe invloed op de andere vergelijkingen.
 
-In resultaten (2.5) verliepen de grafieken zoals er wiskundig verwacht werd. Bij twee was er minder invloed op de toename of afname van de productie factoren voor mRNAr dan bij vijf. Tevens was op logische wijze te zien dat bij een keersom een versterkende invloed werkte en bij een deling het verzachtend effect.
+&nbsp;
+
+De verwachting voor simulatie (4.2.3) kwam overeen met de resultaten van $mRNAr$, bij zowel $Kon$ als $Kre$. Een deling van vijf zorgde voor een sterkere afname dan door twee. Verder zorgde de product waarde van vijf voor een hogere aanmaak dan twee. Het bevestigen van deze verwachtigingen, toont aan dat $Kon$ en $Kre$ een regulerende invloed hebben op de aanmaak van $mRNAr$.
+
+Voor de hoeveelheden $R$ waren bij $Kre$ geen signficante verschillen. Echter, voor $Kon$ een deling van vijf was er een langzamere daling tot y ~ 150 bij t ~ 50, vergeleken met een deling door twee waar de hoeveelheid daalt tot y ~ 100 bij t ~ 5. Bij de vermenigvuldiging van vijf en twee daalt $R$ sneller tot $0 < y < 50$ bij t ~ 10. Echter is op het blote oog geen verandering zichtbaar tussen de vermenigvuldigingen. Uit de resultaten van $Kon$ is dus gebleken dat hoe lager de deling waarde is (richting nul), hoe sterker $R$ afneemt en een vermenigvuldiging zorgt voor een sterkere daling van $R$ überhaupt. 
+
+&nbsp; 
+
+In simulatie vier (4.2.4) wordt de synthese van $R$ geblokkeerd. De aanname is dat over tijd het model zal dalen en vervolgens constant verlopen. Door afwezigheid van $R$ kan geen nieuwe $DR$ en $DR_N$ gevormd worden, wat als gevolg zal afnemen totdat er een evenwicht is bereikt.
+
+In vraagstuk (4.2.4) werd er gekeken naar het blokkeren van de $R$ synthese. De resultaten kwamen overeen met de verwachting. Namelijk zonder synthese van $R$ nam de hoeveelheid $R$ sterker af, wat vervolgens overliep in een bijna constante lijn.
+
+&nbsp; 
+
+In resultaten (4.2.5) verliepen de grafieken niet helemaal zoals er verwacht werd. Er bleek zeer weinig te veranderen in het model, vooral bij $DR$ en $DR_N$ waren geen significante verschillen te zien.  De concentratie $R$ daalde bij keer twee en vijf sneller dan bij gedeeld door, dit werd waargenomen door y op t = 10 te vergelijken. Deze verschillen waren echter erg klein.
+
+De veranderingen in het verloop van $mRNAr$ waren het duidelijkste te zien. Bij gedeeld door vijf daalde de hoeveelheid sneller tot t ~ 10 en bij twee later tot t ~ 20. Hoe hoger de deling waarde, dus hoe sterker de daling wordt en hoe eerder de synthese weer zal toenemen. De keersom van vijf zorgde voor een snellere daling tot t ~ 6 vergeleken met beide delingsfactoren. Echter was bij een deling met twee weinig verschil. De daling liep significant niet anders tot t ~ 7. Het verschil in product waarden laat zien dat de daling minder hard zal veranderen, bij het verhogen van een product waarde.
+
+Het feit dat het model zo weinig veranderde kan beargumenteerd worden, omdat bij forse veranderingen van de aanmaak en afbraak van mRNAr het systeem nog steeds een x aantal $D$ nodig is om de complexen te vormen. Daarom veranderen de grafieken van $DR$ en $DR_N$ niet.
+
 
 ## Algemene conclusie en perspectief
 
