@@ -41,16 +41,14 @@ Glucocorticosteroïden (D) zijn hormonen die worden geproduceerd in de bijniersc
 
 Bij het onderzoek zal gebruik gemaakt worden van experimentele data. Deze data is afkomstig van ratten. De ratten zijn zeven dagen lang geinfecteerd met methylprednisolon (een vorm van een glucocorticosteroïde). De ratten zijn geïnfecteerd met twee verschillende doses: 0.1 en 0.3 mg drug/kg rat/h. Hierover zal meer verteld worden in de theorie. 
 
-Bij het nader kijken wordt er bedoelt dat er aantal situaties worden uitgewerkt. Denk hierbij bijvoorbeeld aan: wat gebeurt er met het systeem als ik een constante vijf keer zo groot maak? Ook wordt er gekeken naar het verloop van het systeem bij een doseringstop na een bepaalde tijd. Al deze situaties worden vergeleken met de experimentele data. De situaties zullen er als volgt uit zien:
+Bij het nader kijken wordt er bedoelt dat er aantal situaties worden uitgewerkt. Denk hierbij bijvoorbeeld aan: wat gebeurt er met het systeem als ik een constante vijf keer zo groot maak? Ook wordt er gekeken naar het verloop van het systeem bij een doseringstop na een bepaalde tijd. Al deze situaties worden vergeleken met de experimentele data. 
 
-- Het testen van de validiteit van het model
-  * Het plotten van de experimentele data samen met het model
-- Simulatie scenario's
-  * Verloop van het model zonder auto-regulatie
-  * Toevoer van de drug (D) stoppen na het bereiken van de stabiele toestand
-  * Het modificeren van de constanten $k_{re}$ en $k_{on}$
-  * Het blokkeren van de synthese van de vrije receptor
-  * Het modificeren van de constanten $k_{s\_Rm}$ en $k_{d\_Rm}$
+
+&nbsp;
+
+Eerst wordt de validiteit van het model getest, door de experimentele data te plotten samen met het model. Vervolgens zullen meerdere scenario's worden gesimuleerd.
+Zo wordt er gekeken naar het verloop van het model zonder autoregulatie. Wat gebeurt er als de toevoer van drug (D) gestopt wordt na het bereiken van de stabiele toestand? Het modificeren van constanten kan inzicht geven wat voor invloed ze daadwerkelijk hebben op het systeem. Daarom worden in één simulatie constanten $k_{re}$ en $k_{on}$ aangepast. Hoe zullen complexen vormen als de synthese van de vrije receptor wordt geblokkeerd? Als laatste scenario worden de constanten $k_{s\_Rm}$ en $k_{d\_Rm}$ veranderd. Deze zijn belangrijk voor de verandering van hoeveelheid receptoren.
+
 
 \pagebreak
 
