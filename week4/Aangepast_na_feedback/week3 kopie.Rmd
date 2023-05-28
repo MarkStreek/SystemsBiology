@@ -35,18 +35,18 @@ knitr::opts_chunk$set(echo = TRUE, warning=FALSE)
 
 # Introductie
 
-In dit verslag zal er nader gekeken worden naar de werking van glucocorticosteroïden. Er zal worden gekeken naar de dynamica hiervan. Het model wat gebruikt wordt, zal nader worden uitgelegd in de theorie. De belangrijkste termen die hier voorbij zullen komen worden alvast kort uitgelegd. 
+In dit verslag zal er nader gekeken worden naar de werking van glucocorticosteroïden. Er zal worden gekeken naar de dynamica hiervan. Het model wat gebruikt wordt, zal nader worden uitglegd in de theorie. De belangrijkste termen die hier voorbij zullen komen worden alvast kort uitgelegd. 
 
 Glucocorticosteroïden (D) zijn hormonen die worden geproduceerd in de bijnierschors. Het is een samenstelling van glucose, cortex en steroïde. glucocorticosteroïden worden ook vaak gebruikt in de remming van ontstekingen. De glucocorticosteroïden binden aan receptoren (R), er ontstaat dan een glucocorticoïdereceptorcomplex (DR). Dit complex verplaatst naar de celkern en bindt hier aan het DNA (DR_N). De transcriptie van genen die ontstekingen veroorzaken worden tegengehouden door de complexen. Tegelijkertijd worden de genen die ontsteking remmen juist gepromoveerd. Er komen dus meer eiwitten die de ontsteking onderdrukken.
 
-Bij het onderzoek zal gebruik gemaakt worden van experimentele data. Deze data is afkomstig van ratten. De ratten zijn zeven dagen lang geïnfecteerd met methylprednisolon (een vorm van een glucocorticosteroïde). De ratten zijn geïnfecteerd met twee verschillende doses: 0.1 en 0.3 mg drug/kg rat/h. Hierover zal meer verteld worden in de theorie. 
+Bij het onderzoek zal gebruik gemaakt worden van experimentele data. Deze data is afkomstig van ratten. De ratten zijn zeven dagen lang geinfecteerd met methylprednisolon (een vorm van een glucocorticosteroïde). De ratten zijn geïnfecteerd met twee verschillende doses: 0.1 en 0.3 mg drug/kg rat/h. Hierover zal meer verteld worden in de theorie. 
 
-Bij het nader kijken wordt er bedoelt dat er aantal situaties worden uitgewerkt. Denk hierbij bijvoorbeeld aan: wat gebeurt er met het systeem als ik een constante vijf keer zo groot maak? Ook wordt er gekeken naar het verloop van het systeem, nadat de toevoer van de dose wordt gehalteerd bij een bepaald tijdstip. Al deze situaties worden vergeleken met de experimentele data. De situaties zullen er als volgt uit zien:
+Bij het nader kijken wordt er bedoelt dat er aantal situaties worden uitgewerkt. Denk hierbij bijvoorbeeld aan: wat gebeurt er met het systeem als ik een constante vijf keer zo groot maak? Ook wordt er gekeken naar het verloop van het systeem bij een doseringstop na een bepaalde tijd. Al deze situaties worden vergeleken met de experimentele data. De situaties zullen er als volgt uit zien:
 
 - Het testen van de validiteit van het model
   * Het plotten van de experimentele data samen met het model
 - Simulatie scenario's
-  * Verloop van het model zonder autoregulatie
+  * Verloop van het model zonder auto-regulatie
   * Toevoer van de drug (D) stoppen na het bereiken van de stabiele toestand
   * Het modificeren van de constanten $k_{re}$ en $k_{on}$
   * Het blokkeren van de synthese van de vrije receptor
@@ -58,24 +58,24 @@ Bij het nader kijken wordt er bedoelt dat er aantal situaties worden uitgewerkt.
   
 Het doel van dit onderzoek is om erachter te komen welke elementen belangrijk zijn in het model. Dus de elementen die van grote invloed zijn op bepaalde waardes. Aan de hand hiervan kan er ook iets gezegd worden over de hoeveelheid drug die kan toe worden gediend. De uitleg over deze elementen wordt in de theorie toegelicht.
 
-Er zijn een aantal verwachtingen bij het model. Allereerst wordt er verwacht dat het aantal receptoren een belangrijke factor zal zijn. Hier bindt de drug aan en zal dus belangrijk zijn. Verder zal ook het aantal drug een belangrijke rol spelen. Zoals eerder vermeld werden de ratten geïnfecteerd met een dosis van 0.1 (laag) en 0.3 (hoog). De verwachting is dat tussen deze waarden een ideale dosering ligt. 
+Er zijn een aantal verwachtingen bij het model. Allereerst wordt er verwacht dat het aantal receptoren een belangrijke factor zal zijn. Hier bindt de drug aan en zal dus belangrijk zijn. Verder zal ook het aantal drug een belangrijke rol spelen. Zoals eerder vermeld werden de ratten geïnfecteerd met een dosis van 0.1 (laag) en 0.3 (hoog). De verwachting is dat ergens tussen deze waarden een ideale dosering ligt. 
 
 
-Dit doel kan bereikt worden door aanpassingen te doen aan het model en vervolgens te simuleren. Deze simulaties kunnen vergeleken worden met de experimentele data. Aan de hand hiervan kan worden vastgesteld of een aanpassing, weglating van een element in het model van grote invloed is.
+Dit doel kan bereikt worden door aanpassingen te doen aan het model en vervolgens te simuleren. Deze simulaties kunnen vergeleken worden met de experimentele data. Aan de hand hiervan kan worden vastgesteld of een aanpassing/weglating van een element in het model van grote invloed is.
 
 &nbsp;
 
-Verder zijn er verwachtingen van wat er zal gebeuren per simulatie. In de eerste scenario (4.1) wordt er gekeken hoe valide het model werkt vergeleken met de experimentele data, bij twee verschillende doses. Hierbij wordt verwacht dat de grafiek van het model vloeiender zal dan de experimentele data, omdat in het echt altijd afwijkingen zullen zijn. In scenario twee (4.2) worden in meerdere simulaties parameters aangepast om te zien wat voor invloed ze uitoefenen. 
+Verder zijn er verwachtingen van wat er zal gebeuren per simulatie. In de eerste scenario (4.1) wordt er gekeken hoe valide het model werkt vergeleken met de experimentele data, bij twee verschillende doses. Hierbij wordt verwacht dat de grafiek van het model vloeiender zal dan de experimentele data, omdat in het echt altijd afwijkingen zullen zijn. In scenario 2 (4.2) worden in meerdere simulaties parameters aangepast om te zien wat voor invloed ze uitoefenen. 
 
-In simulatie één (4.2.1) wordt gekeken naar het verloop van $DR_N$ en $mRNAr$, wanneer de synthese van $R$ wel en niet wordt gereguleerd. Er wordt verwacht dat wanneer de synthese van $R$ niet gereguleerd wordt, zowel de $mRNAr$ als $DR_N$ synthese hoger zal zijn. Dit komt door er niet wordt aangegeven dat de aanmaak van $R$ moet minderen. 
+In simulatie één (4.2.1) wordt gekeken naar het verloop van $DR_N$ en $mRNAr$, wanneer de synthese van $R$ wel en niet wordt gereguleerd. Er wordt verwacht dat wanneer de synthese van $R$ niet gereguleerd wordt, dat de zowel de $mRNAr$ als $DR_N$ synthese hoger zal zijn. Dit komt doordat er niet wordt aangegeven, dat de aanmaak van $R$ moet minderen. 
 
 Vervolgens wordt in simulatie twee (4.2.2) de toevoer van de drug (D) gestopt na het bereiken van een stabiele toestand. Zodra de toevoer D zal stoppen wordt er verwacht dat de synthese van $R$ toeneemt, doordat het niet meer wordt gereguleerd door $D$, zoals in simulatie 1 specifiek wordt bekeken. Door afwezigheid van $D$ kan er geen MPL-complex (DR) meer gevormd worden en dus ook geen geactiveerd MPL-complex (DR_N). 
 
-De aanmaak van $mRNAr$ en $R$ wordt beïnvloed door de constanten $k_{re}$ en $k_{on}$ te modificeren. Dit wordt gedaan door de constanten keer en gedeeld door vijf te doen en hetzelfde met twee op verschillende wijzen in simulatie drie (4.2.3). Er wordt verwacht dat bij keer vijf en twee de aanmaak zal stijgen, maar vijf zorgt voor hogere stijgingen. Het omgekeerde wordt verwacht bij een deling, waarbij vijf zorgt voor sterkere dalingen.
+De aanmaak van $mRNAr$ en $R$ wordt beïnvloedt door de constanten $k_{re}$ en $k_{on}$ te modificeren door keer/gedeeld door met vijf en twee op verschillende wijzen in simulatie drie (4.2.3). Er wordt verwacht dat bij keer vijf en twee de aanmaak zal stijgen, maar vijf zorgt voor hogere stijgingen. Het omgekeerde wordt verwacht bij een deling, waarbij vijf zorgt voor sterkere dalingen.
 
 In simulatie vier (4.2.4) wordt de synthese van $R$ geblokkeerd. De aanname is dat over tijd de hoeveelheid zal dalen en vervolgens constant verlopen. Deze daling zal stoppen wanneer er te weinig $R$ is om nieuwe $DR$ en $DR_N$ te vormen.
 
-Zoals in simulatie drie worden er constanten in simulatie vijf (4.2.5) gemodificeerd met twee en vijf, namelijk $k_{s\_Rm}$ en $k_{d\_Rm}$. Bij een vermenigvuldig van vijf en twee wordt er verwacht dat er meer complex $DR$ en $DR_N$ gevormd zal worden, daartegenover is de synthese van de complexen lager bij een deling van twee en vijf.
+Zoals in simulatie drie worden er constanten in simulatie vijf (4.2.5) gemodificeerd met twee en vijf, namelijk $k_{s\_Rm}$ en $k_{d\_Rm}$ . Bij een keersom van vijf en twee wordt er verwacht dat er meer complex $DR$ en $DR_N$ gevormd zal worden, daartegenover is de synthese van de complexen lager bij een deling van twee en vijf.
 
 \pagebreak
 
@@ -154,7 +154,7 @@ library(deSolve)
 ```
 
 ```{r}
-# Inladen van het experiment data
+# Inladen van de experiment data
 experiment.data <- read.csv("../MPL.csv", header = T, sep = ",")
 medians <- aggregate(experiment.data[,c("MPL_conc","mRNA","Free_receptor")],
                      list(experiment.data$dose,experiment.data$time),
@@ -201,7 +201,7 @@ verandering_dt.1 <- function (time, parameters, initial.values, D) {
 }
 ```
 
-Onderstaand de functie die wordt gebruikt bij de situatie die de blokkering van autoregulatie behandeld (simulatie van scenario's).
+Onderstaand de functie die wordt gebruikt bij de situatie die de blokkering van auto-regulatie behandeld (simulatie van scenario's).
 
 ```{r}
 verandering_dt.2.1 <- function (time, parameters, initial.values, D) {
@@ -232,7 +232,7 @@ In dit hoofdstuk worden alle parameters behandeld die gebruikt en gemodificeerd 
 library(pander)
 ```
 
-Tabel 1: *Variabelen betrokken bij opzetten experiment opgedeeld in zeven constanten, drie parameters en vier initiële waarden.*
+Tabel 1: *Variabelen betrokken bij opzetten experiment opgedeeld in zeven konstantes, drie parameters en vier initiële waarden.*
           
 ```{r}
 # Drie categorieën aan soorten input waarden
@@ -252,7 +252,7 @@ Eenheden <- c("fmol / g liver", rep("fmol/mg protein", 3),
               "L/nmol/h", rep("1 / h", 2), "fmol/mg protein",
               "", "nmol/L")
 
-# Dataframe waar vector namen in de header komen, waarde namen als rij namen 
+# Dataframe waar vector namen in de header komen, waarde namen als rijnamen 
 # en de daadwerkelijke waarden daarin verwerkt.
 model.conf <- data.frame(Waarden, Categorie, Eenheden)
 # Tekenen van tabel
@@ -287,7 +287,7 @@ times.1 <- 0 : 168
 initial.values.1 <- c(DR_N = 0, mRNAr = 4.74, R = 267, DR = 0)
 ```
 
-Tijdsequentie die gebruikt wordt bij de sectie die kijkt naar de juistheid van het model
+Tijdssequentie die gebruikt wordt bij de sectie die kijkt naar de juistheid van het model
 
 ```{r}
 times.2.1 <- 0 : 48
@@ -341,17 +341,17 @@ dataset.kre.k2 <- ode(initial.values.1, times.1,
 
 ```
 
-Verder wordt er in een situatie gekeken naar stopzetting van de synthese van vrije R. Er wordt het standaard model gebruikt, waar $Ks_{Rm}$ = 0, $D$ = 53.4 en de tijdsequentie is $t$ = 48 uur.
+Verder wordt er in een situatie gekeken naar stopzetting van de synthese van vrije R. Er wordt het standaard model gebruikt, waar $Ks_{Rm}$ = 0, $D$ = 53.4 en de tijdssequentie is $t$ = 48 uur.
 
-Er zal ook worden gekeken naar het stoppen van de toevoeging van D na het bereiken van de steady state. Onderstaand de tijdsequentie die hierbij gebruikt wordt.
+Er zal ook worden gekeken naar het stoppen van de toevoeging van D na het bereiken van de steady state. Onderstaand de tijdssequentie die hierbij gebruikt wordt.
 
 ```{r}
 times.2.2 <- 48 : 96
 ```
 
 In de laatste situatie veranderen de parameters $Ks_{Rm}$ en $Kd_{Rm}$ op basis van toename (keersom) van twee en vijf
-of een afname (deling) van twee en vijf. Echter, is $Kd_{Rm}$ bij iedere toename of afname nog afhankelijk van de
-hoeveelheid mRNAr vanaf $t$ = 0, wat 4.74 (n) is. Door het veranderen van deze snelheidsconstanten wordt de aanmaak
+of een afname (deling) van twee en vijf. Echter is $Kd_{Rm}$ bij iedere toename of afname nog afhankelijk van de
+hoeveelheid mRNAr vanaf $t$ = 0, wat 4.74 is. Door het veranderen van deze snelheidsconstanten wordt de aanmaak
 van mRNAr beïnvloed.
 
 ```{r}
@@ -386,7 +386,7 @@ dataset.k2 <- ode(initial.values.1, times.2.1, verandering_dt.1, parameters.2, D
 
 # Resultaten
     
-In deze sectie zal er worden gekeken naar de resultaten. 
+In deze sectie zal er worden gekeken naar de resultaten. De antwoorden op de scenario's worden behandeld in de discussie sectie.
 
 ## Scenario één, testen van de validiteit
 
@@ -394,9 +394,14 @@ In deze sectie zal er worden gekeken naar de resultaten.
 
 ```{r}
 # Het uitvoeren van de testen met de juiste Drug waardes
-verloop.dataset <- ode(initial.values.1, times.1, verandering_dt.1, parameters.1, D = 53.4)
-verloop.dataset.lage.doses <- ode(initial.values.1, times.1, verandering_dt.1, parameters.experiment, D = 39)
-verloop.dataset.hoge.doses <- ode(initial.values.1, times.1, verandering_dt.1, parameters.experiment, D = 107)
+verloop.dataset <- ode(initial.values.1, times.1, 
+                       verandering_dt.1, parameters.1, D = 53.4)
+
+verloop.dataset.lage.doses <- ode(initial.values.1, times.1, 
+                       verandering_dt.1, parameters.experiment, D = 39)
+
+verloop.dataset.hoge.doses <- ode(initial.values.1, times.1, 
+                       verandering_dt.1, parameters.experiment, D = 107)
 ```
 
 ```{r}
@@ -431,44 +436,49 @@ experiment.punten <- data.frame(
 \pagebreak
 
 ```{r, fig.cap = "*Nog in te vullen*"}
-# Inladen van de juiste pakketten voor het maken van de figuren
 library(ggplot2)
-library(patchwork)
 
 # Het definiëren van de plots
 mRNAr_lage.dosis <- ggplot(mapping = aes(x = time, y = mRNAr_waarde)) +
   geom_line(data = lage.dosis, aes(colour = "Model"), linewidth = 1.5) +
-  geom_line(data = experiment.lage.dosis, aes(colour = "Experimentele data"), linewidth = 1.5) + 
-  scale_colour_manual(values = c("darkred", "steelblue")) + ylim(0,8) + 
-  labs(title = "Verloop [mRNAr] lage dosis", subtitle = "Dosis: 0.1") +
-  theme(plot.title = element_text(color="black", size=7, face="bold.italic"),
-        plot.subtitle = element_text(color = "red", size = 5))
+  geom_line(data = experiment.lage.dosis, aes(colour = "Experimentele data"), 
+  linewidth = 1.5) + scale_colour_manual(values = c("darkred", "steelblue")) + 
+  ylim(0,8) + labs(title = "Verloop [mRNAr] lage dosis", 
+  subtitle = "Dosis: 0.1") + theme(plot.title = element_text(color="black", 
+  size=7, face="bold.italic"), plot.subtitle = element_text(color = "red", 
+  size = 5))
 
 mRNAr_hoge.dosis <- ggplot(mapping = aes(x = time, y = mRNAr_waarde)) +
   geom_line(data = hoge.dosis, aes(colour = "Model"), linewidth = 1.5) +
-  geom_line(data = experiment.hoge.dosis, aes(colour = "Experiment"), linewidth = 1.5) +
-  scale_colour_manual(values = c("darkred", "steelblue", "black")) + ylim(0,8) + 
-  labs(title = "Verloop [mRNAr] hoge dosis", subtitle = "Dosis: 0.3") +
-  theme(plot.title = element_text(color="black", size=7, face="bold.italic"),
-        plot.subtitle = element_text(color = "red", size = 5))
+  geom_line(data = experiment.hoge.dosis, aes(colour = "Experiment"), 
+  linewidth = 1.5) + scale_colour_manual(values = c("darkred", "steelblue", 
+  "black")) + ylim(0,8) + labs(title = "Verloop [mRNAr] hoge dosis", 
+  subtitle = "Dosis: 0.3") + theme(plot.title = element_text(color="black", 
+  size=7, face="bold.italic"), plot.subtitle = element_text(color = "red", 
+  size = 5))
 
 R_lage.dosis <- ggplot(mapping = aes(x = time, y = R_waarde)) +
   geom_line(data = lage.dosis, aes(colour = "Model"), linewidth = 1.5) +
-  geom_line(data = experiment.lage.dosis, aes(colour = "Experimentele data"), linewidth = 1.5) +
-  scale_colour_manual(values = c("darkred", "steelblue")) + ylim(0, 500) + 
-  labs(title = "Verloop [R] lage dosis", subtitle = "Dosis: 0.1") +
+  geom_line(data = experiment.lage.dosis, aes(colour = "Experimentele data"), 
+  linewidth = 1.5) + scale_colour_manual(values = c("darkred", "steelblue")) + 
+  ylim(0, 500) + labs(title = "Verloop [R] lage dosis", subtitle = "Dosis: 0.1") +
   theme(plot.title = element_text(color="black", size=7, face="bold.italic"),
-        plot.subtitle = element_text(color = "red", size = 5))
+  plot.subtitle = element_text(color = "red", size = 5))
 
 R_hoge.dosis <- ggplot(mapping = aes(x = time, y = R_waarde)) +
   geom_line(data = hoge.dosis, aes(colour = "Model"), linewidth = 1.5) +
-  geom_line(data = experiment.hoge.dosis, aes(colour = "Experimentele data"), linewidth = 1.5) + 
-  scale_colour_manual(values = c("darkred", "steelblue")) + ylim(0, 500) + 
-  labs(title = "Verloop [R] hoge dosis", subtitle = "Dosis: 0.3") +
+  geom_line(data = experiment.hoge.dosis, aes(colour = "Experimentele data"), 
+  linewidth = 1.5) + scale_colour_manual(values = c("darkred", "steelblue")) + 
+  ylim(0, 500) + labs(title = "Verloop [R] hoge dosis", subtitle = "Dosis: 0.3") +
   theme(plot.title = element_text(color="black", size=7, face="bold.italic"),
-        plot.subtitle = element_text(color = "red", size = 5))
+  plot.subtitle = element_text(color = "red", size = 5))
+```
 
+\pagebreak
+
+```{r, fig.cap = "***Model verloop samen met experimentele data. Het plot bestaat uit vier kleine plotjes. Bij alle figuren staat de tijd op de x-as. Bij de bovenste twee figuren staat mRNAr op de y-as en bij de onderste twee figuren staat het aantal vrije receptoren op de y-as. Er wordt gekeken naar het verloop van het model samen met de experimentele data bij zowel een lage, als hoge dosis D. Voor de toediening van een lage en hoge dosis, is er weinig effect te zien bij het model-verloop van mRNAr. Bij een hoge dosis is het aantal model-mRNAr een fractie lager. Bij de experimentele dat is er wel een duidelijk verschil tussen lage en hoge dosis. Bij een lage dosis D is er te zien dat het verloop van het mRNAr een stuk schokkeriger is: de punten liggen verder uit elkaar. D.w.z., er zijn meer pieken en dalen. Beide dosissen vertonen wel een vergelijkbaar patroon, eerste blijf het verloop een rechte lijn, vervolgens daalt het iets en tot slot stijgt het explosief omhoog. Voor het aantal vrije receptoren is er wel een opvallend verschil bij de model-data. Bij een hoger dosis wordt de steady state sneller bereikt en ligt het niveau van de steady state een stuk lager. Voor de experimentele data ligt het niveau bij een lage dosis een fractie boven de model waarde. Voor een hoge dosis ligt de experimentele data ongeveer op een gelijk niveau, maar het daalt na verloop van tijd wel lineair.***"}
 # Naast elkaar plotten van de figuren
+library(patchwork)
 mRNAr_lage.dosis + mRNAr_hoge.dosis + R_lage.dosis + R_hoge.dosis
 ```
 
@@ -491,12 +501,14 @@ dat de concentratie van het MPL-complex omhoog gaat.
 
 De resultaten van het model liggen over het algemeen op een goede lijn met de experimentele data.
 Bij het aantal vrije receptoren ligt het verloop van het model tussen de twee medianen, dus
-overlapt het model goed met experimentele data. Echter, is er wel een lagere werkelijkheid bij het aantal mRNA.
+overlapt het model goed met experimentele data. Echter is er wel een lagere werkelijkheid bij het aantal mRNA.
 Dat wil zeggen het aantal mRNA wordt hoger geschat in het model.
+
+\pagebreak
 
 ## Scenario twee, simulatie scenario's
 
-### Verloop van het model zonder autoregulatie
+### Verloop van het model zonder auto-regulatie
 
 ```{r} 
 # Het aanroepen van de ode functie, waardes worden opgeslagen
@@ -605,7 +617,7 @@ Het is duidelijk te zien in beide grafieken wanneer de drug dosis naar 0 gaat.
 
 ### Het modificeren van de constanten $k_{re}$ en $k_{on}$
 
-```{r, fig.cap="*In figuur 8 en 9 zitten in ieder acht plots van zowel mRNAr als R. Deze plots zijn geletterd van E tot en met T. Verder staan op de y-as de hoeveelheid mRNAr of R en op de x-as de tijd (in uren).*"}
+```{r, fig.cap="*In figuur 8 en 9 zitten in ieder acht plots van zowel mRNAr als R. Deze plots zijn geletterd van E t/m T. Verder staan op de y-as de hoeveelheid mRNAr of R en op de x-as de tijd (in uren).*"}
 # Stel de datasetnamen in een lijst
 dataset_list <- list(dataset.kon.g5, dataset.kon.g2, 
                      dataset.kon.k5, dataset.kon.k2, dataset.kre.g5, 
@@ -636,13 +648,13 @@ Allereerste wordt er gekeken naar de verandering in mRNAr.
 Bij een deling van vijf bij $Kon$ daalt de grafiek sneller aan het begin tot t = 10. Vervolgens
 neemt het minder snel toe. Bij de deling door twee is er een minuscuul verschil. De vermenigvuldiging van $Kon$ vertoont bij vijf een snellere daling. Het tweede deel van de grafiek vertoont geen verschil met de originele waarde. Dit geldt ook bij de vermenigvuldiging van twee.
 
-Verder is bij een deling van vijf voor $Kre$ een groter verschil. De daling aan het begin
-lijkt identiek te zijn, maar de toename neemt minder snel toe tot bijna een rechte lijn.
+Verder is bij een deling van vijf voor $Kre$ een groter verschil. De daling aan het begint
+lijkt indentiek te zijn, maar de toename neemt minder snel toe tot bijna een rechte lijn.
 Bij de deling door twee is er het begin ook bijna identiek, maar is de stijging minder snel. Voor de vermenigvuldiging van $Kre$ met vijf is er een sneller daling aan het begin en vervolgens een snellere stijging. De steady state is ook hoger dan in het originele model. Bij de vermenigvuldiging van twee geldt hetzelfde verhaal, maar dan in mindere mate, d.w.z, de stijging is iets minder snel dan bij de vermenigvuldiging van vijf.
 
 &nbsp;
 
-Nu de mRNA behandeld is, kan er gekeken worden naar het verloop van de vrije receptoren.
+Nu de mRNA behandelt is, kan er gekeken worden naar het verloop van de vrije receptoren.
 
 Alle grafieken van R vertonen kleine veranderingen. Om te beginnen met de deling van vijf voor $Kon$. Bij deze grafiek is de afname minder snel dan bij het originele. De deling van twee vertoont bijna een identiek beeld met de deling van vijf. Voor de vermenigvuldiging geldt een omgekeerde beeld. De afname is voor zowel, vijf als twee, sneller. De vermenigvuldiging van vijf vertoont een significant sneller beeld. 
 
@@ -650,9 +662,9 @@ Voor de correcties van $Kre$ heeft de deling meer effect dan de vermenigvuldigin
 
 ### Het blokkeren van de synthese van de vrije receptor
 
-```{r, fig.cap="*In figuur 10 is het verloop te zien van de hoeveelheid vrije R en mRNAr waarbij de constante kS_rm is veranderd naar 0. Beide grafieken lijken op het 'normale (originele) model'*"}
+```{r, fig.cap="*In figuur 10 is het verloop te zien van de hoeveelheid vrije R en mRNAr waarbij de constante kS_rm is veranderd naar 0. Beide grafieken lijken op het 'normale/originele model'*"}
 
-# TODO: vertalen van deze functie naar ggplot, denk aan de tijdseenheid van 48 uur.
+# TODO: vertalen van deze funtie naar ggplot, denk aan de tijdseenheid van 48 uur.
 
 parameters.1["Ks_Rm"] = 0
 
@@ -685,9 +697,9 @@ aangemaakt. Dit is te zien in grafiek V waar de hoeveelheid mRNAr bij t ~ 30 con
 In grafiek V is te zien dat de hoeveelheid mRNAr is afneemt via de y-as en over tijd
 zal de toename tot bijna constant verlopen.
 
-Daarom is in grafiek U te zien dat de hoeveelheid vrije R blijft afnemen. Het
-verloopt tot een constante lijn bij y ~ 40-50 en bij t ~ 20. Omdat vrije R hergebruikt wordt,
-zal er altijd een beetje aanwezig blijven en de lijn dus nooit nul raken.
+Daarom is in grafiek U te zien dat de hoeveelheid vrije R blijft afnemen, dat
+verloopt tot een constante lijn bij y ~ 40-50 en bij t ~ 20. Omdat vrije R hergebruikt wordt
+zal er altijd een beetje aanwezig blijven en de lijn dus nooit 0 raken.
 
 ### Het modificeren van de constanten $k_{s\_Rm}$ en $k_{d\_Rm}$
 
@@ -695,7 +707,7 @@ In de plotten beneden wordt er gekeken naar wat er gebeurt in het systeem, als d
 toenemen of afnemen. 
 
 
-```{r, fig.cap = "In de bovenstaande figuur staan in de vier grafieken op de x-as het verloop van tijd in uren en op de y-as de verandering in stof verschillend per context. In grafiek B is te zien hoe de hoeveelheid mRNA eerst afneemt bij omzetting naar R. Vervolgens verloopt de aanmaak mRNAr richting een bijna constante lijn vanaf t ~ 10. De hoeveelheid R in grafiek C neemt eerst alleen af, omdat er DR vormt. Over tijd zal R (n) als gevolg van de monotone productie in mRNAr, geen veranderingen meer hebben in toename of afname. Verder is te zien dat de concentraties MPL-complex in grafieken A en D eerst toenemen, maar vervolgens zal de  productie ook niet meer veranderen. Op basis van de bovenstaande bevindingen is te zien dat het systeem reageert, zoals verwacht op het stilliggende gedrag van de productie in mRNAr."}
+```{r, fig.cap = "In de bovenstaande figuur staan in de vier grafieken op de x-as het verloop van tijd in uren en op de y-as de verandering in stof verschillend per context. In grafiek B is te zien hoe de hoeveelheid mRNA eerst afneemt bij omzetting naar R. Vervolgens verloopt de aanmaak mRNAr richting een bijna constante lijn vanaf t ~ 10. De hoeveelheid R in grafiek C neemt eerst alleen af, omdat er DR vormt. Over tijd zal R (n) als gevolg van de monotone productie in mRNAr, geen veranderingen meer hebben in toename of afname. Verder is te zien dat de concentraties MPL-complex in grafieken A en D eerst toenemen, maar vervolgens zal de de productie ook niet meer veranderen. Op basis van de bovenstaande bevindingen is te zien, dat het systeem reageert zoals verwacht op het stilliggende gedrag van de productie in mRNAr."}
 
 plot(dataset.g2, main = c("DR_N (A)", "mRNAr (B)", 
                           "R (C)", "DR (D)"),
@@ -728,7 +740,7 @@ Het wordt duidelijk dat bij een deling door twee, minder grote impact is op de a
 
 \pagebreak
 
-```{r, fig.cap = "In grafiek B is te zien hoe de hoeveelheid mRNA eerst stijl afneemt bij omzetting naar R. Vervolgens verloopt de aanmaak mRNAr richting een constante lijn, op een gelijke manier als bij figuur 9. Echter, begint de aanmaak al bij t ~ 5. In grafiek C neemt R (n) steiler af. Grafieken A en D reageren als gevolg van het gedrag van grafiek B op dezelfde wijze als in figuur 9."}
+```{r, fig.cap = "In grafiek B is te zien hoe de hoeveelheid mRNA eerst stijl afneemt bij omzetting naar R. Vervolgens verloopt de aanmaak mRNAr richting een constante lijn, op een gelijke manier als bij figuur 9. Echter begint de aanmaak al bij t ~ 5. In grafiek C neemt R (n) steiler af. Grafieken A en D reageren als gevolg van het gedrag van grafiek B op dezelfde wijze als in figuur 9."}
 plot(dataset.k5, main = c("DR_N (A)", "mRNAr (B)", 
                           "R (C)", "DR (D)"),
      ylab = c("hoeveelheid DR_N (n)", "hoeveelheid mRNAr (n)",
@@ -741,8 +753,8 @@ mtext("Ks_Rm en Kd_Rm keer vijf",
 ```
 
 
-Zoals verwacht daalt de hoeveelheid mRNAr veel sneller aan het begin, omdat de afname constante verhoogd is. Tevens
-begint de toename veel eerder door een verhoogde toename constante. 
+Zoals verwacht daalt de hoeveelheid mRNAr veel sneller aan het begin, omdat de afname constante verhoogt is. Tevens
+begint de toename veel eerder door een verhoogte toename constante. 
 
 
 
@@ -759,7 +771,7 @@ mtext("Ks_Rm en Kd_Rm keer twee",
 ```
 
 
-Het feit dat de afname minder steil verloopt, voldoet aan de verwachting dat; vermenigvuldigd met twee minder grote invloed uitoefent dan keer vijf.
+Het feit dat de afname minder steil verloopt voldoet aan de verwachting dat, keer twee minder grote invloed uitoefent dan keer vijf.
 Ook de toename wordt met dezelfde logica beïnvloed en neemt iets later pas toe.
 
 \pagebreak
@@ -782,9 +794,9 @@ Bij vraagstuk (4.2.2) over het stoppen van het toedienen van $D$, na het bereike
 
 &nbsp;
 
-De verwachting voor simulatie (4.2.3) kwam overeen met de resultaten van $mRNAr$, bij zowel $Kon$ als $Kre$. Een deling van vijf zorgde voor een sterkere afname dan door twee. Verder zorgde het productwaarde van vijf voor een hogere aanmaak dan twee. Het bevestigen van deze verwachtigingen, toont aan dat $Kon$ en $Kre$ een regulerende invloed hebben op de aanmaak van $mRNAr$.
+De verwachting voor simulatie (4.2.3) kwam overeen met de resultaten van $mRNAr$, bij zowel $Kon$ als $Kre$. Een deling van vijf zorgde voor een sterkere afname dan door twee. Verder zorgde de product waarde van vijf voor een hogere aanmaak dan twee. Het bevestigen van deze verwachtigingen, toont aan dat $Kon$ en $Kre$ een regulerende invloed hebben op de aanmaak van $mRNAr$.
 
-Voor de hoeveelheden $R$ waren bij $Kre$ geen signficante verschillen. Echter, voor $Kon$ een deling van vijf was er een langzamere daling tot y ~ 150 bij t ~ 50, vergeleken met een deling door twee waar de hoeveelheid daalt tot y ~ 100 bij t ~ 5. Bij de vermenigvuldiging van vijf en twee daalt $R$ sneller tot $0 < y < 50$ bij t ~ 10. Echter, is op het blote oog geen verandering zichtbaar tussen de vermenigvuldigingen. Uit de resultaten van $Kon$ is dus gebleken dat hoe lager de deling waarde is (richting nul), hoe sterker $R$ afneemt en een vermenigvuldiging zorgt voor een sterkere daling van $R$ überhaupt. 
+Voor de hoeveelheden $R$ waren bij $Kre$ geen signficante verschillen. Echter, voor $Kon$ een deling van vijf was er een langzamere daling tot y ~ 150 bij t ~ 50, vergeleken met een deling door twee waar de hoeveelheid daalt tot y ~ 100 bij t ~ 5. Bij de vermenigvuldiging van vijf en twee daalt $R$ sneller tot $0 < y < 50$ bij t ~ 10. Echter is op het blote oog geen verandering zichtbaar tussen de vermenigvuldigingen. Uit de resultaten van $Kon$ is dus gebleken dat hoe lager de deling waarde is (richting nul), hoe sterker $R$ afneemt en een vermenigvuldiging zorgt voor een sterkere daling van $R$ überhaupt. 
 
 &nbsp; 
 
@@ -796,14 +808,14 @@ In vraagstuk (4.2.4) werd er gekeken naar het blokkeren van de $R$ synthese. De 
 
 In resultaten (4.2.5) verliepen de grafieken niet helemaal zoals er verwacht werd. Er bleek zeer weinig te veranderen in het model, vooral bij $DR$ en $DR_N$ waren geen significante verschillen te zien.  De concentratie $R$ daalde bij keer twee en vijf sneller dan bij gedeeld door, dit werd waargenomen door y op t = 10 te vergelijken. Deze verschillen waren echter erg klein.
 
-De veranderingen in het verloop van $mRNAr$ waren het duidelijkste te zien. Bij gedeeld door vijf daalde de hoeveelheid sneller tot t ~ 10 en bij twee later tot t ~ 20. Hoe hoger de deling waarde, dus hoe sterker de daling wordt en hoe eerder de synthese weer zal toenemen. De keersom van vijf zorgde voor een snellere daling tot t ~ 6, vergeleken met beide delingen van vijf en twee. Echter, was bij een deling met twee weinig verschil. De daling liep significant niet anders tot t ~ 7. Het verschil in product waarden laat zien dat de daling minder hard zal veranderen, bij het verhogen van een product waarde.
+De veranderingen in het verloop van $mRNAr$ waren het duidelijkste te zien. Bij gedeeld door vijf daalde de hoeveelheid sneller tot t ~ 10 en bij twee later tot t ~ 20. Hoe hoger de deling waarde, dus hoe sterker de daling wordt en hoe eerder de synthese weer zal toenemen. De keersom van vijf zorgde voor een snellere daling tot t ~ 6 vergeleken met beide delingsfactoren. Echter was bij een deling met twee weinig verschil. De daling liep significant niet anders tot t ~ 7. Het verschil in product waarden laat zien dat de daling minder hard zal veranderen, bij het verhogen van een product waarde.
 
 Het feit dat het model zo weinig veranderde kan beargumenteerd worden, omdat bij forse veranderingen van de aanmaak en afbraak van mRNAr het systeem nog steeds een x aantal $D$ nodig is om de complexen te vormen. Daarom veranderen de grafieken van $DR$ en $DR_N$ niet.
 
 
 ## Algemene conclusie en perspectief
 
-Het uiteindelijke doel van het onderzoek was om iets te kunnen zeggen over de 'juiste' hoeveelheid drug. De verwachting was dat deze tussen de lage en hoge dosis van het experiment zat. Uit de grafieken is gebleken dat bij een hoeveelheid drug dat rond de midden grens van de experimentele zit, een ideaal verloop is voor alle variabelen. Bij een hogere dosis is er niet veel meer resultaat. In combinatie met bijwerkingen is het dus niet noodzakelijk om een hoge dosis te nemen.
+Het uiteindelijke doel van het onderzoek was om iets te kunnen zeggen over de 'juiste' hoeveelheid drug. De verwachting was dat deze ergens tussen de lage- en hoge dosis van het experiment zat. Uit de grafieken is gebleken dat bij een hoeveelheid drug dat rond de middengrens van de experimentele zit, een ideaal verloop is voor alle variabelen. Bij een hogere dosis is er niet veel meer resultaat. In combinatie met bijwerkingen is het dus niet noodzakelijk om een hoge dosis te nemen.
 
 Een verbeterpunt voor het volgende onderzoek is het gebruik van de experimentele data. Deze data zou veel meer gebruikt kunnen worden in de figuren. Op deze manier is het nog duidelijker om aan te tonen hoe iets 'echt' zou verlopen of om juist aan te tonen dat iets significant anders zou verlopen.
 
