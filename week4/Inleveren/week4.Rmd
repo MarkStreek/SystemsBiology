@@ -1,5 +1,5 @@
 ---
-title: "Dynamiek van de glucocorticoïdreceptor"
+title: "Dynamiek van glucocorticoïdereceptor"
 author: "L T Stein & M van de Streek"
 date: "`r Sys.Date()`"
 
