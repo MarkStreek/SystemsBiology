@@ -1,0 +1,36 @@
+---
+title: "Introductie"
+author: "Mark van de Streek"
+date: "`r Sys.Date()`"
+output:
+  pdf_document: default
+  html_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Introductie
+
+Borstkanker is een van de meest voorkomende kankers \cite{Cancer_statistics}(Cancer Statistics, 2020). Jaarlijks sterven hier duizenden mensen aan. Kanker ontstaat door fouten in kankergerelateerde genen. Deze genen zijn respectievelijk oncogenen en tumorsuppressorgenen. Oncogenen zorgen voor regulatie van celgroei en celdeling. Tumorsuppressorgenen zorgen (normaalgesproken) voor remming van ongecontroleerde coelgroei. Bij fouten in deze genen kan er dus een kanker ontstaan. Vaak zijn 4-6 mutaties al genoeg om een kanker te ontwikkelen. 
+
+Borstkanker is vandaag de dag goed te behandelen. Dit komt doordat de kanker vaak in een vroeg stadium wordt ontdekt door screening \cite{mammography}(Reeves, 2023). Er zijn ook in de loop van de jaren vele behandel-technieken ontwikkeld om deze soort(en) van kanker te verwijderen. Zo vindt er bijvoorbeeld tegenwoordig ook niet meteen mammectomie (borstverwijdering) plaats.
+
+Elke behandeling heeft natuurlijk voor- en nadelen. Het is daarom belangrijk om te weten welke behandeling geschikt is. In dit verslag zal er een onderzoek gereproduceerd worden. Dit onderzoek gaat over de (lokale) behandeling van borstkanker en een eventuele hernieuwde aanval.
+
+## Doel
+
+Hier moet het doel nog komen
+
+```{=tex}
+\begin{thebibliography}{9}
+
+\bibitem{Cancer_statistics}
+Cancer Statistics (2020, 25 september).: \textit{National Cancer Institute}.
+
+\bibitem{mammography}
+Reeves, R. A. (2023, 5 februari).: \textit{Mammography. StatPearls - NCBI Bookshelf}.
+
+\end{thebibliography}
+```
