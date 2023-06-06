@@ -1,0 +1,65 @@
+---
+title: "Software model"
+author: "Mark van de Streek"
+date: "`r Sys.Date()`"
+output:
+  pdf_document: default
+  html_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Het software model
+
+```{r}
+library(deSolve)
+```
+
+```{r}
+# Parameters
+parameters <- c(nf = 1, nq = 0.5, nr = 0.5, ns = 0.5, 
+                lambda.n = 0.75, lambda.q = 7.5e-3, 
+                lambda.r = 7.575e-3, lambda.s = 0.0375, 
+                m = 0, L1 = 0.000365, t = 1, A = 1, dm = 1e-9, 
+                dn = 1e-9, p1 = 2e-7, p2 = 1e-6-1e-5, p3 = 1e-3, p4 = 1e-2,
+                y = 0, nabla = 0, alfa = 1.01, f = 1e-11, b = ,
+                n = , s = , r = , q = )
+
+# Tijdssequentie
+times <- 0:365
+
+# Initiële waardes
+initial.values <- c(df = 0, dq = 0, dr = 0, ds = 0, d.accent.n = 0, d.accent.m = 0)
+```
+
+```{r}
+verandering <- function (time, parameters, initial.values) {
+  with(as.list(c(parameters, initial.values)),{
+    df.dt <- - (nf * m * f) - (L1 * f)
+    dq.dt <- (lambda.q * q * (1 - A)) - (nq * n * q) + (L1 * f) - (p2 * q)
+    dr.dt <- (lambda.r * r * (1 - A)) - (nr * n * r) + (p2 * q) - (p3 * r)
+    ds.dt <- (lambda.s * s * (1 - A)) - (ns * n * s) + (p3 * r) - (p4 * s)
+    d.accent.n.dt <- (lambda.n * n * (1 - A)) + (dn * nabla**2 * n) - (y * nabla * (n * nabla * f)) + (p4 * s)
+    d.accent.m.dt <- (dm * nabla**2 * m) + (alfa * n * (1 - m)) - (b * m)
+    
+    
+    # Retourneren van de initiële waardes
+    return(list(c(df.dt, dq.dt, dr.dt, ds.dt, d.accent.n.dt, d.accent.m.dt)))
+  })
+}
+```
+
+```{r}
+out <- ode(initial.values, times, verandering, parameters)
+```
+
+```{r}
+plot(out)
+```
+
+
+
+
+

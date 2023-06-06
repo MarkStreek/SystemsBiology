@@ -13,15 +13,21 @@ knitr::opts_chunk$set(echo = TRUE)
 
 # Introductie
 
-Borstkanker is een van de meest voorkomende kankers \cite{Cancer_statistics}(Cancer Statistics, 2020). Jaarlijks sterven hier duizenden mensen aan. Kanker ontstaat door fouten in kankergerelateerde genen. Deze genen zijn respectievelijk oncogenen en tumorsuppressorgenen. Oncogenen zorgen voor regulatie van celgroei en celdeling. Tumorsuppressorgenen zorgen (normaalgesproken) voor remming van ongecontroleerde coelgroei. Bij fouten in deze genen kan er dus een kanker ontstaan. Vaak zijn 4-6 mutaties al genoeg om een kanker te ontwikkelen. 
+Borstkanker is een van de meest voorkomende kankers (*Cancer Statistics, 2020*). Jaarlijks sterven hier duizenden mensen aan. Kanker ontstaat door fouten in kankergerelateerde genen. Deze genen zijn respectievelijk oncogenen en tumorsuppressorgenen (TSG). Oncogenen zorgen voor regulatie van celgroei en celdeling. Tumorsuppressorgenen zorgen (normaalgesproken) voor remming van ongecontroleerde coelgroei. Bij fouten in deze genen kan er dus een kanker ontstaan. Vaak zijn 4-6 mutaties al genoeg om een kanker te ontwikkelen. 
 
-Borstkanker is vandaag de dag goed te behandelen. Dit komt doordat de kanker vaak in een vroeg stadium wordt ontdekt door screening \cite{mammography}(Reeves, 2023). Er zijn ook in de loop van de jaren vele behandel-technieken ontwikkeld om deze soort(en) van kanker te verwijderen. Zo vindt er bijvoorbeeld tegenwoordig ook niet meteen mammectomie (borstverwijdering) plaats.
+Borstkanker is vandaag de dag goed te behandelen. Dit komt doordat de kanker vaak in een vroeg stadium wordt ontdekt door screening (*Reeves, 2023*). Er zijn ook in de loop van de jaren vele behandel-technieken ontwikkeld om deze soort(en) van kanker te verwijderen. Zo vindt er bijvoorbeeld tegenwoordig ook niet meteen mammectomie (borstverwijdering) plaats.
 
-Elke behandeling heeft natuurlijk voor- en nadelen. Het is daarom belangrijk om te weten welke behandeling geschikt is. In dit verslag zal er een onderzoek gereproduceerd worden. Dit onderzoek gaat over de (lokale) behandeling van borstkanker en een eventuele hernieuwde aanval.
+Elke behandeling heeft natuurlijk voor- en nadelen. Het is daarom belangrijk om te weten welke behandeling geschikt is. In dit verslag zal er een onderzoek (*Enderling et al., 2007*) gereproduceerd worden. Dit onderzoek gaat over de (lokale) behandeling van borstkanker en een eventuele hernieuwde aanval (recidief).
 
 ## Doel
 
-Hier moet het doel nog komen
+Het doel van dit onderzoek is om meer inzichten te geven in borstkanker. En dan in het speciaal de ontwikkeling van een tumor na een bahandeling. Er zullen zes wiskundige vergelijkingen gebruikt worden. Uit de modulatie van deze vergelijkingen komen verlopen van verschillende situaties, aan de hand hiervan kunnen de inzichten gegeven worden en dus het doel van het onderzoek bereiken.
+
+De modellen in het kort: nog in te vullen...
+
+De verwachting voor de modellen ziet er als volgt uit. Allereerst, ...
+
+\newpage
 
 ```{=tex}
 \begin{thebibliography}{9}
@@ -31,6 +37,9 @@ Cancer Statistics (2020, 25 september).: \textit{National Cancer Institute}.
 
 \bibitem{mammography}
 Reeves, R. A. (2023, 5 februari).: \textit{Mammography. StatPearls - NCBI Bookshelf}.
+
+\bibitem{cancer_article}
+Enderling, H., Chaplain, M. A. J., Anderson, A. R. A., Vaidya, J. S. (2007).: \textit{A mathematical model of breast cancer development, local treatment and recurrence}. Journal of Theoretical Biology, 246(2), 245–259.
 
 \end{thebibliography}
 ```
