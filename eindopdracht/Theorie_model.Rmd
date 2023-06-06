@@ -1,0 +1,78 @@
+---
+title: "Introductie"
+author: "L T Stein"
+date: "`r Sys.Date()`"
+output:
+  pdf_document: default
+  html_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+
+# Theorie
+
+
+Op basis van zes verschillende formules kan de invloed op de ontwikkeling van tumoren in de borst na een behandeling worden gesimuleerd.
+
+Ten eerste wordt de verandering van borstweefsel berekend met gezonde stamcellen over de verandering in tijd. Het linker deel bepaald de afbraak van stamcellen. Het rechter gedeelte is de hoeveelheid stamcellen in verhouding met het aantal TSGs dat afhankelijk is van de mutatie waarschijnlijk in een normale situatie.
+
+$$\frac{df}{dt} = - \overbrace{η_f mf}^{degradation} - \overbrace{l_{1}f}^{f{→}TSG{_1}^{+/-}}$$
+
+Verder kunnen TSGs heterozygositeit verliezen door mutaties. Het gen staat aan bij (++) of (+-), maar TSGs gaan uit, wanneer zo homozygoot (-) worden.
+De volgende formule beschrijft deze verandering over de verandering van tijd. De vermeerdering van deze cellen staat links onder 'proliferation' (vermeerdering) en deze hoeveelheid neemt af door celapoptose onder 'death' (dood). 
+
+Hierbij worden stamcellen bij opgeteld die gemuteerd zijn over één jaar tijd. Deze hoeveelheid neemt af door het tempo van de mutaties die plaats vinden. Het tempo is afhankelijk van de kans dat mutaties zullen optreden.
+
+$$\frac{dq}{dt} = \overbrace{λ_{q}q(1 - A)}^{proliferation} - \overbrace{η_{q}nq}^{death}  + \overbrace{l_{1}f}^{f→TSG_{1}^{+/-}} - \overbrace{ρ_{2}q}^{TSG1_{1}^{+/-} →TSG_{1}^{-/-}}$$
+
+De derde formule beschrijft de verandering van de concentratie in uitgeschakelde $TSG_{1}$ over verloop van tijd. Eerst wordt de aanmaak en vermeerdering berekend minus de afbraak door celdood. 
+
+$$\frac{dq}{dt} = \overbrace{λ_{q}r(1 - A)}^{proliferation} - \overbrace{η_{r}nr}^{death}  + \overbrace{ρ_{2}q}^{f→TSG_{1}^{+/-}} - \overbrace{ρ_{3}q}^{TSG1_{1}^{+/-} →TSG_{1}^{-/-}}$$
+
+In de vierde formule wordt de verandering berekend van de hoeveelheid $TSG_2$, de tweede tumor suppressor gen die van heterozygoot naar homozygoot recessief gaat. Deze verandering wordt gezet tegen de verandering in tijd.
+
+$$\frac{dq}{dt} = \overbrace{λ_{s}s(1 - A)}^{proliferation} - \overbrace{η_{r}ns}^{death}  + \overbrace{ρ_{3}r}^{f→TSG_{1}^{+/-}} - \overbrace{ρ_{4}s}^{TSG1_{1}^{+/-} →TSG_{1}^{-/-}}$$
+
+&nbsp;
+
+Vervolgens wordt de afgeleide genomen van dx/dt dat afhankelijk is van de tumorcel dichtheid tegen de verandering in tijd.
+
+$$\frac{dq}{dt} = \overbrace{λ_{n}n(1 - A)}^{proliferation} + \overbrace{d_{n}\nabla^2n}^{random\\motility}  - \overbrace{\gamma \nabla . (n \nabla f)}^{haptotaxis} - \overbrace{ρ_{4}s}^{TSG_{2}^{+/-} →n}$$
+
+De laatste formule beschrijft de afgeleide van dx/dt dat afhankelijk is van m tegen de verandering van tijd.
+
+
+
+
+# Model configuratie
+
+In dit hoofdstuk worden alle variabelen beschreven en de rol die zij hebben.
+
+```{r}
+# load pander
+library("pander")
+```
+
+```{r}
+# Drie categorieën aan soorten input waarden
+Categorie <- c(rep("Initiële waarden", 4), 
+               rep("Parameters", 10))
+
+# Waarden uit bovenstaande categorieën verkregen van experiment
+# Omdat DR een reactie is tussen D en R gaan de waarden keer elkaar
+Waarden<- c(K, m, f, )
+
+# Eenheden in een vector verwerkt. Met functie 'rep()' kan een iterable X
+# keer herhaald worden.
+Eenheden <- c()
+
+# Dataframe waar vector namen in de header komen, waarde namen als rij namen 
+# en de daadwerkelijke waarden daarin verwerkt.
+model.conf <- data.frame(Waarden)
+# Tekenen van tabel
+pander(model.conf)
+```
