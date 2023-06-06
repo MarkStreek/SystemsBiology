@@ -22,10 +22,10 @@ library(deSolve)
 parameters <- c(nf = 1, nq = 0.5, nr = 0.5, ns = 0.5, 
                 lambda.n = 0.75, lambda.q = 7.5e-3, 
                 lambda.r = 7.575e-3, lambda.s = 0.0375, 
-                m = 0, L1 = 0.000365, t = 1, A = 1, dm = 1e-9, 
+                m = 1, L1 = 0.000365, t = 1, A = 1, dm = 5.102041e-12, 
                 dn = 1e-9, p1 = 2e-7, p2 = 1e-6-1e-5, p3 = 1e-3, p4 = 1e-2,
-                y = 0, nabla = 0, alfa = 1.01, f = 1e-11, b = ,
-                n = , s = , r = , q = )
+                y = 0.00005, nabla = 0, alfa = 1.01, f = 1e-11, b = 0,
+                n = 1, s = 1, r = 1, q = 1)
 
 # Tijdssequentie
 times <- 0:365
