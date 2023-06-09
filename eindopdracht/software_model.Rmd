@@ -19,30 +19,41 @@ library(deSolve)
 
 ```{r}
 # Parameters
-parameters <- c(nf = 1, nq = 0.5, nr = 0.5, ns = 0.5, 
-                lambda.n = 0.75, lambda.q = 7.5e-3, 
-                lambda.r = 7.575e-3, lambda.s = 0.0375, 
-                m = 1, L1 = 0.000365, t = 1, A = 1, dm = 5.102041e-12, 
-                dn = 1e-9, p1 = 2e-7, p2 = 1e-6-1e-5, p3 = 1e-3, p4 = 1e-2,
-                y = 0.00005, nabla = 0, alfa = 1.01, f = 1e-11, b = 0,
-                n = 1, s = 1, r = 1, q = 1)
+#parameters <- c(nf = 1, nq = 0.5, nr = 0.5, ns = 0.5, 
+#                lambda.n = 0.75, lambda.q = 7.5e-3, 
+#                lambda.r = 7.575e-3, lambda.s = 0.0375, 
+#                m = 1, L1 = 0.000365, t = 1, A = 1, dm = 5.102041e-12, 
+#                dn = 1e-9, p1 = 2e-7, p2 = 1e-6-1e-5, p3 = 1e-3, p4 = 1e-2,
+#                y = 0.00005, nabla = 0, alfa = 1.01, f = 1e-11, b = 0,
+#                n = 1, s = 1, r = 1, q = 1)
+
+parameters <- c(
+  lambda.n = 0.75, lambda.q = 7.5e-3, lambda.r = 7.575e-3, lambda.s = 0.0375,
+  nf = 1, nq = 0.5, nr = 0.5, ns = 0.5,
+  L1 = 0.000365,
+  dm = 5.102041e-12, dn = 1e-9,
+  p1 = 2e-7, p2 = 5e-6, p3 = 1e-3, p4 = 1e-2,
+  y = 0.00005, b = 0, nabla = 0, alfa = 1.01,
+  x = 0)
 
 # Tijdssequentie
-times <- 0:365
+times <- 0:60
 
 # Initiële waardes
-initial.values <- c(df = 0, dq = 0, dr = 0, ds = 0, d.accent.n = 0, d.accent.m = 0)
+initial.values <- c(f = 1e-11, q = 0, r = 0, s = 0, n = 0, m = 0)
 ```
 
 ```{r}
 verandering <- function (time, parameters, initial.values) {
   with(as.list(c(parameters, initial.values)),{
+    A <- n+f+q+r+s
+    # Vergelijkingen
     df.dt <- - (nf * m * f) - (L1 * f)
     dq.dt <- (lambda.q * q * (1 - A)) - (nq * n * q) + (L1 * f) - (p2 * q)
     dr.dt <- (lambda.r * r * (1 - A)) - (nr * n * r) + (p2 * q) - (p3 * r)
     ds.dt <- (lambda.s * s * (1 - A)) - (ns * n * s) + (p3 * r) - (p4 * s)
-    d.accent.n.dt <- (lambda.n * n * (1 - A)) + (dn * nabla**2 * n) - (y * nabla * (n * nabla * f)) + (p4 * s)
-    d.accent.m.dt <- (dm * nabla**2 * m) + (alfa * n * (1 - m)) - (b * m)
+    d.accent.n.dt <- (lambda.n * n * (1 - A)) + (dn * x) - (y * x * (n * x * f)) + (p4 * s)
+    d.accent.m.dt <- (dm * x) + (alfa * n * (1 - m)) - (b * m)
     
     
     # Retourneren van de initiële waardes
@@ -52,7 +63,7 @@ verandering <- function (time, parameters, initial.values) {
 ```
 
 ```{r}
-out <- ode(initial.values, times, verandering, parameters)
+out <- ode(y = initial.values, times = times, func = verandering, parms = parameters)
 ```
 
 ```{r}
