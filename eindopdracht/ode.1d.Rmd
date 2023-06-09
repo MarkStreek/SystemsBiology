@@ -1,0 +1,89 @@
+---
+title: "Software model"
+author: "Mark van de Streek"
+date: "`r Sys.Date()`"
+output:
+  pdf_document: default
+  html_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Het software model
+
+```{r}
+library(deSolve)
+library(pracma)
+```
+
+```{r}
+# Parameters
+
+
+parameters <- c(
+  lambda.n = 0.75, lambda.q = 7.5e-3, lambda.r = 7.575e-3, lambda.s = 0.0375,
+  nf = 1, nq = 0.5, nr = 0.5, ns = 0.5,
+  L1 = 0.000365,
+  dm = 5.102041e-12, dn = 1e-9,
+  p1 = 2e-7, p2 = 5e-6, p3 = 1e-3, p4 = 1e-2,
+  y = 0.00005, b = 0, nabla = 0, alfa = 1.01,
+  x = 0)
+
+# Tijdssequentie
+times <- 0:65
+
+# Initiële waardes
+#initial.values <- rep(c(f = 1e-11, q = 0, r = 0, s = 0, n = 0, m = 0), 100)
+
+# ffffffffqqqqqq
+
+initial.values <- rep(c(f = 1e-11, q = 0, r = 0, s = 0, n = 0, m = 0), each = 100)
+```
+
+```{r}
+verandering <- function (time, initial.values, parameters) {
+  with(as.list(c(parameters, initial.values)),{
+    
+    f <- initial.values[1:100]
+    q <- initial.values[(100+1):(2*100)]
+    r <- initial.values[(200+1):(3*100)]
+    s <- initial.values[(300+1):(4*100)]
+    n <- initial.values[(400+1):(5*100)]
+    m <- initial.values[(500+1):(6*100)]
+    
+    
+    N <- 100
+    
+    # Het bereken van A
+    A <- n+f+q+r+s
+    
+    # Vergelijkingen
+    df.dt <- - (nf * m * f) - (L1 * f)
+    dq.dt <- (lambda.q * q * (1 - A)) - (nq * n * q) + (L1 * f) - (p2 * q)
+    dr.dt <- (lambda.r * r * (1 - A)) - (nr * n * r) + (p2 * q) - (p3 * r)
+    ds.dt <- (lambda.s * s * (1 - A)) - (ns * n * s) + (p3 * r) - (p4 * s)
+    d.accent.n.dt <- (lambda.n * n * (1 - A)) + (dn * gradient(gradient(n, h1 = 14/100), h1 = 14/100)) - (y * gradient(n * gradient(f, h1 = 14/100), h1 = 14 / 100)) + (p4 * s)
+    d.accent.m.dt <- (dm * gradient(gradient(m, h1 = 14/100), h1 = 14/100)) + (alfa * n * (1 - m)) - (b * m)
+    
+    # Retourneren van de initiële waardes
+    return(list(c(df.dt, dq.dt, dr.dt, ds.dt, d.accent.n.dt, d.accent.m.dt)))
+  })
+}
+```
+
+```{r}
+out <- ode.1D(y = initial.values, times = times, func = verandering, parms = parameters, nspec = 6, dimens = 100)
+```
+
+```{r}
+t <- out[,1]
+t
+plot(t, out)
+```
+
+
+
+
+
