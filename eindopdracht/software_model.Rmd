@@ -37,7 +37,7 @@ parameters <- c(
   x = 0)
 
 # Tijdssequentie
-times <- 0:60
+times <- 12:90
 
 # Initiële waardes
 initial.values <- c(f = 1e-11, q = 0, r = 0, s = 0, n = 0, m = 0)
@@ -66,11 +66,24 @@ verandering <- function (time, parameters, initial.values) {
 out <- ode(y = initial.values, times = times, func = verandering, parms = parameters)
 ```
 
+
+
+# Resultaten
+
+
+
 ```{r}
-plot(out)
+hist(out, xlim = c(30, 90))
+
 ```
 
-
+```{r, fig.cap="In dit figuur worden zes verlopen geplot respectievelijk zoals de titels omschrijven. De plots worden berekend bij een afgeleide van nul. In alle grafieken is op de y-as de hoeveelheid stof te zien en dit verloopt over de x-as met elke tijdseenheid is één jaar. In grafiek f begint bij t~60 de hoeveelheid borststamcellen af te nemen tot t~74 richting y = 0. Verder loopt als gevolg van het verloop in grafiek f in grafiek (q) de hoeveelheid LOHs (bijna) exponentieel op van t~0 richting t~65. Deze hoeveelheid loopt vanaf jaar ~ 65 vervolgens weer af richting nul. Door de aanwezigheid van LOH op TSG1 wordt TSG1 uitgeschakeld. In grafiek r correspondeert het verloop van grafiek r met het verloop van grafiek q. Alleen loopt dit proces minder snel op. In grafiek s verloopt de aanwezigheid LOH op TSG2 relatief langzaam tot wederom t~65 en deze hoeveelheid neemt vervolgens fors af. In grafieken f, q, r, en s verlopen de afnames fors af tot t~80 richting y = 0. \\linebreak \\linebreak  Grafieken n en m tonen oorzaak en gevolg van elkaar. Want het aantal tumorcellen in grafiek n vanaf t~62 neemt fors toe en deze tumorcellen maken MDE enzymen om ruimte vrij te maken voor nieuwe tumorcellen. Dus in grafiek m zal vanaf t ~ 62 ook het aantal MDEs respectievelijk fors toenemen tot y~10.0, waar er een evenwicht wordt bereikt."}
+par("mar"=c(5, 4, 4, 4))
+plot(out, main = c("Fractie gezonde borststamcellen (f)", "Aanwezigheid LOH op TSG1 (q)",
+                   "Concentratie uitgeschakelde TSG1 (r)", "Aanwezigheid LOH op TSG2 (s)",
+                   "Aantal tumorcellen (n)", "Aantal tumor geproduceerd MDEs (m)"),
+     xlab = "Tijd (jaren)", ylab = "Hoeveelheid van stof", col = "blue")
+```
 
 
 

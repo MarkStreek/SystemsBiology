@@ -76,3 +76,5 @@ model.conf <- data.frame(Waarden)
 # Tekenen van tabel
 pander(model.conf)
 ```
+
+Het artikel (*Enderling et al., 2007*) stelt dat vanaf ongeveer twaalf jaar borststamcellen ontwikkelen en wordt er dan aangenomen dat er dan ook LOHs kunnen voorkomen. Daarom wordt in hoofdstuk "Model Configuratie" een tijdsequentie genomen van twaalf tot negentig jaar voor een mooie schaalverdeling.
