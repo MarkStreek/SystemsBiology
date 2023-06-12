@@ -8,7 +8,7 @@ output: html_document
 # Uitleg variabelen
 
 $n_x$: De dood van cellen als gevolg van milieuacidose veroorzaakt door kankercellen
-m: De hoeveelhied enzymen die door de tumoren worden aagemaakt
+m: De hoeveelheid enzymen die door de tumoren worden aagemaakt
 f: Borst weefsel met een fractie gezonde borst stam cellen
 
 λq: De mutatiesnelheid van gezonde borststamcellen ($TSG_1^{+/+}$ & $TSG_2^{+/+}$) naar cellen met LOH op TSG2 

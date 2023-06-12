@@ -39,42 +39,60 @@ $$\frac{dq}{dt} = \overbrace{λ_{s}s(1 - A)}^{proliferation} - \overbrace{η_{r}
 
 &nbsp;
 
-Vervolgens wordt de afgeleide genomen van dx/dt dat afhankelijk is van de tumorcel dichtheid tegen de verandering in tijd.
+Vervolgens wordt de partiële afgeleide genomen van de verandering in tumorcel dichtheid (n) dat afhankelijk is van de partiële afgeleid van de verandering in tijd (t).
 
-$$\frac{dq}{dt} = \overbrace{λ_{n}n(1 - A)}^{proliferation} + \overbrace{d_{n}\nabla^2n}^{random\\motility}  - \overbrace{\gamma \nabla . (n \nabla f)}^{haptotaxis} - \overbrace{ρ_{4}s}^{TSG_{2}^{+/-} →n}$$
+$$\frac{\partial n}{\partial t} = \overbrace{λ_{n}n(1 - A)}^{proliferation} + \overbrace{d_{n}\nabla^2n}^{random\\motility}  - \overbrace{\gamma \nabla . (n \nabla f)}^{haptotaxis} - \overbrace{ρ_{4}s}^{TSG_{2}^{+/-} →n}$$
 
-De laatste formule beschrijft de afgeleide van dx/dt dat afhankelijk is van m tegen de verandering van tijd.
 
+De laatste formule beschrijft de partiële afgeleide van de verandering in de hoeveelheid enzymen die door tumoren worden gemaakt (m) tegen de partiële afgeleide van de verandering tijd (t).
+
+$$\frac{\partial m}{\partial t} = \overbrace{d_m{\nabla}^2{m}}^{diffusion} + \overbrace{{\alpha}n(1-m)}^{production} - \overbrace{{\beta}m}^{decay}$$
 
 
 
 # Model configuratie
 
-In dit hoofdstuk worden alle variabelen beschreven en de rol die zij hebben.
+In dit hoofdstuk worden alle variabelen beschreven uit het biologische model.
+
+Ten eerste wordt de dood van cellen als gevolg van milieuacidose veroorzaakt door kankercellen genoteerd als $n_x$.
+De hoeveelheid enzymen die door de tumoren worden aagemaakt is met m en de hoeveelheid tumor cellen is n.
+Verder zijn cellen met LOH in $TSG_1$ q en cellen met LOH in $TSG_2$ zijn s. Geinactiveert $TSG_1$ is r en
+de kans dat een allel van een normale cel muteert is p. De totale weefsel en cell polulatie, inclusief kanker cellen heet A.
+
+Het borst weefsel met een fractie gezonde borststamcellen heet f en de mutatiesnelheid van deze gezonde borststamcellen ($TSG_1^{+/+}$ & $TSG_2^{+/+}$) naar cellen
+met LOH op TSG2 wordt beschreven als λq. Tevens is λr de mutatiesnelheid van gezonde borststamcellen ($TSG_1^{+/+}$ & $TSG_2^{+/+}$) naar cellen met LOH op TSG1 en TSG2.
+λs geeft de mutatiesnelheid van gezonde borststamcellen ($TSG_1^{+/+}$ & $TSG_2^{+/+}$) naar cellen met LOH op TSG1, TSG2. De groeisnelheid van tumor cellen wordt aangegeven met λn. 
+
+Vervolgens wordt de spontane beweging van normale cellen door $d_n$ bepaald en de spontane beweging van een kanker cel door $d_m$.
+Theta is het product van de mutatie kans, het percentage stam cellen en aantal TSGs. Het artikel stelt dat β een decay factor dat te betrokken is bij de afbraak van MDEs.
+Verder is α de productie factor betrokken bij de aanmaak van tumorcellen en γ is een factor betrokken bij de rate van de uitgroei van tumorcellen.
+
+
+
+
+
+#### Parameters 1.1 dimensieloos 
 
 ```{r}
-# load pander
-library("pander")
+parameters <- c(
+  lambda.n = 0.75, lambda.q = 7.5e-3, lambda.r = 7.575e-3, lambda.s = 0.0375,
+  nf = 1, nq = 0.5, nr = 0.5, ns = 0.5,
+  L1 = 0.000365,
+  dm = 5.102041e-12, dn = 1e-9,
+  p1 = 2e-7, p2 = 5e-6, p3 = 1e-3, p4 = 1e-2,
+  y = 0.00005, b = 0, nabla = 0, alfa = 1.01,
+  x = 0)
+
+# Tijdssequentie
+times <- 20:90
+
+# Initiële waardes
+initial.values <- c(f = 1e-11, q = 0, r = 0, s = 0, n = 0, m = 0)
 ```
 
-```{r}
-# Drie categorieën aan soorten input waarden
-Categorie <- c(rep("Initiële waarden", 4), 
-               rep("Parameters", 10))
-
-# Waarden uit bovenstaande categorieën verkregen van experiment
-# Omdat DR een reactie is tussen D en R gaan de waarden keer elkaar
-Waarden<- c(K, m, f, )
-
-# Eenheden in een vector verwerkt. Met functie 'rep()' kan een iterable X
-# keer herhaald worden.
-Eenheden <- c()
-
-# Dataframe waar vector namen in de header komen, waarde namen als rij namen 
-# en de daadwerkelijke waarden daarin verwerkt.
-model.conf <- data.frame(Waarden)
-# Tekenen van tabel
-pander(model.conf)
-```
 
 Het artikel (*Enderling et al., 2007*) stelt dat vanaf ongeveer twaalf jaar borststamcellen ontwikkelen en wordt er dan aangenomen dat er dan ook LOHs kunnen voorkomen. Daarom wordt in hoofdstuk "Model Configuratie" een tijdsequentie genomen van twaalf tot negentig jaar voor een mooie schaalverdeling.
+
+
+#### Parameters 1.1 Eén dimensie
+
