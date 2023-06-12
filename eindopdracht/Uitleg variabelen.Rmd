@@ -1,0 +1,33 @@
+---
+title: "Parameters"
+author: "Sibren Reekers"
+date: '2023-06-09'
+output: html_document
+---
+
+# Uitleg variabelen
+
+$n_x$: De dood van cellen als gevolg van milieuacidose veroorzaakt door kankercellen
+m: De hoeveelhied enzymen die door de tumoren worden aagemaakt
+f: Borst weefsel met een fractie gezonde borst stam cellen
+
+λq: De mutatiesnelheid van gezonde borststamcellen ($TSG_1^{+/+}$ & $TSG_2^{+/+}$) naar cellen met LOH op TSG2 
+q: Cellen met LOH in $TSG_1$
+A: De totale weefsel en cell polulatie, inclusief kanker cellen
+theta: Het product van de mutatie kans, het percentage stam cellen en aantals TSGs
+n: De hoeveelheid tumor cellen
+p: De kans dat een allel van een normale cel muteert
+
+λr: De mutatiesnelheid van gezonde borststamcellen ($TSG_1^{+/+}$ & $TSG_2^{+/+}$) naar cellen met LOH op TSG1 en TSG2 
+r: Geinactiveert $TSG_1$ 
+
+λs: De mutatiesnelheid van gezonde borststamcellen ($TSG_1^{+/+}$ & $TSG_2^{+/+}$) naar cellen met LOH op TSG1, TSG2
+s: Cellen met LOH in $TSG_2$
+
+λn: De groeisnelheid van tumor cellen
+$d_n$: Spontane beweging van een normale cel
+γ:s
+
+$d_m$: Spontane beweging van een kanker cel
+α: Productie factor aanmaak tumor cellen 
+β: Decay factor afbraak MDEs
