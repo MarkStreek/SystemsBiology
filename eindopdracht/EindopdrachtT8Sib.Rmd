@@ -1,0 +1,133 @@
+---
+title: "Software model"
+author: "Mark van de Streek"
+date: "`r Sys.Date()`"
+output:
+  pdf_document: default
+  html_document: default
+  word_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Het software model
+
+```{r}
+library(deSolve)
+```
+
+```{r}
+# Parameters
+#parameters <- c(nf = 1, nq = 0.5, nr = 0.5, ns = 0.5, 
+#                lambda.n = 0.75, lambda.q = 7.5e-3, 
+#                lambda.r = 7.575e-3, lambda.s = 0.0375, 
+#                m = 1, L1 = 0.000365, t = 1, A = 1, dm = 5.102041e-12, 
+#                dn = 1e-9, p1 = 2e-7, p2 = 1e-6-1e-5, p3 = 1e-3, p4 = 1e-2,
+#                y = 0.00005, nabla = 0, alfa = 1.01, f = 1e-11, b = 0,
+#                n = 1, s = 1, r = 1, q = 1)
+
+parameters <- c(
+  lambda.n = 0.75, lambda.q = 7.5e-3, lambda.r = 7.575e-3, lambda.s = 0.0375,
+  nf = 1, nq = 0.5, nr = 0.5, ns = 0.5,
+  L1 = 0.000365,
+  dm = 5.102041e-12, dn = 1e-9,
+  p1 = 2e-7, p2 = 5e-6, p3 = 1e-3, p4 = 1e-2,
+  y = 0.00005, b = 0, nabla = 0, alfa = 1.01,
+  x = 0)
+
+# Tijdssequentie
+times <- 12:90
+
+# Initiële waardes
+initial.values <- c(f = 1e-11, q = 0, r = 0, s = 0, n = 0, m = 0)
+```
+
+```{r}
+verandering <- function (time, parameters, initial.values) {
+  with(as.list(c(parameters, initial.values)),{
+    A <- n+f+q+r+s
+    # Vergelijkingen
+    df.dt <- - (nf * m * f) - (L1 * f)
+    dq.dt <- (lambda.q * q * (1 - A)) - (nq * n * q) + (L1 * f) - (p2 * q)
+    dr.dt <- (lambda.r * r * (1 - A)) - (nr * n * r) + (p2 * q) - (p3 * r)
+    ds.dt <- (lambda.s * s * (1 - A)) - (ns * n * s) + (p3 * r) - (p4 * s)
+    d.accent.n.dt <- (lambda.n * n * (1 - A)) + (dn * x) - (y * x * (n * x * f)) + (p4 * s)
+    d.accent.m.dt <- (dm * x) + (alfa * n * (1 - m)) - (b * m)
+    
+    
+    # Retourneren van de initiële waardes
+    return(list(c(df.dt, dq.dt, dr.dt, ds.dt, d.accent.n.dt, d.accent.m.dt)))
+  })
+}
+```
+
+
+```{r}
+out <- ode(y = initial.values, times = times, func = verandering, parms = parameters)
+
+
+f <- out[,"f"]
+q <- out[,"q"]
+r <- out[,"r"]
+s <- out[,"s"]
+n <- out[,"n"]
+  
+normalized_values.f <- (f - min(f)) / (max(f) - min(f))
+normalized_values.q <- (q - min(q)) / (max(q) - min(q))
+normalized_values.r <- (r - min(r)) / (max(r) - min(r))
+normalized_values.s <- (s - min(s)) / (max(s) - min(s))
+normalized_values.n <- (n - min(n)) / (max(n) - min(n))
+
+
+sum.f <- as.numeric(summary(normalized_values.f))[4]
+sum.q <- as.numeric(summary(normalized_values.q))[4]
+sum.r <- as.numeric(summary(normalized_values.r))[4]
+sum.s <- as.numeric(summary(normalized_values.s))[4]
+sum.n <- as.numeric(summary(normalized_values.n))[4]
+
+a <- c(sum.f, sum.q)
+b <- c(sum.f, sum.q, sum.r)
+c <- c(sum.f, sum.q, sum.r, sum.s)
+d <- c(sum.f, sum.q, sum.r, sum.s, sum.n)
+
+
+```
+
+
+
+# Resultaten
+
+```{r}
+# Define the data for the barplot
+data <- matrix(c(a, b, c, d), byrow = TRUE)
+colnames(data) <- c("a", "b", "c", "d")
+
+# Create the grouped barplot
+barplot(data, beside = TRUE, col = c("red", "blue", "green", "orange"),
+        main = "Grouped Barplot", xlab = "Groups", ylab = "Values",
+        legend.text = colnames(data), args.legend = list(x = "topright"))
+
+# Add a legend
+legend("topright", legend = colnames(data), fill = c("red", "blue", "green", "orange"))
+
+
+```
+
+
+
+```{r, fig.cap="In dit figuur worden zes verlopen geplot respectievelijk zoals de titels omschrijven. De plots worden berekend bij een afgeleide van nul. In alle grafieken is op de y-as de hoeveelheid stof te zien en dit verloopt over de x-as met elke tijdseenheid is één jaar. In grafiek f begint bij t~60 de hoeveelheid borststamcellen af te nemen tot t~74 richting y = 0. Verder loopt als gevolg van het verloop in grafiek f in grafiek (q) de hoeveelheid LOHs (bijna) exponentieel op van t~0 richting t~65. Deze hoeveelheid loopt vanaf jaar ~ 65 vervolgens weer af richting nul. Door de aanwezigheid van LOH op TSG1 wordt TSG1 uitgeschakeld. In grafiek r correspondeert het verloop van grafiek r met het verloop van grafiek q. Alleen loopt dit proces minder snel op. In grafiek s verloopt de aanwezigheid LOH op TSG2 relatief langzaam tot wederom t~65 en deze hoeveelheid neemt vervolgens fors af. In grafieken f, q, r, en s verlopen de afnames fors af tot t~80 richting y = 0. \\linebreak \\linebreak  Grafieken n en m tonen oorzaak en gevolg van elkaar. Want het aantal tumorcellen in grafiek n vanaf t~62 neemt fors toe en deze tumorcellen maken MDE enzymen om ruimte vrij te maken voor nieuwe tumorcellen. Dus in grafiek m zal vanaf t ~ 62 ook het aantal MDEs respectievelijk fors toenemen tot y~10.0, waar er een evenwicht wordt bereikt."}
+par("mar"=c(5, 4, 4, 4))
+plot(out, main = c("Fractie gezonde borststamcellen (f)", "Aanwezigheid LOH op TSG1 (q)",
+                   "Concentratie uitgeschakelde TSG1 (r)", "Aanwezigheid LOH op TSG2 (s)",
+                   "Aantal tumorcellen (n)", "Aantal tumor geproduceerd MDEs (m)"),
+     xlab = "Tijd (jaren)", ylab = "Hoeveelheid van stof", col = "blue")
+```
+## Discussie 
+
+In figuur 1 van grafiek f is te zien dat de hoeveelheid gezonde borststamcellen in het begin heel langzaam afneemt. Dit is te verklaren aan de hand van de andere grafieken in het figuur. Zoals te zien in de grafieken r en s neemt de hoeveelheid cellen die LOH krijgen langzaam toe. De toename van deze twee grafieken loopt samen met de afname van grafiek f. Wanneer er meer LOH optreedt in een TSG zal de functionaliteit van het TSG afnemen en wordt de tumor steeds minder onderdrukt. Het aantal tumor cellen (grafiek n) en geproduceerde MDEs (grafiek m)) zal toenemen. Hoe meer deze twee grafieken toenemen hoe minder gezonde borststamcellen er over zullen blijven.
+
+
+
+
