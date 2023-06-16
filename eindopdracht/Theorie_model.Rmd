@@ -47,8 +47,8 @@ $$\frac{\partial n}{\partial t} = \overbrace{λ_{n}n(1 - A)}^{proliferation} + \
 De laatste formule beschrijft de partiële afgeleide van de verandering in de hoeveelheid enzymen die door tumoren worden gemaakt (m) tegen de partiële afgeleide van de verandering tijd (t).
 
 $$\frac{\partial m}{\partial t} = \overbrace{d_m{\nabla}^2{m}}^{diffusion} + \overbrace{{\alpha}n(1-m)}^{production} - \overbrace{{\beta}m}^{decay}$$
-
-
+ 
+Verder wordt in het artikel de volgende situatie aangenomen. Borstgroei begint ongeveer rond twaalf jaar oud en op ongeveer twintig jaar oud is een borst volgroeid. Omdat f0 de begin hoeveelheid geeft van gezonde borststamcellen, moet er dus ook de goede t0 gekozen worden. Dit betekent dat de aanname vor f0 op tijd is twaalf jaar begint. 
 
 # Model configuratie
 
@@ -64,7 +64,7 @@ met LOH op TSG2 wordt beschreven als λq. Tevens is λr de mutatiesnelheid van g
 λs geeft de mutatiesnelheid van gezonde borststamcellen ($TSG_1^{+/+}$ & $TSG_2^{+/+}$) naar cellen met LOH op TSG1, TSG2. De groeisnelheid van tumor cellen wordt aangegeven met λn. 
 
 Vervolgens wordt de spontane beweging van normale cellen door $d_n$ bepaald en de spontane beweging van een kanker cel door $d_m$.
-Theta is het product van de mutatie kans, het percentage stam cellen en aantal TSGs. Het artikel stelt dat β een decay factor dat te betrokken is bij de afbraak van MDEs.
+Theta is het product van de mutatie kans, het percentage stam cellen en aantal TSGs. Het artikel (*Enderling et al., 2007*) stelt dat β een decay factor dat te betrokken is bij de afbraak van MDEs.
 Verder is α de productie factor betrokken bij de aanmaak van tumorcellen en γ is een factor betrokken bij de rate van de uitgroei van tumorcellen.
 
 
