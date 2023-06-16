@@ -92,6 +92,10 @@ b <- c(sum.f, sum.q, sum.r)
 c <- c(sum.f, sum.q, sum.r, sum.s)
 d <- c(sum.f, sum.q, sum.r, sum.s, sum.n)
 
+a
+b
+c
+d
 
 ```
 
@@ -101,16 +105,16 @@ d <- c(sum.f, sum.q, sum.r, sum.s, sum.n)
 
 ```{r}
 # Define the data for the barplot
-data <- matrix(c(a, b, c, d), byrow = TRUE)
-colnames(data) <- c("a", "b", "c", "d")
+data <- c("a" = matrix(a), NA,  "b" = matrix(b, byrow = T), NA, "c " = matrix(c, byrow = T), NA, "d" = matrix(d, byrow = T))
 
 # Create the grouped barplot
-barplot(data, beside = TRUE, col = c("red", "blue", "green", "orange"),
+barplot(data, col = c("red", "blue", "green", "orange"),
         main = "Grouped Barplot", xlab = "Groups", ylab = "Values",
         legend.text = colnames(data), args.legend = list(x = "topright"))
 
 # Add a legend
-legend("topright", legend = colnames(data), fill = c("red", "blue", "green", "orange"))
+#legend("topright", legend = colnames(data), fill = c("red", "blue", "green", "orange"))
+
 
 
 ```

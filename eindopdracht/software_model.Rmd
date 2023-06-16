@@ -19,21 +19,14 @@ library(deSolve)
 
 ```{r}
 # Parameters
-#parameters <- c(nf = 1, nq = 0.5, nr = 0.5, ns = 0.5, 
-#                lambda.n = 0.75, lambda.q = 7.5e-3, 
-#                lambda.r = 7.575e-3, lambda.s = 0.0375, 
-#                m = 1, L1 = 0.000365, t = 1, A = 1, dm = 5.102041e-12, 
-#                dn = 1e-9, p1 = 2e-7, p2 = 1e-6-1e-5, p3 = 1e-3, p4 = 1e-2,
-#                y = 0.00005, nabla = 0, alfa = 1.01, f = 1e-11, b = 0,
-#                n = 1, s = 1, r = 1, q = 1)
 
 parameters <- c(
   lambda.n = 0.75, lambda.q = 7.5e-3, lambda.r = 7.575e-3, lambda.s = 0.0375,
   nf = 1, nq = 0.5, nr = 0.5, ns = 0.5,
-  L1 = 0.000365,
-  dm = 5.102041e-12, dn = 1e-9,
-  p1 = 2e-7, p2 = 5e-6, p3 = 1e-3, p4 = 1e-2,
-  y = 0.00005, b = 0, nabla = 0, alfa = 1.01,
+  L1 = (1 * (0.05 * 50 * 2e-7)),
+  dm = 0.0005, dn = 0.0001,
+  p1 = 2e-7, p2 = 5e-6, p3 = 1e-3, p4 = 3e-2,
+  y = 0.00005, b = 0, nabla = 0, alfa = 0.1,
   x = 0)
 
 # Tijdssequentie
@@ -70,26 +63,24 @@ out <- ode(y = initial.values, times = times, func = verandering, parms = parame
 
 # Resultaten
 
-parameters.verandering <- summary(out)
-mean.f <- parameters.verandering$f[4]
-mean.q <- parameters.verandering$f[4]
-hist(mean.f)
 
 
-De onderstaande grafieken zijn gemaakt op een nul dimensionale berekening van het biologische model.
+De onderstaande grafieken zijn gemaakt op een nul dimensionale berekening van het biologische model. Dit betekent dat de afgeleiden gelijk zijn aan nul en dus maar op één tijdspunt de veranderingen worden vergeleken.
 
-```{r, fig.cap="In dit figuur worden zes verlopen geplot respectievelijk zoals de titels omschrijven. De plots worden berekend bij een afgeleide van nul. In alle grafieken is op de y-as de hoeveelheid stof te zien en dit verloopt over de x-as met elke tijdseenheid is één jaar. In grafiek f begint bij t~60 de hoeveelheid borststamcellen af te nemen tot t~74 richting y = 0. Verder loopt als gevolg van het verloop in grafiek f in grafiek (q) de hoeveelheid LOHs (bijna) exponentieel op van t~0 richting t~65. Deze hoeveelheid loopt vanaf jaar ~ 65 vervolgens weer af richting nul. Door de aanwezigheid van LOH op TSG1 wordt TSG1 uitgeschakeld. In grafiek r correspondeert het verloop van grafiek r met het verloop van grafiek q. Alleen loopt dit proces minder snel op. In grafiek s verloopt de aanwezigheid LOH op TSG2 relatief langzaam tot wederom t~65 en deze hoeveelheid neemt vervolgens fors af. In grafieken f, q, r, en s verlopen de afnames fors af tot t~80 richting y = 0. \\linebreak \\linebreak  Grafieken n en m tonen oorzaak en gevolg van elkaar. Want het aantal tumorcellen in grafiek n vanaf t~62 neemt fors toe en deze tumorcellen maken MDE enzymen om ruimte vrij te maken voor nieuwe tumorcellen. Dus in grafiek m zal vanaf t ~ 62 ook het aantal MDEs respectievelijk fors toenemen tot y~10.0, waar er een evenwicht wordt bereikt."}
+Zoals in het software model benoemd, is er ook gekeken naar het oplossen d.m.v partieel differentiëren. Deze methode geeft een heel ander beeld van het verloop. Namelijk, bij partieel differentiëren wordt er een functie gepakt met een aantal variabelen waarin een aantal punten worden vergeleken. Dus er wordt gekeken naar het verloop van punten op een specifiek tijdstip. In de tweede manier van plotten d.m.v plotten in 1 dimensie wordt er gekeken naar het verloop van honderd punten.
+
+```{r, fig.cap="In dit figuur worden zes verlopen geplot respectievelijk zoals de titels omschrijven. De plots worden berekend bij een afgeleide van nul. In alle grafieken is op de y-as de hoeveelheid stof te zien en dit verloopt over de x-as met elke tijdseenheid is één jaar. In grafiek f begint bij t~60 de hoeveelheid borst-stamcellen af te nemen tot t~74 richting y = 0. Verder loopt als gevolg van het verloop in grafiek f in grafiek (q) de hoeveelheid LOHs (bijna) exponentieel op van t~0 richting t~65. Deze hoeveelheid loopt vanaf jaar ~ 65 vervolgens weer af richting nul. Door de aanwezigheid van LOH op TSG1 wordt TSG1 uitgeschakeld. In grafiek r correspondeert het verloop van grafiek r met het verloop van grafiek q. Alleen loopt dit proces minder snel op. In grafiek s verloopt de aanwezigheid LOH op TSG2 relatief langzaam tot wederom t~65 en deze hoeveelheid neemt vervolgens fors af. In grafieken f, q, r, en s verlopen de afnames fors af tot t~80 richting y = 0. \\linebreak \\linebreak  Grafieken n en m tonen oorzaak en gevolg van elkaar. Want het aantal tumorcellen in grafiek n vanaf t~62 neemt fors toe en deze tumorcellen maken MDE-enzymen om ruimte vrij te maken voor nieuwe tumorcellen. Dus in grafiek m zal vanaf t ~ 62 ook het aantal MDEs respectievelijk fors toenemen tot y~10.0, waar er een evenwicht wordt bereikt."}
 par("mar"=c(5, 4, 4, 4))
-plot(out, main = c("Fractie gezonde borststamcellen (f)", "Aanwezigheid LOH op TSG1 (q)",
+plot(out, main = c("Fractie gezonde borst-stamcellen (f)", "Aanwezigheid LOH op TSG1 (q)",
                    "Concentratie uitgeschakelde TSG1 (r)", "Aanwezigheid LOH op TSG2 (s)",
                    "Aantal tumorcellen (n)", "Aantal tumor geproduceerd MDEs (m)"),
      xlab = "Tijd (jaren)", ylab = "Hoeveelheid van stof", col = "blue")
 ```
 
-In figuur 4 uit het artikel is de fractie gezonde borststamcellen op zijn laagst bij een afgeleide van nul, dit is in de bovenstaande grafiek f te zien met de constante lijn tot t ~ 70 bij y = 1e-11. De hoeveelheid neemt daarna inderdaad ook toe, hierboven af te lezen als richting y ~ 0. De andere grafieken zijn niet te vergelijken met die uit het artikel. 
+In figuur 4 uit het artikel is de fractie gezonde borst-stamcellen op zijn laagst bij een afgeleide van nul, dit is in de bovenstaande grafiek f te zien met de constante lijn tot t ~ 70 bij y = 1e-11. De hoeveelheid neemt daarna inderdaad ook toe, hierboven af te lezen als richting y ~ 0. De andere grafieken zijn niet te vergelijken met die uit het artikel. 
 
 De tumor cellen nemen over tijd toe. In figuur vier is dit ook te zien aan de toppen per tijdsgrafiek die steeds hoger worden. De rode lijn geeft in figuur 4 de ontwikkeling aan de tumor cellen. Ditzelfde is te zien voor het aantal tumor geproduceerde MDEs (m), die in de zes grafieken van figuur vier per tijdspunt zullen toenemen.
-Bij zowel de tumorcellen als MDEs is de toename van de eerste drie grafieken eerst zeer nihiel, dit is terug te zien in figuur 1 aan de constante lijn in het begin.
+Bij zowel de tumorcellen als MDEs is de toename van de eerste drie grafieken eerst zeer nihil, dit is terug te zien in figuur 1 aan de constante lijn in het begin.
 
 De aanwezigheid van LOH neemt in figuur 1 langzaam af in grafieken q en s van nul naar 1.5e-13 en 8e-19, in figuur 4 is te zien dat de hoeveelheid cellen met een aanleg voor LOH per grafiek steeds een beetje afneemt. Het verloop van LOH in figuur 1 komt overeen met wat in figuur 4 wordt getoond.
 

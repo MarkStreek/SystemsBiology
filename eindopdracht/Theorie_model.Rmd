@@ -57,9 +57,9 @@ In dit hoofdstuk worden alle variabelen beschreven uit het biologische model.
 Ten eerste wordt de dood van cellen als gevolg van milieuacidose veroorzaakt door kankercellen genoteerd als $n_x$.
 De hoeveelheid enzymen die door de tumoren worden aagemaakt is met m en de hoeveelheid tumor cellen is n.
 Verder zijn cellen met LOH in $TSG_1$ q en cellen met LOH in $TSG_2$ zijn s. Geinactiveert $TSG_1$ is r en
-de kans dat een allel van een normale cel muteert is p. De totale weefsel en cell polulatie, inclusief kanker cellen heet A.
+de kans dat een allel van een normale cel muteert, is p. De totale weefsel en cel populatie, inclusief kanker cellen heet A.
 
-Het borst weefsel met een fractie gezonde borststamcellen heet f en de mutatiesnelheid van deze gezonde borststamcellen ($TSG_1^{+/+}$ & $TSG_2^{+/+}$) naar cellen
+De borst weefsel met een fractie gezonde borststamcellen heet f en de mutatiesnelheid van deze gezonde borststamcellen ($TSG_1^{+/+}$ & $TSG_2^{+/+}$) naar cellen
 met LOH op TSG2 wordt beschreven als λq. Tevens is λr de mutatiesnelheid van gezonde borststamcellen ($TSG_1^{+/+}$ & $TSG_2^{+/+}$) naar cellen met LOH op TSG1 en TSG2.
 λs geeft de mutatiesnelheid van gezonde borststamcellen ($TSG_1^{+/+}$ & $TSG_2^{+/+}$) naar cellen met LOH op TSG1, TSG2. De groeisnelheid van tumor cellen wordt aangegeven met λn. 
 
@@ -91,7 +91,7 @@ initial.values <- c(f = 1e-11, q = 0, r = 0, s = 0, n = 0, m = 0)
 ```
 
 
-Het artikel (*Enderling et al., 2007*) stelt dat vanaf ongeveer twaalf jaar borststamcellen ontwikkelen en wordt er dan aangenomen dat er dan ook LOHs kunnen voorkomen. Daarom wordt in hoofdstuk "Model Configuratie" een tijdsequentie genomen van twaalf tot negentig jaar voor een mooie schaalverdeling.
+Het artikel (*Enderling et al., 2007*) stelt dat vanaf ongeveer twaalf jaar borststamcellen ontwikkelen en wordt er dan aangenomen dat er dan ook LOH's kunnen voorkomen. Daarom wordt in hoofdstuk "Model Configuratie" een tijdsequentie genomen van twaalf tot negentig jaar voor een mooie schaalverdeling.
 
 
 #### Parameters 1.1 Eén dimensie
