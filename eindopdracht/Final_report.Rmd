@@ -1,0 +1,13 @@
+---
+title: "Nog in te vullen..."
+author: "L T Stein & M van de Streek & Sibren Reekers"
+date: "`r Sys.Date()`"
+
+header-includes:
+   - \usepackage{longtable}
+   - \usepackage{hyperref}
+output:
+    pdf_document:
+      number_sections: yes
+linkcolor: blue
+---
