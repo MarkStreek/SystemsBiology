@@ -20,13 +20,11 @@ library(pracma)
 
 ```{r}
 # Parameters
-
-
 parameters <- c(
   lambda.n = 0.75, lambda.q = 7.5e-3, lambda.r = 7.575e-3, lambda.s = 0.0375,
   nf = 1, nq = 0.5, nr = 0.5, ns = 0.5,
   L1 = 0.000365,
-  dm = 5.102041e-12, dn = 1e-9,
+  dm = 5.1e-12, dn = 1e-9,
   p1 = 2e-7, p2 = 5e-6, p3 = 1e-3, p4 = 1e-2,
   y = 0.00005, b = 0, nabla = 0, alfa = 1.01,
   x = 0)
@@ -34,25 +32,39 @@ parameters <- c(
 # Tijdssequentie
 times <- 0:65
 
+N <- 100
+
 # Initiële waardes
-#initial.values <- rep(c(f = 1e-11, q = 0, r = 0, s = 0, n = 0, m = 0), 100)
-
-# ffffffffqqqqqq
-
-initial.values <- rep(c(f = 1e-11, q = 0, r = 0, s = 0, n = 0, m = 0), each = 100)
+initial.values <- rep(c(f = 0.75, q = 0, r = 0, s = 0, n = 0, m = 0), each = N)
 ```
+
+```{r}
+for (i in seq((5.5/14*100), (8.5/14*100), 1)) {
+  
+  # f - darkgreen
+  initial.values[round(i)] = 0.72
+  # q - light green
+  initial.values[round(i) + 100] = 0.05
+  
+  # n - red
+  #initial.values[round(i) + 400] = 0.001
+  
+  # m - black
+  #initial.values[round(i) + 500] = 0.04
+}
+```
+
 
 ```{r}
 verandering <- function (time, initial.values, parameters) {
   with(as.list(c(parameters, initial.values)),{
     
-    f <- initial.values[1:100]
-    q <- initial.values[(100+1):(2*100)]
-    r <- initial.values[(200+1):(3*100)]
-    s <- initial.values[(300+1):(4*100)]
-    n <- initial.values[(400+1):(5*100)]
-    m <- initial.values[(500+1):(6*100)]
-    
+    f <- initial.values[1:N]
+    q <- initial.values[(N+1):(2*N)]
+    r <- initial.values[(2*N+1):(3*N)]
+    s <- initial.values[(3*N+1):(4*N)]
+    n <- initial.values[(4*N+1):(5*N)]
+    m <- initial.values[(5*N+1):(6*N)]
     
     N <- 100
     
@@ -64,23 +76,38 @@ verandering <- function (time, initial.values, parameters) {
     dq.dt <- (lambda.q * q * (1 - A)) - (nq * n * q) + (L1 * f) - (p2 * q)
     dr.dt <- (lambda.r * r * (1 - A)) - (nr * n * r) + (p2 * q) - (p3 * r)
     ds.dt <- (lambda.s * s * (1 - A)) - (ns * n * s) + (p3 * r) - (p4 * s)
-    d.accent.n.dt <- (lambda.n * n * (1 - A)) + (dn * gradient(gradient(n, h1 = 14/100), h1 = 14/100)) - (y * gradient(n * gradient(f, h1 = 14/100), h1 = 14 / 100)) + (p4 * s)
-    d.accent.m.dt <- (dm * gradient(gradient(m, h1 = 14/100), h1 = 14/100)) + (alfa * n * (1 - m)) - (b * m)
+    d.accent.n.dt <- (lambda.n * n * (1 - A)) + (dn * gradient(gradient(n, h1 = 14/N), h1 = 14/N)) - 
+      (y * gradient(n * gradient(f, h1 = 14/100), h1 = 14 / N)) + (p4 * s)
+    d.accent.m.dt <- (dm * gradient(gradient(m, h1 = 14/N), h1 = 14/N)) + (alfa * n * (1 - m)) - (b * m)
     
     # Retourneren van de initiële waardes
-    return(list(c(df.dt, dq.dt, dr.dt, ds.dt, d.accent.n.dt, d.accent.m.dt)))
+    return(list(as.double(c(df.dt, dq.dt, dr.dt, ds.dt, d.accent.n.dt, d.accent.m.dt))))
   })
 }
 ```
 
 ```{r}
-out <- ode.1D(y = initial.values, times = times, func = verandering, parms = parameters, nspec = 6, dimens = 100)
+out <- ode.1D(y = initial.values, times = times, func = verandering, parms = parameters, nspec = 6, dimens = N, bandwidth = 3)
 ```
 
 ```{r}
-t <- out[,1]
-t
-plot(t, out)
+t <- 60
+
+f <- out[t,1:N+1]
+q <- out[t,1+(N+1):(2*N)]
+r <- out[t,1+(2*N+1):(3*N)]
+s <- out[t,1+(3*N+1):(4*N)]
+n <- out[t,1+(4*N+1):(5*N)]
+m <- out[t,1+(5*N+1):(6*N)]
+
+max(n)
+
+out
+
+plot(f, type = "l", ylim = c(0, 1), col = "darkgreen", xlim = c(0,100))
+points(q, type = "l", col = "green")
+points(n, type = "l", col = "red")
+points(m, type = "l", col = "black")
 ```
 
 
