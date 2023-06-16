@@ -15,17 +15,21 @@ knitr::opts_chunk$set(echo = TRUE)
 
 Borstkanker is een van de meest voorkomende kankers (*Cancer Statistics, 2020*). Jaarlijks sterven hier duizenden mensen aan. Kanker ontstaat door fouten in kankergerelateerde genen. Deze genen zijn respectievelijk oncogenen en tumorsuppressorgenen (TSG). Oncogenen zorgen voor regulatie van celgroei en celdeling. Tumorsuppressorgenen zorgen (normaalgesproken) voor remming van ongecontroleerde coelgroei. Bij fouten in deze genen kan er dus een kanker ontstaan. Vaak zijn 4-6 mutaties al genoeg om een kanker te ontwikkelen. 
 
+Voor elk gen heb je 2 kopieen (allelen) dus voor bijvoorbeeld het TSG p53 heb je 2 identieke sequenties. Normaal gesproken zijn deze TSGs homozygoot recesief na 1 mutatie zal de functie niet meteen veranderen, je hebt namelijk nog het originele wild-type kopie en deze kan de functie van ongecontroleerde celgroei in goede banen leiden. Echter wanneer er 2 mutaties optreden, zal de onderdrukking volledig wegvallen. Dit zorgt voor een verlies van heterozygositeit (LOH), LOH is belangrijk in de ontwikkeling van de beginfase van borstkanker.
+
 Borstkanker is vandaag de dag goed te behandelen. Dit komt doordat de kanker vaak in een vroeg stadium wordt ontdekt door screening (*Reeves, 2023*). Er zijn ook in de loop van de jaren vele behandel-technieken ontwikkeld om deze soort(en) van kanker te verwijderen. Zo vindt er bijvoorbeeld tegenwoordig ook niet meteen mammectomie (borstverwijdering) plaats.
 
 Elke behandeling heeft natuurlijk voor- en nadelen. Het is daarom belangrijk om te weten welke behandeling geschikt is. In dit verslag zal er een onderzoek (*Enderling et al., 2007*) gereproduceerd worden. Dit onderzoek gaat over de (lokale) behandeling van borstkanker en een eventuele hernieuwde aanval (recidief).
+
 
 ## Doel
 
 Het doel van dit onderzoek is om meer inzichten te geven in borstkanker. En dan in het speciaal de ontwikkeling van een tumor na een bahandeling. Er zullen zes wiskundige vergelijkingen gebruikt worden. Uit de modulatie van deze vergelijkingen komen verlopen van verschillende situaties, aan de hand hiervan kunnen de inzichten gegeven worden en dus het doel van het onderzoek bereiken.
 
-De modellen in het kort: nog in te vullen...
+Het doel van de modellen is om te laten zien hoe de toename van LOH invloed heeft op de vermindering van gezonde borststamcellen en dat deze verandering direct kan leiden tot tumorvorming. Dit wordt gedaan aan de hand van twee visualisatie methodes; Eén vanuit een nul dimensionale berekening en de ander vanuit een één dimensionale berekening. 
 
-De verwachting voor de modellen ziet er als volgt uit. Allereerst, ...
+De verwachting voor de modellen ziet er als volgt uit. Aan de hand van de informatie in de introductie verwachten we dat, de hoeveelheid gezonde borststamcellen (f) naar verloop van tijd steeds sneller zal afnemen. De aanwezigheid van LOH op TSG1 en TSG2 (q, s) steeds meer toeneemt. Naar onze verwachting zal de concentratie uitgeschakelde TSGs (r) dan ook steeds meer toenemen. Door de toenemende hoeveelheid inactieve cellen verwachten we dat de hoeveelheid tumorcellen (n) naar verloop van tijd zal toenemen. Hoe meer tumorcellen hoe meer enzymen er gemaakt kunnen worden, de concentratie geproduceerde MDEs (m) zal dus ook toenemen.  
+
 
 \newpage
 
