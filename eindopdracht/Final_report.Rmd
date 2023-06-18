@@ -13,7 +13,7 @@ linkcolor: blue
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message=FALSE)
 ```
 
 # Introductie
@@ -76,7 +76,7 @@ Verder wordt in het artikel de volgende situatie aangenomen. Borstgroei begint o
 
 In dit hoofdstuk zijn de gebruikte packages en functies beschreven, die nodig zijn om het biologische model te simuleren.
 
-Er worden twee library's gebruikt. Ten eerste deSolve \cite{deSolve} (versie 1.35) voor de functie ODE en ODE.1D. Pracma wordt gebruikt om te kunnen partieel differentiëren bij de ODE.1D functie. Het modelleren wordt gedaan in R (versie 4.2.2).
+Er worden twee library's gebruikt. Ten eerste deSolve (versie 1.35) voor de functie ODE en ODE.1D. Pracma (versie 2.3.3) wordt gebruikt om te kunnen partieel differentiëren bij de ODE.1D functie. Het modelleren wordt gedaan in R (versie 4.2.2).
 
 ```{r}
 library(deSolve)
@@ -312,14 +312,17 @@ Zoals te zien in de grafieken q en s neemt de hoeveelheid cellen die LOH krijgen
 \bibitem{Cancer_statistics}
 Cancer Statistics (2020, 25 september).: \textit{National Cancer Institute}.
 
-\bibitem{mammography}
-Reeves, R. A. (2023, 5 februari).: \textit{Mammography. StatPearls - NCBI Bookshelf}.
-
 \bibitem{cancer_article}
 Enderling, H., Chaplain, M. A. J., Anderson, A. R. A., Vaidya, J. S. (2007).: \textit{A mathematical model of breast cancer development, local treatment and recurrence}. Journal of Theoretical Biology, 246(2), 245–259.
 
 \bibitem{deSolve}
 Soetaert, K., Petzoldt, T., and Woodrow Setzer, R.: \textit{Solving differential equations in R: package deSolve}, J. Stat. Softw., 33, 1-25, 2010.
+
+\bibitem{mammography}
+Reeves, R. A. (2023, 5 februari).: \textit{Mammography. StatPearls - NCBI Bookshelf}.
+
+\bibitem{pracma}
+Hans W. Borchers (2021). pracma: \textit{Practical Numerical Math Functions}, R package version 2.3.3. https://CRAN.R-project.org/package=pracma
 
 \end{thebibliography}
 ```
