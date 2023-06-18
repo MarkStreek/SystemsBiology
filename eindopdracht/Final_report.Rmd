@@ -40,28 +40,28 @@ Op basis van zes verschillende formules kan de invloed op de ontwikkeling van tu
 
 Ten eerste wordt de verandering van borstweefsel berekend met gezonde stamcellen over de verandering in tijd. Het linker deel bepaald de afbraak van stamcellen. Het rechter gedeelte is de hoeveelheid stamcellen in verhouding met het aantal TSGs dat afhankelijk is van de mutatie waarschijnlijk in een normale situatie.
 
-$$\frac{df}{dt} = - \overbrace{η_f mf}^{degradation} - \overbrace{l_{1}f}^{f{→}TSG{_1}^{+/-}}$$
+$$\frac{df}{dt} = - \overbrace{{\eta}_f mf}^{degradation} - \overbrace{l_{1}f}^{f{→}TSG{_1}^{+/-}}$$
 
 Verder kunnen TSGs heterozygositeit verliezen door mutaties. Het gen staat aan bij (++) of (+-), maar TSGs gaan uit, wanneer zo homozygoot (-) worden.
 De volgende formule beschrijft deze verandering over de verandering van tijd. De vermeerdering van deze cellen staat links onder 'proliferation' (vermeerdering) en deze hoeveelheid neemt af door celapoptose onder 'death' (dood). 
 
 Hierbij worden stamcellen bij opgeteld die gemuteerd zijn over één jaar tijd. Deze hoeveelheid neemt af door het tempo van de mutaties die plaats vinden. Het tempo is afhankelijk van de kans dat mutaties zullen optreden.
 
-$$\frac{dq}{dt} = \overbrace{λ_{q}q(1 - A)}^{proliferation} - \overbrace{η_{q}nq}^{death}  + \overbrace{l_{1}f}^{f→TSG_{1}^{+/-}} - \overbrace{ρ_{2}q}^{TSG1_{1}^{+/-} →TSG_{1}^{-/-}}$$
+$$\frac{dq}{dt} = \overbrace{{\lambda}_{q}q(1 - A)}^{proliferation} - \overbrace{{\eta}_{q}nq}^{death}  + \overbrace{l_{1}f}^{f→TSG_{1}^{+/-}} - \overbrace{{\rho}_{2}q}^{TSG1_{1}^{+/-} →TSG_{1}^{-/-}}$$
 
 De derde formule beschrijft de verandering van de concentratie in uitgeschakelde $TSG_{1}$ over verloop van tijd. Eerst wordt de aanmaak en vermeerdering berekend minus de afbraak door celdood. 
 
-$$\frac{dq}{dt} = \overbrace{λ_{q}r(1 - A)}^{proliferation} - \overbrace{η_{r}nr}^{death}  + \overbrace{ρ_{2}q}^{f→TSG_{1}^{+/-}} - \overbrace{ρ_{3}q}^{TSG1_{1}^{+/-} →TSG_{1}^{-/-}}$$
+$$\frac{dr}{dt} = \overbrace{{\lambda}_{q}r(1 - A)}^{proliferation} - \overbrace{{\eta}_{r}nr}^{death}  + \overbrace{{\rho}_{2}q}^{f→TSG_{1}^{+/-}} - \overbrace{{\rho}_{3}q}^{TSG1_{1}^{+/-} →TSG_{1}^{-/-}}$$
 
 In de vierde formule wordt de verandering berekend van de hoeveelheid $TSG_2$, de tweede tumor suppressor gen die van heterozygoot naar homozygoot recessief gaat. Deze verandering wordt gezet tegen de verandering in tijd.
 
-$$\frac{dq}{dt} = \overbrace{λ_{s}s(1 - A)}^{proliferation} - \overbrace{η_{r}ns}^{death}  + \overbrace{ρ_{3}r}^{f→TSG_{1}^{+/-}} - \overbrace{ρ_{4}s}^{TSG1_{1}^{+/-} →TSG_{1}^{-/-}}$$
+$$\frac{ds}{dt} = \overbrace{{\lambda}_{s}s(1 - A)}^{proliferation} - \overbrace{{\eta}_{r}ns}^{death}  + \overbrace{{\rho}_{3}r}^{f→TSG_{1}^{+/-}} - \overbrace{{\rho}_{4}s}^{TSG1_{1}^{+/-} →TSG_{1}^{-/-}}$$
 
 &nbsp;
 
 Vervolgens wordt de partiële afgeleide genomen van de verandering in tumorcel dichtheid (n) dat afhankelijk is van de partiële afgeleid van de verandering in tijd (t).
 
-$$\frac{\partial n}{\partial t} = \overbrace{λ_{n}n(1 - A)}^{proliferation} + \overbrace{d_{n}\nabla^2n}^{random\\motility}  - \overbrace{\gamma \nabla . (n \nabla f)}^{haptotaxis} - \overbrace{ρ_{4}s}^{TSG_{2}^{+/-} →n}$$
+$$\frac{\partial n}{\partial t} = \overbrace{{\lambda}_{n}n(1 - A)}^{proliferation} + \overbrace{d_{n}\nabla^2n}^{random\\motility}  - \overbrace{\gamma \nabla . (n \nabla f)}^{haptotaxis} - \overbrace{{\rho}_{4}s}^{TSG_{2}^{+/-} →n}$$
 
 
 De laatste formule beschrijft de partiële afgeleide van de verandering in de hoeveelheid enzymen die door tumoren worden gemaakt (m) tegen de partiële afgeleide van de verandering tijd (t).
@@ -76,7 +76,7 @@ Verder wordt in het artikel de volgende situatie aangenomen. Borstgroei begint o
 
 In dit hoofdstuk zijn de gebruikte packages en functies beschreven, die nodig zijn om het biologische model te simuleren.
 
-Er worden twee library's gebruikt. Ten eerste deSolve (versie 1.35) voor de functie ODE en ODE.1D. Pracma wordt gebruikt om partieel te differentiëren bij de ODE.1D functie. Het modelleren wordt gedaan in R (versie 4.2.2).
+Er worden twee library's gebruikt. Ten eerste deSolve \cite{deSolve} (versie 1.35) voor de functie ODE en ODE.1D. Pracma wordt gebruikt om te kunnen partieel differentiëren bij de ODE.1D functie. Het modelleren wordt gedaan in R (versie 4.2.2).
 
 ```{r}
 library(deSolve)
@@ -89,7 +89,7 @@ library(pracma)
 De onderstaande functie ontvangt alle parameters beschreven in hoofdstuk Model Configuratie. Vervolgens worden alle vergelijkingen berekend en geretourneerd in een lijst.
 
 ```{r}
-verandering <- function (time, parameters, initial.values) {
+verandering.0D <- function (time, parameters, initial.values) {
   with(as.list(c(parameters, initial.values)),{
     A <- n+f+q+r+s
     # Vergelijkingen
@@ -123,7 +123,7 @@ In de resultaten zal hierover terug worden gerefereerd.
 
 
 ```{r}
-verandering <- function (time, initial.values, parameters) {
+verandering.1D <- function (time, initial.values, parameters) {
   with(as.list(c(parameters, initial.values)),{
     
     # Het uitpakken van de variabelen voor de vergelijkingen
@@ -165,19 +165,19 @@ Verder zijn cellen met LOH in $TSG_1$ q en cellen met LOH in $TSG_2$ zijn s. Gei
 de kans dat een allel van een normale cel muteert, is p. De totale weefsel en cel populatie, inclusief kanker cellen heet A.
 
 De borst weefsel met een fractie gezonde borststamcellen heet f en de mutatiesnelheid van deze gezonde borststamcellen ($TSG_1^{+/+}$ & $TSG_2^{+/+}$) naar cellen
-met LOH op TSG2 wordt beschreven als λq. Tevens is λr de mutatiesnelheid van gezonde borststamcellen ($TSG_1^{+/+}$ & $TSG_2^{+/+}$) naar cellen met LOH op TSG1 en TSG2.
-λs geeft de mutatiesnelheid van gezonde borststamcellen ($TSG_1^{+/+}$ & $TSG_2^{+/+}$) naar cellen met LOH op TSG1, TSG2. De groeisnelheid van tumor cellen wordt aangegeven met λn. 
+met LOH op TSG2 wordt beschreven als ${\lambda}q$. Tevens is ${\lambda}r$ de mutatiesnelheid van gezonde borststamcellen ($TSG_1^{+/+}$ & $TSG_2^{+/+}$) naar cellen met LOH op TSG1 en TSG2.
+${\lambda}s$ geeft de mutatiesnelheid van gezonde borststamcellen ($TSG_1^{+/+}$ & $TSG_2^{+/+}$) naar cellen met LOH op TSG1, TSG2. De groeisnelheid van tumor cellen wordt aangegeven met ${\lambda}n$. 
 
 Vervolgens wordt de spontane beweging van normale cellen door $d_n$ bepaald en de spontane beweging van een kanker cel door $d_m$.
-Theta is het product van de mutatie kans, het percentage stam cellen en aantal TSGs. Het artikel (*Enderling et al., 2007*) stelt dat β een decay factor dat te betrokken is bij de afbraak van MDEs.
-Verder is α de productie factor betrokken bij de aanmaak van tumorcellen en γ is een factor betrokken bij de rate van de uitgroei van tumorcellen.
+Theta is het product van de mutatie kans, het percentage stam cellen en aantal TSGs. Het artikel (*Enderling et al., 2007*) stelt dat ${\beta}$ een decay factor dat te betrokken is bij de afbraak van MDEs.
+Verder is ${\alpha}$ de productie factor betrokken bij de aanmaak van tumorcellen en ${\gamma}$ is een factor betrokken bij de rate van de uitgroei van tumorcellen.
 
 ### Parameters dimensieloos 
 
 ```{r}
 # Parameters
 
-parameters <- c(
+parameters.0D <- c(
   lambda.n = 0.75, lambda.q = 7.5e-3, lambda.r = 7.575e-3, lambda.s = 0.0375,
   nf = 1, nq = 0.5, nr = 0.5, ns = 0.5,
   L1 = (1 * (0.05 * 50 * 2e-7)),
@@ -187,10 +187,10 @@ parameters <- c(
   x = 0)
 
 # Tijdssequentie
-times <- 12:90
+times.0D <- 12:90
 
 # Initiële waardes
-initial.values <- c(f = 1e-11, q = 0, r = 0, s = 0, n = 0, m = 0)
+initial.values.0D <- c(f = 1e-11, q = 0, r = 0, s = 0, n = 0, m = 0)
 ```
 
 
@@ -203,14 +203,14 @@ Experimentele parameters voor de ODE.1D simulatie.
 
 ```{r}
 # Parameters
-parameters <- c(
+parameters.1D <- c(
   lambda.n = 0.75, lambda.q = 7.5e-3, lambda.r = 7.575e-3, lambda.s = 0.0375,
   nf = 1, nq = 0.5, nr = 0.5, ns = 0.5, L1 = 100, dm = 0.0005, dn = 0.0001,
   p1 = 2e-7, p2 = 5e-6, p3 = 1e-3, p4 = 1e-2, y = 0.00005, b = 0, 
   alfa = 0.1)
 
 # Tijdssequentie
-times <- 0:80
+times.1D <- 0:80
 
 # Aantal punten initiële waardes
 N <- 100
@@ -235,7 +235,7 @@ for (i in seq((5.5/14*100), (8.5/14*100), 1)) {
 De ode functie simuleert nul dimensionaal de veranderingen in het biologische model voor 1 tijdspunt.
 
 ```{r}
-out <- ode(y = initial.values, times = times, func = verandering, parms = parameters)
+out.0D <- ode(y = initial.values.0D, times = times.0D, func = verandering.0D, parms = parameters.0D)
 ```
 
 De onderstaande grafieken zijn gemaakt op een nul dimensionale berekening van het biologische model. Dit betekent dat de afgeleiden gelijk zijn aan nul en dus maar op één tijdspunt de veranderingen worden vergeleken. Want bij partieel differentiëren wordt een functie gepakt met een aantal variabelen en worden per initiële waarde punten vergeleken. Tevens wordt onder het kopje ODE.1D het verloop berekend voor honderd keer per initiële waarde, zoals besproken is in hoofdstuk "Differentiaal vergelijkingen in één dimensie.
@@ -244,7 +244,7 @@ De onderstaande grafieken zijn gemaakt op een nul dimensionale berekening van he
 
 ```{r, fig.cap="In dit figuur worden zes verlopen geplot respectievelijk zoals de titels omschrijven. De plots worden berekend bij een afgeleide van nul. In alle grafieken is op de y-as de hoeveelheid stof te zien en dit verloopt over de x-as met elke tijdseenheid is één jaar. In grafiek f begint bij t~60 de hoeveelheid borst-stamcellen af te nemen tot t~74 richting y = 0. Verder loopt als gevolg van het verloop in grafiek f in grafiek (q) de hoeveelheid LOHs (bijna) exponentieel op van t~0 richting t~65. Deze hoeveelheid loopt vanaf jaar ~ 65 vervolgens weer af richting nul. Door de aanwezigheid van LOH op TSG1 wordt TSG1 uitgeschakeld. In grafiek r correspondeert het verloop van grafiek r met het verloop van grafiek q. Alleen loopt dit proces minder snel op. In grafiek s verloopt de aanwezigheid LOH op TSG2 relatief langzaam tot wederom t~65 en deze hoeveelheid neemt vervolgens fors af. In grafieken f, q, r, en s verlopen de afnames fors af tot t~80 richting y = 0. \\linebreak \\linebreak  Grafieken n en m tonen oorzaak en gevolg van elkaar. Want het aantal tumorcellen in grafiek n vanaf t~62 neemt fors toe en deze tumorcellen maken MDE-enzymen om ruimte vrij te maken voor nieuwe tumorcellen. Dus in grafiek m zal vanaf t ~ 62 ook het aantal MDEs respectievelijk fors toenemen tot y~10.0, waar er een evenwicht wordt bereikt."}
 par("mar"=c(5, 4, 4, 4))
-plot(out, main = c("Fractie gezonde borst-stamcellen (f)", "Aanwezigheid LOH op TSG1 (q)",
+plot(out.0D, main = c("Fractie gezonde borst-stamcellen (f)", "Aanwezigheid LOH op TSG1 (q)",
                    "Concentratie uitgeschakelde TSG1 (r)", "Aanwezigheid LOH op TSG2 (s)",
                    "Aantal tumorcellen (n)", "Aantal tumor geproduceerd MDEs (m)"),
      xlab = "Tijd (jaren)", ylab = "Hoeveelheid van stof", col = "blue")
@@ -265,7 +265,7 @@ Tevens wordt in figuur 4 de concentratie uitgeschakelde TSG1 (r) niet geplot, du
 
 ```{r}
 # Het runnen van de ode.1D functie. 
-out <- ode.1D(y = initial.values, times = times, func = verandering, parms = parameters, nspec = 6, dimens = N, bandwidth = 3)
+out <- ode.1D(y = initial.values.1D, times = times.1D, func = verandering.1D, parms = parameters.1D, nspec = 6, dimens = N, bandwidth = 3)
 ```
 
 ```{r}
@@ -300,3 +300,26 @@ In figuur 1 van grafiek f is te zien dat de hoeveelheid gezonde borst-stamcellen
 Zoals te zien in de grafieken q en s neemt de hoeveelheid cellen die LOH krijgen langzaam toe. De toename van deze twee grafieken loopt samen met de afname van grafiek f. Wanneer er meer LOH optreedt in een TSG zal de functionaliteit van het TSG afnemen en wordt de tumor steeds minder onderdrukt. Het aantal tumor cellen (grafiek n) en geproduceerde MDEs (grafiek m)) zal toenemen. Hoe meer deze twee grafieken toenemen hoe minder gezonde borststamcellen er over zullen blijven. De hoeveelheid tumoren lijkt bij het eind een evenwicht te bereiken, dit zou te maken kunnen hebben met lak aan voedingsstoffen binnen de omgeving. Het gevolg daarvan is dat er geen exponentiële groei meer zal zijn.
 
 ## Algemene conclusie en perspectief
+
+
+
+
+\pagebreak
+
+```{=tex}
+\begin{thebibliography}{9}
+
+\bibitem{Cancer_statistics}
+Cancer Statistics (2020, 25 september).: \textit{National Cancer Institute}.
+
+\bibitem{mammography}
+Reeves, R. A. (2023, 5 februari).: \textit{Mammography. StatPearls - NCBI Bookshelf}.
+
+\bibitem{cancer_article}
+Enderling, H., Chaplain, M. A. J., Anderson, A. R. A., Vaidya, J. S. (2007).: \textit{A mathematical model of breast cancer development, local treatment and recurrence}. Journal of Theoretical Biology, 246(2), 245–259.
+
+\bibitem{deSolve}
+Soetaert, K., Petzoldt, T., and Woodrow Setzer, R.: \textit{Solving differential equations in R: package deSolve}, J. Stat. Softw., 33, 1-25, 2010.
+
+\end{thebibliography}
+```
