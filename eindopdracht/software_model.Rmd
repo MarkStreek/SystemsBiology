@@ -25,7 +25,7 @@ library(pracma)
 ```
 
 
-## Differentiaal vergelijkingen in nul dimensies
+### Differentiaal vergelijkingen in nul dimensies
 
 De onderstaande functie ontvangt alle parameters beschreven in hoofdstuk Model Configuratie. Vervolgens worden alle vergelijkingen berekend en geretourneerd in een lijst.
 
@@ -56,7 +56,7 @@ out <- ode(y = initial.values, times = times, func = verandering, parms = parame
 
 &nbsp;
 
-## Differentiaal vergelijkingen in één dimensie
+### Differentiaal vergelijkingen in één dimensie
 
 In de onderstaande functie worden de vergelijkingen uitgewerkt met de ODE functie. Echter in het gekozen artikel worden de vergelijkingen opgelost door middel van partieel differentiëren. Dit is de juiste methode om de grafieken van het artikel te reproduceren. Hoewel dit buiten ons vizier valt, is hier toch naar gekeken. 
 
