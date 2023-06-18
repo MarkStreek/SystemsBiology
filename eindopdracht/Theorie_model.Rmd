@@ -71,20 +71,22 @@ Verder is α de productie factor betrokken bij de aanmaak van tumorcellen en γ 
 
 
 
-#### Parameters 1.1 dimensieloos 
+#### Parameters dimensieloos 
 
 ```{r}
+# Parameters
+
 parameters <- c(
   lambda.n = 0.75, lambda.q = 7.5e-3, lambda.r = 7.575e-3, lambda.s = 0.0375,
   nf = 1, nq = 0.5, nr = 0.5, ns = 0.5,
-  L1 = 0.000365,
-  dm = 5.102041e-12, dn = 1e-9,
-  p1 = 2e-7, p2 = 5e-6, p3 = 1e-3, p4 = 1e-2,
-  y = 0.00005, b = 0, nabla = 0, alfa = 1.01,
+  L1 = (1 * (0.05 * 50 * 2e-7)),
+  dm = 0.0005, dn = 0.0001,
+  p1 = 2e-7, p2 = 5e-6, p3 = 1e-3, p4 = 3e-2,
+  y = 0.00005, b = 0, nabla = 0, alfa = 0.1,
   x = 0)
 
 # Tijdssequentie
-times <- 20:90
+times <- 12:90
 
 # Initiële waardes
 initial.values <- c(f = 1e-11, q = 0, r = 0, s = 0, n = 0, m = 0)
@@ -94,5 +96,31 @@ initial.values <- c(f = 1e-11, q = 0, r = 0, s = 0, n = 0, m = 0)
 Het artikel (*Enderling et al., 2007*) stelt dat vanaf ongeveer twaalf jaar borststamcellen ontwikkelen en wordt er dan aangenomen dat er dan ook LOH's kunnen voorkomen. Daarom wordt in hoofdstuk "Model Configuratie" een tijdsequentie genomen van twaalf tot negentig jaar voor een mooie schaalverdeling.
 
 
-#### Parameters 1.1 Eén dimensie
+#### Parameters één dimensie
 
+```{r}
+# Parameters
+parameters <- c(
+  lambda.n = 0.75, lambda.q = 7.5e-3, lambda.r = 7.575e-3, lambda.s = 0.0375,
+  nf = 1, nq = 0.5, nr = 0.5, ns = 0.5, L1 = 100, dm = 0.0005, dn = 0.0001,
+  p1 = 2e-7, p2 = 5e-6, p3 = 1e-3, p4 = 1e-2, y = 0.00005, b = 0, 
+  alfa = 0.1)
+
+# Tijdssequentie
+times <- 0:80
+
+# Aantal punten initiële waardes
+N <- 100
+
+# Initiële waardes
+initial.values <- rep(c(f = 0.75, q = 0, r = 0, s = 0, n = 0, m = 0), each = N)
+```
+
+```{r}
+for (i in seq((5.5/14*100), (8.5/14*100), 1)) {
+  # f initiële waarde van f aanpassen op specifieke punten
+  initial.values[round(i)] = 0.71
+  # q initiële waarde van f aanpassen op specifieke punten
+  initial.values[round(i) + 100] = 0.05
+}
+```
