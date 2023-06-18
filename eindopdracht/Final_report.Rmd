@@ -83,7 +83,6 @@ library(deSolve)
 library(pracma)
 ```
 
-
 ### Differentiaal vergelijkingen in nul dimensies
 
 De onderstaande functie ontvangt alle parameters beschreven in hoofdstuk Model Configuratie. Vervolgens worden alle vergelijkingen berekend en geretourneerd in een lijst.
@@ -119,9 +118,6 @@ De ODE.1D functie wordt gebruikt om deze vergelijkingen in één dimensie op te 
 
 Al deze waardes kunnen worden gevisualiseerd op een specifiek tijdstip. Je hebt zo dus respectievelijk de tijd, de index van alle differentiaalvergelijkingen en de waardes van deze punten. Er worden drie dimensies weergegeven in twee dimensionaal figuur. 
 
-In de resultaten zal hierover terug worden gerefereerd. 
-
-
 ```{r}
 verandering.1D <- function (time, initial.values, parameters) {
   with(as.list(c(parameters, initial.values)),{
@@ -154,6 +150,8 @@ verandering.1D <- function (time, initial.values, parameters) {
   })
 }
 ```
+
+Jammergenoeg komen de resultaten uit deze uitwerking niet overeen met het artikel. Om deze reden worden daarom deze resultaten niet meegenomen in de resultaten sectie. Uiteraard volgt er in de discussie-sectie nog een uitleg wat en waarom er precies niet goed ging aan deze benadering.
 
 ## Modelconfiguratie
 
@@ -193,9 +191,7 @@ times.0D <- 12:90
 initial.values.0D <- c(f = 1e-11, q = 0, r = 0, s = 0, n = 0, m = 0)
 ```
 
-
 Het artikel (*Enderling et al., 2007*) stelt dat vanaf ongeveer twaalf jaar borststamcellen ontwikkelen en wordt er dan aangenomen dat er dan ook LOH's kunnen voorkomen. Daarom wordt in hoofdstuk "Model Configuratie" een tijdsequentie genomen van twaalf tot negentig jaar voor een mooie schaalverdeling.
-
 
 ### Parameters één dimensie
 
@@ -261,36 +257,6 @@ Tevens wordt in figuur 4 de concentratie uitgeschakelde TSG1 (r) niet geplot, du
 
 \newpage
 
-## Eén dimensionaal
-
-```{r}
-# Het runnen van de ode.1D functie. 
-out <- ode.1D(y = initial.values.1D, times = times.1D, func = verandering.1D, parms = parameters.1D, nspec = 6, dimens = N, bandwidth = 3)
-```
-
-```{r}
-# Tijdspunt definiëren
-t <- 75
-
-# Alle waardes uit het object halen bij specieke tijdspunt
-f <- out[t,1:N+1]
-q <- out[t,1+(N+1):(2*N)]
-r <- out[t,1+(2*N+1):(3*N)]
-s <- out[t,1+(3*N+1):(4*N)]
-n <- out[t,1+(4*N+1):(5*N)]
-m <- out[t,1+(5*N+1):(6*N)]
-```
-
-In de onderstaande functie wordt een plot gemaakt van het biologische model waar elke vergelijking voor honderd afgeleides wordt berekend. 
-
-```{r, fig.cap = "In de onderstaande figuur is het verloop te zien van de grafieken waar in twee dimensies drie dimensies zijn verwerkt. Echter komt deze plot, niet overeen met dat uit het artikel (*Enderling et al., 2007*)."}
-# Plotten van de waardes
-plot(f, type = "l", ylim = c(0, 1), col = "darkgreen", xlim = c(0,100))
-points(q, type = "l", col = "green")
-points(n, type = "l", col = "red")
-points(m, type = "l", col = "black")
-```
-
 # Discussie en Conclusie
 
 ## Discussie
@@ -299,10 +265,15 @@ In figuur 1 van grafiek f is te zien dat de hoeveelheid gezonde borst-stamcellen
 
 Zoals te zien in de grafieken q en s neemt de hoeveelheid cellen die LOH krijgen langzaam toe. De toename van deze twee grafieken loopt samen met de afname van grafiek f. Wanneer er meer LOH optreedt in een TSG zal de functionaliteit van het TSG afnemen en wordt de tumor steeds minder onderdrukt. Het aantal tumor cellen (grafiek n) en geproduceerde MDEs (grafiek m)) zal toenemen. Hoe meer deze twee grafieken toenemen hoe minder gezonde borststamcellen er over zullen blijven. De hoeveelheid tumoren lijkt bij het eind een evenwicht te bereiken, dit zou te maken kunnen hebben met lak aan voedingsstoffen binnen de omgeving. Het gevolg daarvan is dat er geen exponentiële groei meer zal zijn.
 
+Zoals eerder vermeld is het niet gelukt om de simulaties op te lossen door middel van partiële differentiatie. Dit heeft te maken met een aantal factoren. Allereerst -en dit is ook meteen de belangrijkste oorzaak (volgens ons)- de parameters. In het artikel (*Enderling et al., 2007*), worden een aantal parameters niet nader toegelicht. Sommige parameters hebben twee waardes: de waarde p2 heeft in het artikel twee waardes, deze zijn respectievelijk 1e-3 en 2.5e10−4.
+
+Verder kan het nog zijn dat de vergelijkingen niet goed in de functie staan. Bij deze reden zijn er vooral twijfels over de laatste twee vergelijkingen. Nog specifieker, het Nabla teken. Dit omgekeerde driehoek-teken kan worden toegepast op een scalaire functie, wat resulteert in de gradiënt van die functie. De gradiënt is een vector die de richting en de mate van de snelste verandering van de functie aangeeft. Om de gradiënt te berekenen, wordt de pracma module gebruikt. Echter zijn er nog meer mogelijkheden om deze gradient te berekenen en daarom is het niet duidelijk of deze uitwerking wel klopt. 
+
+Tot slot zijn er dan nog twijfels over de initiële waardes. Zoals eerder vermeld worden er 100 differentiaal vergelijkingen opgelost. Uiteraard moeten er dan ook 100 initiële waardes zijn. De ODE.1D-functie vereist dat deze waarden achtereenvolgens als input worden geleverd, bijvoorbeeld A1, A2, A3... B1, B2, B3... Deze waarden moeten weer binnen de functie worden uitgepakt. Het lijkt erop dat de waarden niet correct worden gekoppeld aan de juiste vergelijkingen. Er is geen verklaring of oplossing hiervoor gevonden.
+
 ## Algemene conclusie en perspectief
 
-
-
+Nog in te vullen...
 
 \pagebreak
 
