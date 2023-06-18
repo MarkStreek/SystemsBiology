@@ -98,6 +98,8 @@ Het artikel (*Enderling et al., 2007*) stelt dat vanaf ongeveer twaalf jaar bors
 
 #### Parameters één dimensie
 
+Experimentele parameters voor de ODE.1D simulatie.
+
 ```{r}
 # Parameters
 parameters <- c(
