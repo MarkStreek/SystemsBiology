@@ -1,5 +1,5 @@
 ---
-title: "Nog in te vullen..."
+title: "Ontwikkeling van tumoren in de borst door toename van LOH"
 author: "L T Stein & M van de Streek & Sibren Reekers"
 date: "`r Sys.Date()`"
 
@@ -16,13 +16,22 @@ linkcolor: blue
 knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message=FALSE)
 ```
 
+\pagebreak
+
+\tableofcontents
+
+\pagebreak
+
+# Afkortingen 
+
+
 # Introductie
 
-Borstkanker is een van de meest voorkomende kankers (*Cancer Statistics, 2020*). Jaarlijks sterven hier duizenden mensen aan. Kanker ontstaat door fouten in kankergerelateerde genen. Deze genen zijn respectievelijk oncogenen en tumorsuppressorgenen (TSG). Oncogenen zorgen voor regulatie van celgroei en celdeling. Tumorsuppressorgenen zorgen (normaalgesproken) voor remming van ongecontroleerde coelgroei. Bij fouten in deze genen kan er dus een kanker ontstaan. Vaak zijn 4-6 mutaties al genoeg om een kanker te ontwikkelen. 
+Borstkanker is een van de meest voorkomende kankers (*Cancer Statistics, 2020*). Jaarlijks sterven hier duizenden mensen aan. Kanker ontstaat door fouten in kankergerelateerde genen. Deze genen zijn respectievelijk oncogenen en tumorsuppressorgenen (TSG). Oncogenen zorgen voor regulatie van celgroei en celdeling. Tumorsuppressorgenen zorgen (normaal gesproken) voor remming van ongecontroleerde celgroei. Bij fouten in deze genen kan er dus een kanker ontstaan. Vaak zijn vier tot zes mutaties al genoeg om een kanker te ontwikkelen. 
 
-Voor elk gen heb je 2 kopieen (allelen) dus voor bijvoorbeeld het TSG p53 heb je 2 identieke sequenties. Normaal gesproken zijn deze TSGs homozygoot recesief na 1 mutatie zal de functie niet meteen veranderen, je hebt namelijk nog het originele wild-type kopie en deze kan de functie van ongecontroleerde celgroei in goede banen leiden. Echter wanneer er 2 mutaties optreden, zal de onderdrukking volledig wegvallen. Dit zorgt voor een verlies van heterozygositeit (LOH), LOH is belangrijk in de ontwikkeling van de beginfase van borstkanker.
+Voor elk gen heb je twee kopieën (allelen) dus voor bijvoorbeeld het TSG p53 heb je twee identieke sequenties. Normaal gesproken zijn deze TSG's homozygoot recessief na één mutatie zal de functie niet meteen veranderen, je hebt namelijk nog het originele wild-type kopie en deze kan de functie van ongecontroleerde celgroei in goede banen leiden. Echter, wanneer er twee mutaties optreden, zal de onderdrukking volledig wegvallen. Dit zorgt voor een verlies van heterozygositeit (LOH), LOH is belangrijk in de ontwikkeling van de beginfase van borstkanker.
 
-Borstkanker is vandaag de dag goed te behandelen. Dit komt doordat de kanker vaak in een vroeg stadium wordt ontdekt door screening (*Reeves, 2023*). Er zijn ook in de loop van de jaren vele behandel-technieken ontwikkeld om deze soort(en) van kanker te verwijderen. Zo vindt er bijvoorbeeld tegenwoordig ook niet meteen mammectomie (borstverwijdering) plaats.
+Borstkanker is vandaag de dag goed te behandelen. Dit komt doordat de kanker vaak in een vroeg stadium wordt ontdekt door screening (*Reeves, 2023*). Er zijn ook in de loop van de jaren vele behandeltechnieken ontwikkeld om deze soort(en) van kanker te verwijderen. Zo vindt er bijvoorbeeld tegenwoordig ook niet meteen mammectomie (borstverwijdering) plaats.
 
 Elke behandeling heeft natuurlijk voor- en nadelen. Het is daarom belangrijk om te weten welke behandeling geschikt is. In dit verslag zal er een onderzoek (*Enderling et al., 2007*) gereproduceerd worden. Dit onderzoek gaat over de (lokale) behandeling van borstkanker en een eventuele hernieuwde aanval (recidief).
 
@@ -30,19 +39,19 @@ Elke behandeling heeft natuurlijk voor- en nadelen. Het is daarom belangrijk om 
 
 Het doel van dit onderzoek is om meer inzichten te geven in borstkanker. En dan in het speciaal de ontwikkeling van een tumor na een behandeling. Er zullen zes wiskundige vergelijkingen gebruikt worden. Uit de modulatie van deze vergelijkingen komen verlopen van verschillende situaties, aan de hand hiervan kunnen de inzichten gegeven worden en dus het doel van het onderzoek bereiken.
 
-Het doel van de modellen is om te laten zien hoe de toename van LOH invloed heeft op de vermindering van gezonde borststamcellen en dat deze verandering direct kan leiden tot tumorvorming. Dit wordt gedaan aan de hand van twee visualisatie methodes; Eén vanuit een nul dimensionale berekening en de ander vanuit een één dimensionale berekening. 
+Het doel van de modellen is om te laten zien hoe de toename van LOH invloed heeft op de vermindering van gezonde borst-stamcellen en dat deze verandering direct kan leiden tot tumorvorming. Dit wordt gedaan aan de hand van twee visualisatie methodes; Eén vanuit een nul dimensionale berekening en de ander vanuit een één dimensionale berekening. 
 
-De verwachting voor de modellen ziet er als volgt uit. Aan de hand van de informatie in de introductie verwachten we dat, de hoeveelheid gezonde borststamcellen (f) naar verloop van tijd steeds sneller zal afnemen. De aanwezigheid van LOH op TSG1 en TSG2 (q, s) steeds meer toeneemt. Naar onze verwachting zal de concentratie uitgeschakelde TSGs (r) dan ook steeds meer toenemen. Door de toenemende hoeveelheid inactieve cellen verwachten we dat de hoeveelheid tumorcellen (n) naar verloop van tijd zal toenemen. Hoe meer tumorcellen hoe meer enzymen er gemaakt kunnen worden, de concentratie geproduceerde MDEs (m) zal dus ook toenemen.  
+De verwachting voor de modellen ziet er als volgt uit. Aan de hand van de informatie in de introductie verwachten we dat, de hoeveelheid gezonde borst-stamcellen (f) naar verloop van tijd steeds sneller zal afnemen. De aanwezigheid van LOH op TSG1 en TSG2 (q, s) steeds meer toeneemt. Naar onze verwachting zal de concentratie uitgeschakelde TSG's (r) dan ook steeds meer toenemen. Door de toenemende hoeveelheid inactieve cellen verwachten we dat de hoeveelheid tumorcellen (n) naar verloop van tijd zal toenemen. Hoe meer tumorcellen hoe meer enzymen er gemaakt kunnen worden, de concentratie geproduceerde MDE's (m) zal dus ook toenemen.  
 
 ## Theorie
 
-Op basis van zes verschillende formules kan de invloed op de ontwikkeling van tumoren in de borst na een behandeling worden gesimuleerd. Het model kan met de volgende citaat uit het artikel (*Enderling et al., 2007*) worden toegelicht: "*Tomlinson (2001) presented a more speciﬁc model in which the mutation of two TSGs and three oncogenes was necessary to form a tumour cell. We will adapt this approach and for simplicity assume that mutations in two TSGs are sufﬁcient to give rise to a tumour.*". In de de onderstaande formules wordt deze assumptie uitgebeeld met genen TSG1 en TSG2. Dit is terug te zien aan het feit dat de genen van heterozygoot (+/-) en werkend als tumor suppressor gen gaan naar homozygoot recessief (-/-), waar de inhibitoire functie uitstaat. Elke opeenvolgende vergelijking beschrijft dus het gevolg van de mutaties in de twee TSG's op de rest van het biologische model.
+Op basis van zes verschillende formules kan de invloed op de ontwikkeling van tumoren in de borst na een behandeling worden gesimuleerd. Het model kan met de volgende citaat uit het artikel (*Enderling et al., 2007*) worden toegelicht: "*Tomlinson (2001) presented a more speciﬁc model in which the mutation of two TSG's and three oncogenes was necessary to form a tumour cell. We will adapt this approach and for simplicity assume that mutations in two TSG's are sufﬁcient to give rise to a tumour.*". In de onderstaande formules wordt deze assumptie uitgebeeld met genen TSG1 en TSG2. Dit is terug te zien aan het feit dat de genen van heterozygoot (+/-) en werkend als tumor suppressor gen gaan naar homozygoot recessief (-/-), waar de inhibitoire functie uitstaat. Elke opeenvolgende vergelijking beschrijft dus het gevolg van de mutaties in de twee TSG's op de rest van het biologische model.
 
-Ten eerste wordt de verandering van borstweefsel berekend met gezonde stamcellen over de verandering in tijd. Het linker deel bepaald de afbraak van stamcellen. Het rechter gedeelte is de hoeveelheid stamcellen in verhouding met het aantal TSGs dat afhankelijk is van de mutatie waarschijnlijk in een normale situatie.
+Ten eerste wordt de verandering van borstweefsel berekend met gezonde stamcellen over de verandering in tijd. Het linker deel bepaald de afbraak van stamcellen. Het rechter gedeelte is de hoeveelheid stamcellen in verhouding met het aantal TSG's dat afhankelijk is van de mutatie waarschijnlijk in een normale situatie.
 
 $$\frac{df}{dt} = - \overbrace{{\eta}_f mf}^{degradation} - \overbrace{l_{1}f}^{f{→}TSG{_1}^{+/-}}$$
 
-Verder kunnen TSGs heterozygositeit verliezen door mutaties. Het gen staat aan bij (++) of (+-), maar TSGs gaan uit, wanneer zo homozygoot (-) worden.
+Verder kunnen TSG's heterozygositeit verliezen door mutaties. Het gen staat aan bij (++) of (+-), maar TSG's gaan uit, wanneer zo homozygoot (-) worden.
 De volgende formule beschrijft deze verandering over de verandering van tijd. De vermeerdering van deze cellen staat links onder 'proliferation' (vermeerdering) en deze hoeveelheid neemt af door celapoptose onder 'death' (dood). 
 
 Hierbij worden stamcellen bij opgeteld die gemuteerd zijn over één jaar tijd. Deze hoeveelheid neemt af door het tempo van de mutaties die plaats vinden. Het tempo is afhankelijk van de kans dat mutaties zullen optreden.
@@ -68,7 +77,7 @@ De laatste formule beschrijft de partiële afgeleide van de verandering in de ho
 
 $$\frac{\partial m}{\partial t} = \overbrace{d_m{\nabla}^2{m}}^{diffusion} + \overbrace{{\alpha}n(1-m)}^{production} - \overbrace{{\beta}m}^{decay}$$
  
-Verder wordt in het artikel de volgende situatie aangenomen. Borstgroei begint ongeveer rond twaalf jaar oud en op ongeveer twintig jaar oud is een borst volgroeid. Omdat f0 de begin hoeveelheid geeft van gezonde borststamcellen, moet er dus ook de goede t0 gekozen worden. Dit betekent dat de aanname vor f0 op tijd is twaalf jaar begint. 
+Verder wordt in het artikel de volgende situatie aangenomen. Borstgroei begint ongeveer rond twaalf jaar oud en op ongeveer twintig jaar oud is een borst volgroeid. Omdat f0 het beginhoeveelheid geeft van gezonde borst-stamcellen, moet er dus ook de goede t0 gekozen worden. Dit betekent dat de aanname voor f0 begint op tijd is twaalf jaar.
 
 # Methoden
 
@@ -76,7 +85,7 @@ Verder wordt in het artikel de volgende situatie aangenomen. Borstgroei begint o
 
 In dit hoofdstuk zijn de gebruikte packages en functies beschreven, die nodig zijn om het biologische model te simuleren.
 
-Er worden twee library's gebruikt. Ten eerste deSolve (versie 1.35) voor de functie ODE en ODE.1D. Pracma (versie 2.3.3) wordt gebruikt om te kunnen partieel differentiëren bij de ODE.1D functie. Het modelleren wordt gedaan in R (versie 4.2.2).
+Er worden twee libraries gebruikt. Ten eerste deSolve (versie 1.35) voor de functie ODE en ODE.1D. Pracma (versie 2.3.3) wordt gebruikt om te kunnen partieel differentiëren bij de ODE.1D functie. Het modelleren wordt gedaan in R (versie 4.2.2).
 
 ```{r}
 library(deSolve)
@@ -110,7 +119,7 @@ verandering.0D <- function (time, parameters, initial.values) {
 
 ### Differentiaal vergelijkingen in één dimensie
 
-In de onderstaande functie worden de vergelijkingen uitgewerkt met de ODE functie. Echter in het gekozen artikel worden de vergelijkingen opgelost door middel van partieel differentiëren. Dit is de juiste methode om de grafieken van het artikel te reproduceren. Hoewel dit buiten ons vizier valt, is hier toch naar gekeken. 
+In de onderstaande functie worden de vergelijkingen uitgewerkt met de ODE-functie. Echter, in het gekozen artikel worden de vergelijkingen opgelost door middel van partieel differentiëren. Dit is de juiste methode om de grafieken van het artikel te reproduceren. Hoewel dit buiten ons vizier valt, is hier toch naar gekeken. 
 
 Om de vergelijkingen op te lossen op deze manier (partieel differentiëren), worden 100 punten gebruikt voor elke initiële waarde. In het artikel (*Enderling et al., 2007*) worden bij figuur vier en vijf het verloop getoond bij t = 0. Er is te zien dat er al een verloop zichtbaar is. D.w.z., de initiële waardes moeten worden aangepast binnen deze 100 specifieke punten.
 
@@ -151,23 +160,23 @@ verandering.1D <- function (time, initial.values, parameters) {
 }
 ```
 
-Jammergenoeg komen de resultaten uit deze uitwerking niet overeen met het artikel. Om deze reden worden daarom deze resultaten niet meegenomen in de resultaten sectie. Uiteraard volgt er in de discussie-sectie nog een uitleg wat en waarom er precies niet goed ging aan deze benadering.
+Jammer genoeg komen de resultaten uit deze uitwerking niet overeen met het artikel. Om deze reden worden daarom deze resultaten niet meegenomen in de resultaten sectie. Uiteraard volgt er in de discussiesectie nog een uitleg wat en waarom er precies niet goed ging aan deze benadering.
 
 ## Model configuratie
 
 In dit hoofdstuk worden alle variabelen beschreven uit het biologische model.
 
 Ten eerste wordt de dood van cellen als gevolg van milieuacidose veroorzaakt door kankercellen genoteerd als $n_x$.
-De hoeveelheid enzymen die door de tumoren worden aagemaakt is met m en de hoeveelheid tumor cellen is n.
-Verder zijn cellen met LOH in $TSG_1$ q en cellen met LOH in $TSG_2$ zijn s. Geinactiveert $TSG_1$ is r en
+De hoeveelheid enzymen die door de tumoren worden aangemaakt is met m en de hoeveelheid tumor cellen is n.
+Verder zijn cellen met LOH in $TSG_1$ q en cellen met LOH in $TSG_2$ zijn s. Geïnactiveerd $TSG_1$ is r en
 de kans dat een allel van een normale cel muteert, is p. De totale weefsel en cel populatie, inclusief kanker cellen heet A.
 
-De borst weefsel met een fractie gezonde borststamcellen heet f en de mutatiesnelheid van deze gezonde borststamcellen ($TSG_1^{+/+}$ & $TSG_2^{+/+}$) naar cellen
-met LOH op TSG2 wordt beschreven als ${\lambda}q$. Tevens is ${\lambda}r$ de mutatiesnelheid van gezonde borststamcellen ($TSG_1^{+/+}$ & $TSG_2^{+/+}$) naar cellen met LOH op TSG1 en TSG2.
-${\lambda}s$ geeft de mutatiesnelheid van gezonde borststamcellen ($TSG_1^{+/+}$ & $TSG_2^{+/+}$) naar cellen met LOH op TSG1, TSG2. De groeisnelheid van tumor cellen wordt aangegeven met ${\lambda}n$. 
+De borst weefsel met een fractie gezonde borst-stamcellen heet f en de mutatiesnelheid van deze gezonde borst-stamcellen ($TSG_1^{+/+}$ & $TSG_2^{+/+}$) naar cellen
+met LOH op TSG2 wordt beschreven als ${\lambda}q$. Tevens is ${\lambda}r$ de mutatiesnelheid van gezonde borst-stamcellen ($TSG_1^{+/+}$ & $TSG_2^{+/+}$) naar cellen met LOH op TSG1 en TSG2.
+${\lambda}s$ geeft de mutatiesnelheid van gezonde borst-stamcellen ($TSG_1^{+/+}$ & $TSG_2^{+/+}$) naar cellen met LOH op TSG1, TSG2. De groeisnelheid van tumor cellen wordt aangegeven met ${\lambda}n$. 
 
 Vervolgens wordt de spontane beweging van normale cellen door $d_n$ bepaald en de spontane beweging van een kanker cel door $d_m$.
-Theta is het product van de mutatie kans, het percentage stam cellen en aantal TSGs. Het artikel (*Enderling et al., 2007*) stelt dat ${\beta}$ een decay factor dat te betrokken is bij de afbraak van MDEs.
+Theta is het product van de mutatie kans, het percentage stam cellen en aantal TSG's. Het artikel (*Enderling et al., 2007*) stelt dat ${\beta}$ een decay factor dat te betrokken is bij de afbraak van MDE's.
 Verder is ${\alpha}$ de productie factor betrokken bij de aanmaak van tumorcellen en ${\gamma}$ is een factor betrokken bij de rate van de uitgroei van tumorcellen.
 
 ### Parameters dimensieloos 
@@ -191,7 +200,7 @@ times.0D <- 12:90
 initial.values.0D <- c(f = 1e-11, q = 0, r = 0, s = 0, n = 0, m = 0)
 ```
 
-Het artikel (*Enderling et al., 2007*) stelt dat vanaf ongeveer twaalf jaar borststamcellen ontwikkelen en wordt er dan aangenomen dat er dan ook LOH's kunnen voorkomen. Daarom wordt in hoofdstuk "Model Configuratie" een tijdsequentie genomen van twaalf tot negentig jaar voor een mooie schaalverdeling.
+Het artikel (*Enderling et al., 2007*) stelt dat vanaf ongeveer twaalf jaar borst-stamcellen ontwikkelen en wordt er dan aangenomen dat er dan ook LOH's kunnen voorkomen. Daarom wordt in hoofdstuk "Model Configuratie" een tijdsequentie genomen van twaalf tot negentig jaar voor een mooie schaalverdeling.
 
 ### Parameters één dimensie
 
@@ -228,7 +237,7 @@ for (i in seq((5.5/14*100), (8.5/14*100), 1)) {
 
 ## Nul dimensionaal
 
-De ode functie simuleert nul dimensionaal de veranderingen in het biologische model voor 1 tijdspunt.
+De ODE-functie simuleert nul dimensionaal de veranderingen in het biologische model voor 1 tijdspunt.
 
 ```{r}
 out.0D <- ode(y = initial.values.0D, times = times.0D, func = verandering.0D, parms = parameters.0D)
@@ -238,18 +247,18 @@ De onderstaande grafieken zijn gemaakt op een nul dimensionale berekening van he
 
 \newpage
 
-```{r, fig.cap="In dit figuur worden zes verlopen geplot respectievelijk zoals de titels omschrijven. De plots worden berekend bij een afgeleide van nul. In alle grafieken is op de y-as de hoeveelheid stof te zien en dit verloopt over de x-as met elke tijdseenheid is één jaar. In grafiek f begint bij t~60 de hoeveelheid borst-stamcellen af te nemen tot t~74 richting y = 0. Verder loopt als gevolg van het verloop in grafiek f in grafiek (q) de hoeveelheid LOHs (bijna) exponentieel op van t~0 richting t~65. Deze hoeveelheid loopt vanaf jaar ~ 65 vervolgens weer af richting nul. Door de aanwezigheid van LOH op TSG1 wordt TSG1 uitgeschakeld. In grafiek r correspondeert het verloop van grafiek r met het verloop van grafiek q. Alleen loopt dit proces minder snel op. In grafiek s verloopt de aanwezigheid LOH op TSG2 relatief langzaam tot wederom t~65 en deze hoeveelheid neemt vervolgens fors af. In grafieken f, q, r, en s verlopen de afnames fors af tot t~80 richting y = 0. \\linebreak \\linebreak  Grafieken n en m tonen oorzaak en gevolg van elkaar. Want het aantal tumorcellen in grafiek n vanaf t~62 neemt fors toe en deze tumorcellen maken MDE-enzymen om ruimte vrij te maken voor nieuwe tumorcellen. Dus in grafiek m zal vanaf t ~ 62 ook het aantal MDEs respectievelijk fors toenemen tot y~10.0, waar er een evenwicht wordt bereikt."}
+```{r, fig.cap="In dit figuur worden zes verlopen geplot respectievelijk zoals de titels omschrijven. De plots worden berekend bij een afgeleide van nul. In alle grafieken is op de y-as de hoeveelheid stof te zien en dit verloopt over de x-as met elke tijdseenheid is één jaar. In grafiek f begint bij t~60 de hoeveelheid borst-stamcellen af te nemen tot t~74 richting y = 0. Verder loopt als gevolg van het verloop in grafiek f in grafiek (q) de hoeveelheid LOH's (bijna) exponentieel op van t~0 richting t~65. Deze hoeveelheid loopt vanaf jaar ~ 65 vervolgens weer af richting nul. Door de aanwezigheid van LOH op TSG1 wordt TSG1 uitgeschakeld. In grafiek r correspondeert het verloop van grafiek r met het verloop van grafiek q. Alleen loopt dit proces minder snel op. In grafiek s verloopt de aanwezigheid LOH op TSG2 relatief langzaam tot wederom t~65 en deze hoeveelheid neemt vervolgens fors af. In grafieken f, q, r, en s verlopen de afnames fors af tot t~80 richting y = 0. \\linebreak \\linebreak  Grafieken n en m tonen oorzaak en gevolg van elkaar. Want het aantal tumorcellen in grafiek n vanaf t~62 neemt fors toe en deze tumorcellen maken MDE-enzymen om ruimte vrij te maken voor nieuwe tumorcellen. Dus in grafiek m zal vanaf t ~ 62 ook het aantal MDE's respectievelijk fors toenemen tot y~10.0, waar er een evenwicht wordt bereikt."}
 par("mar"=c(5, 4, 4, 4))
 plot(out.0D, main = c("Fractie gezonde borst-stamcellen (f)", "Aanwezigheid LOH op TSG1 (q)",
                    "Concentratie uitgeschakelde TSG1 (r)", "Aanwezigheid LOH op TSG2 (s)",
-                   "Aantal tumorcellen (n)", "Aantal tumor geproduceerd MDEs (m)"),
+                   "Aantal tumorcellen (n)", "Aantal tumor geproduceerd MDE's (m)"),
      xlab = "Tijd (jaren)", ylab = "Hoeveelheid van stof", col = "blue")
 ```
 
 In figuur 4 uit het artikel (*Enderling et al., 2007*) is de fractie gezonde borst-stamcellen op zijn laagst bij een afgeleide van nul, dit is in de bovenstaande grafiek f te zien met de constante lijn tot t ~ 70 bij y = 1e-11. De hoeveelheid neemt daarna inderdaad ook toe, hierboven af te lezen als richting y ~ 0. De andere grafieken zijn niet te vergelijken met die uit het artikel (*Enderling et al., 2007*). 
 
-De tumor cellen nemen over tijd toe. In figuur vier is dit ook te zien aan de toppen per tijdsgrafiek die steeds hoger worden. De rode lijn geeft in figuur 4 de ontwikkeling aan de tumor cellen. Ditzelfde is te zien voor het aantal tumor geproduceerde MDEs (m), die in de zes grafieken van figuur vier per tijdspunt zullen toenemen.
-Bij zowel de tumorcellen als MDEs is de toename van de eerste drie grafieken eerst zeer nihil, dit is terug te zien in figuur 1 aan de constante lijn in het begin.
+De tumor cellen nemen over tijd toe. In figuur vier is dit ook te zien aan de toppen per tijdsgrafiek die steeds hoger worden. De rode lijn geeft in figuur 4 de ontwikkeling aan de tumor cellen. Ditzelfde is te zien voor het aantal tumor geproduceerde MDE's (m), die in de zes grafieken van figuur vier per tijdspunt zullen toenemen.
+Bij zowel de tumorcellen als MDE's is de toename van de eerste drie grafieken eerst zeer nihil, dit is terug te zien in figuur 1 aan de constante lijn in het begin.
 
 De aanwezigheid van LOH neemt in figuur 1 langzaam af in grafieken q en s van nul naar 1.5e-13 en 8e-19, in figuur 4 is te zien dat de hoeveelheid cellen met een aanleg voor LOH per grafiek steeds een beetje afneemt. Het verloop van LOH in figuur 1 komt overeen met wat in figuur 4 wordt getoond.
 
@@ -261,23 +270,23 @@ Tevens wordt in figuur 4 de concentratie uitgeschakelde TSG1 (r) niet geplot, du
 
 ## Discussie
 
-In figuur 1 van grafiek f is te zien dat de hoeveelheid gezonde borst-stamcellen in het begin heel langzaam afneemt. Dit is te verklaren met het feit dat hoe jonger een mens is hoe hoger de rate van aanmaak gezonde borst-stamcellen is. Hoe ouder een mens wordt, hoe meer mutaties zullen voorkomen. Daarom verandert er weinig in de hoeveelheid gezonde borst-stamcellen over de merendeel van tijd. De exponentiële afname bij t ~ 80 is te verklaren aan de hand van de volgende grafieken.
+In figuur 1 van grafiek f is te zien dat de hoeveelheid gezonde borst-stamcellen in het begin heel langzaam afneemt. Dit is te verklaren met het feit dat hoe jonger een mens is hoe hoger de rate van aanmaak gezonde borst-stamcellen is. Hoe ouder een mens wordt, hoe meer mutaties zullen voorkomen. Daarom verandert er weinig in de hoeveelheid gezonde borst-stamcellen over het merendeel van de tijd. De exponentiële afname bij t ~ 80 is te verklaren aan de hand van de volgende grafieken.
 
-Zoals te zien in de grafieken q en s neemt de hoeveelheid cellen die LOH krijgen langzaam toe. De toename van deze twee grafieken loopt samen met de afname van grafiek f. Wanneer er meer LOH optreedt in een TSG zal de functionaliteit van het TSG afnemen en wordt de tumor steeds minder onderdrukt. Het aantal tumor cellen (grafiek n) en geproduceerde MDEs (grafiek m)) zal toenemen. Hoe meer deze twee grafieken toenemen hoe minder gezonde borststamcellen er over zullen blijven. De hoeveelheid tumoren lijkt bij het eind een evenwicht te bereiken, dit zou te maken kunnen hebben met lak aan voedingsstoffen binnen de omgeving. Het gevolg daarvan is dat er geen exponentiële groei meer zal zijn.
+Zoals te zien in de grafieken q en s neemt de hoeveelheid cellen die LOH krijgen langzaam toe. De toename van deze twee grafieken loopt samen met de afname van grafiek f. Wanneer er meer LOH optreedt in een TSG zal de functionaliteit van het TSG afnemen en wordt de tumor steeds minder onderdrukt. Het aantal tumor cellen (grafiek n) en geproduceerde MDE's (grafiek m)) zal toenemen. Hoe meer deze twee grafieken toenemen hoe minder gezonde borst-stamcellen er over zullen blijven. De hoeveelheid tumoren lijkt bij het eind een evenwicht te bereiken, dit zou te maken kunnen hebben met lak aan voedingsstoffen binnen de omgeving. Het gevolg daarvan is dat er geen exponentiële groei meer zal zijn.
 
-Het doel van dit onderzoek was om aan te tonen dat toename van LOH invloed heeft op de vermindering van gezonde borststambcellen en dat deze verandering direct kan leiden tot tumorvorming. Op basis van de dimensieloze visualisatie dat hierboven wordt geïnterpreteerd, wordt er vastgesteld dat het doel voldaan is. Uit de grafieken wordt duidelijk dat toename van LOH de TSG's zorgt voor een forse afname in gezonde borststamcellen en een toename in tumorcellen, die tevens tumorvorming versterken door de ongecontroleerde aanmaak van MDE-enzymen. 
+Het doel van dit onderzoek was om aan te tonen dat toename van LOH invloed heeft op de vermindering van gezonde borststambcellen en dat deze verandering direct kan leiden tot tumorvorming. Op basis van de dimensieloze visualisatie dat hierboven wordt geïnterpreteerd, wordt er vastgesteld dat het doel voldaan is. Uit de grafieken wordt duidelijk dat toename van LOH op de TSG's zorgt voor een forse afname in gezonde borst-stamcellen en een toename in tumorcellen, die tevens het tempo van tumorvorming versterken door de ongecontroleerde aanmaak van MDE-enzymen. 
 
 Bovendien bevestigd het vervullen van het doel de theorie achter de eerder gemaakte verwachtingen, zoals beschreven in hoofdstuk Doel. 
 
 Zoals eerder vermeld is het niet gelukt om de simulaties op te lossen door middel van partiële differentiatie. Dit heeft te maken met een aantal factoren. Allereerst -en dit is ook meteen de belangrijkste oorzaak (volgens ons)- de parameters. In het artikel (*Enderling et al., 2007*), worden een aantal parameters niet nader toegelicht. Sommige parameters hebben twee waardes: de waarde p2 heeft in het artikel twee waardes, deze zijn respectievelijk 1e-3 en 2.5e10-4.
 
-Verder kan het nog zijn dat de vergelijkingen niet goed in de functie staan. Bij deze reden zijn er vooral twijfels over de laatste twee vergelijkingen. Nog specifieker, het Nabla teken. Dit omgekeerde driehoek-teken kan worden toegepast op een scalaire functie, wat resulteert in de gradiënt van die functie. De gradiënt is een vector die de richting en de mate van de snelste verandering van de functie aangeeft. Om de gradiënt te berekenen, wordt de pracma module gebruikt. Echter zijn er nog meer mogelijkheden om deze gradient te berekenen en daarom is het niet duidelijk of deze uitwerking wel klopt. 
+Verder kan het nog zijn dat de vergelijkingen niet goed in de functie staan. Bij deze reden zijn er vooral twijfels over de laatste twee vergelijkingen. Nog specifieker, het Nabla teken. Dit omgekeerde driehoek-teken kan worden toegepast op een scalaire functie, wat resulteert in de gradiënt van die functie. De gradiënt is een vector die de richting en de mate van de snelste verandering van de functie aangeeft. Om de gradiënt te berekenen, wordt de pracma module gebruikt. Echter, zijn er nog meer mogelijkheden om deze gradiënt te berekenen en daarom is het niet duidelijk of deze uitwerking wel klopt. 
 
 Tot slot zijn er dan nog twijfels over de initiële waardes. Zoals eerder vermeld worden er 100 differentiaal vergelijkingen opgelost. Uiteraard moeten er dan ook 100 initiële waardes zijn. De ODE.1D-functie vereist dat deze waarden achtereenvolgens als input worden geleverd, bijvoorbeeld A1, A2, A3... B1, B2, B3... Deze waarden moeten weer binnen de functie worden uitgepakt. Het lijkt erop dat de waarden niet correct worden gekoppeld aan de juiste vergelijkingen. Er is geen verklaring of oplossing hiervoor gevonden.
 
 ## Algemene conclusie en perspectief
 
-Al met al heeft dit onderzoek veel pieken en dalen beleefd. Het hoofddoel om meer inzicht te geven in de ontwikkeling van borstkanker is gelukt op basis van het simuleren met behulp van de ODE functie (nul-dimensionaal) en direct ook de gepaarde doel met verwachtingen betrokken bij het model. Echter was het partieel differentiëren niet gelukt, terwijl hier wel veel onderzoek naar is verricht. Daarom zou het interessant zijn voor een vervolg onderzoek om de simulatie wel werkend te krijgen. 
+Al met al heeft dit onderzoek veel pieken en dalen beleefd. Het hoofddoel om meer inzicht te geven in de ontwikkeling van borstkanker is gelukt op basis van het simuleren met behulp van de ODE-functie (nul-dimensionaal) en direct ook de gepaarde doel met verwachtingen betrokken bij het model. Echter, was het partieel differentiëren niet gelukt, terwijl hier wel veel onderzoek naar is verricht. Daarom zou het interessant zijn voor een vervolg onderzoek om de simulatie wel werkend te krijgen. 
 
 In een nieuw onderzoek moet er meer worden verdiept in de theorie, voordat deze wordt aangevangen. In dit onderzoek werd ervaren dat de theorie te hoog gegrepen was m.b.t. het partieel differentiëren. Bovendien is het verstandig om eerst goed te scannen of alle data die nodig is daadwerkelijk wordt gedocumenteerd. In dit onderzoek heeft het namelijk een hoop tijd gekost om de parameters op te stellen.
 
