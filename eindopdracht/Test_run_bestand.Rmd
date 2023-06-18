@@ -1,0 +1,271 @@
+---
+title: "Test_run_bestand"
+author: "L T Stein"
+date: "2023-06-18"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Theorie
+
+
+Op basis van zes verschillende formules kan de invloed op de ontwikkeling van tumoren in de borst na een behandeling worden gesimuleerd.
+
+Ten eerste wordt de verandering van borstweefsel berekend met gezonde stamcellen over de verandering in tijd. Het linker deel bepaald de afbraak van stamcellen. Het rechter gedeelte is de hoeveelheid stamcellen in verhouding met het aantal TSGs dat afhankelijk is van de mutatie waarschijnlijk in een normale situatie.
+
+$$\frac{df}{dt} = - \overbrace{η_f mf}^{degradation} - \overbrace{l_{1}f}^{f{→}TSG{_1}^{+/-}}$$
+
+Verder kunnen TSGs heterozygositeit verliezen door mutaties. Het gen staat aan bij (++) of (+-), maar TSGs gaan uit, wanneer zo homozygoot (-) worden.
+De volgende formule beschrijft deze verandering over de verandering van tijd. De vermeerdering van deze cellen staat links onder 'proliferation' (vermeerdering) en deze hoeveelheid neemt af door celapoptose onder 'death' (dood). 
+
+Hierbij worden stamcellen bij opgeteld die gemuteerd zijn over één jaar tijd. Deze hoeveelheid neemt af door het tempo van de mutaties die plaats vinden. Het tempo is afhankelijk van de kans dat mutaties zullen optreden.
+
+$$\frac{dq}{dt} = \overbrace{λ_{q}q(1 - A)}^{proliferation} - \overbrace{η_{q}nq}^{death}  + \overbrace{l_{1}f}^{f→TSG_{1}^{+/-}} - \overbrace{ρ_{2}q}^{TSG1_{1}^{+/-} →TSG_{1}^{-/-}}$$
+
+De derde formule beschrijft de verandering van de concentratie in uitgeschakelde $TSG_{1}$ over verloop van tijd. Eerst wordt de aanmaak en vermeerdering berekend minus de afbraak door celdood. 
+
+$$\frac{dq}{dt} = \overbrace{λ_{q}r(1 - A)}^{proliferation} - \overbrace{η_{r}nr}^{death}  + \overbrace{ρ_{2}q}^{f→TSG_{1}^{+/-}} - \overbrace{ρ_{3}q}^{TSG1_{1}^{+/-} →TSG_{1}^{-/-}}$$
+
+In de vierde formule wordt de verandering berekend van de hoeveelheid $TSG_2$, de tweede tumor suppressor gen die van heterozygoot naar homozygoot recessief gaat. Deze verandering wordt gezet tegen de verandering in tijd.
+
+$$\frac{dq}{dt} = \overbrace{λ_{s}s(1 - A)}^{proliferation} - \overbrace{η_{r}ns}^{death}  + \overbrace{ρ_{3}r}^{f→TSG_{1}^{+/-}} - \overbrace{ρ_{4}s}^{TSG1_{1}^{+/-} →TSG_{1}^{-/-}}$$
+
+&nbsp;
+
+Vervolgens wordt de partiële afgeleide genomen van de verandering in tumorcel dichtheid (n) dat afhankelijk is van de partiële afgeleid van de verandering in tijd (t).
+
+$$\frac{\partial n}{\partial t} = \overbrace{λ_{n}n(1 - A)}^{proliferation} + \overbrace{d_{n}\nabla^2n}^{random\\motility}  - \overbrace{\gamma \nabla . (n \nabla f)}^{haptotaxis} - \overbrace{ρ_{4}s}^{TSG_{2}^{+/-} →n}$$
+
+
+De laatste formule beschrijft de partiële afgeleide van de verandering in de hoeveelheid enzymen die door tumoren worden gemaakt (m) tegen de partiële afgeleide van de verandering tijd (t).
+
+$$\frac{\partial m}{\partial t} = \overbrace{d_m{\nabla}^2{m}}^{diffusion} + \overbrace{{\alpha}n(1-m)}^{production} - \overbrace{{\beta}m}^{decay}$$
+ 
+Verder wordt in het artikel de volgende situatie aangenomen. Borstgroei begint ongeveer rond twaalf jaar oud en op ongeveer twintig jaar oud is een borst volgroeid. Omdat f0 de begin hoeveelheid geeft van gezonde borststamcellen, moet er dus ook de goede t0 gekozen worden. Dit betekent dat de aanname vor f0 op tijd is twaalf jaar begint. 
+
+\pagebreak
+
+# Model configuratie
+
+In dit hoofdstuk worden alle variabelen beschreven uit het biologische model.
+
+Ten eerste wordt de dood van cellen als gevolg van milieuacidose veroorzaakt door kankercellen genoteerd als $n_x$.
+De hoeveelheid enzymen die door de tumoren worden aagemaakt is met m en de hoeveelheid tumor cellen is n.
+Verder zijn cellen met LOH in $TSG_1$ q en cellen met LOH in $TSG_2$ zijn s. Geinactiveert $TSG_1$ is r en
+de kans dat een allel van een normale cel muteert, is p. De totale weefsel en cel populatie, inclusief kanker cellen heet A.
+
+De borst weefsel met een fractie gezonde borststamcellen heet f en de mutatiesnelheid van deze gezonde borststamcellen ($TSG_1^{+/+}$ & $TSG_2^{+/+}$) naar cellen
+met LOH op TSG2 wordt beschreven als λq. Tevens is λr de mutatiesnelheid van gezonde borststamcellen ($TSG_1^{+/+}$ & $TSG_2^{+/+}$) naar cellen met LOH op TSG1 en TSG2.
+λs geeft de mutatiesnelheid van gezonde borststamcellen ($TSG_1^{+/+}$ & $TSG_2^{+/+}$) naar cellen met LOH op TSG1, TSG2. De groeisnelheid van tumor cellen wordt aangegeven met λn. 
+
+Vervolgens wordt de spontane beweging van normale cellen door $d_n$ bepaald en de spontane beweging van een kanker cel door $d_m$.
+Theta is het product van de mutatie kans, het percentage stam cellen en aantal TSGs. Het artikel (*Enderling et al., 2007*) stelt dat β een decay factor dat te betrokken is bij de afbraak van MDEs.
+Verder is α de productie factor betrokken bij de aanmaak van tumorcellen en γ is een factor betrokken bij de rate van de uitgroei van tumorcellen.
+
+
+
+
+
+#### Parameters dimensieloos 
+
+```{r}
+# Parameters
+
+parameters <- c(
+  lambda.n = 0.75, lambda.q = 7.5e-3, lambda.r = 7.575e-3, lambda.s = 0.0375,
+  nf = 1, nq = 0.5, nr = 0.5, ns = 0.5,
+  L1 = (1 * (0.05 * 50 * 2e-7)),
+  dm = 0.0005, dn = 0.0001,
+  p1 = 2e-7, p2 = 5e-6, p3 = 1e-3, p4 = 3e-2,
+  y = 0.00005, b = 0, nabla = 0, alfa = 0.1,
+  x = 0)
+
+# Tijdssequentie
+times <- 12:90
+
+# Initiële waardes
+initial.values.0 <- c(f = 1e-11, q = 0, r = 0, s = 0, n = 0, m = 0)
+```
+
+
+Het artikel (*Enderling et al., 2007*) stelt dat vanaf ongeveer twaalf jaar borststamcellen ontwikkelen en wordt er dan aangenomen dat er dan ook LOH's kunnen voorkomen. Daarom wordt in hoofdstuk "Model Configuratie" een tijdsequentie genomen van twaalf tot negentig jaar voor een mooie schaalverdeling.
+
+
+#### Parameters één dimensie
+
+Experimentele parameters voor de ODE.1D simulatie.
+
+```{r}
+# Aantal punten initiële waardes
+N <- 100
+
+# Initiële waardes
+initial.values.1 <- rep(c(f = 0.75, q = 0, r = 0, s = 0, n = 0, m = 0), each = N)
+```
+
+```{r}
+for (i in seq((5.5/14*100), (8.5/14*100), 1)) {
+  # f initiële waarde van f aanpassen op specifieke punten
+  initial.values.1[round(i)] = 0.71
+  # q initiële waarde van f aanpassen op specifieke punten
+  initial.values.1[round(i) + 100] = 0.05
+}
+```
+
+\pagebreak
+
+# Het software model
+
+In dit hoofdstuk zijn de gebruikte packages en functies beschreven, die nodig waren om het biologische model
+te simuleren.
+
+
+Er worden twee library's gebruikt. Ten eerste deSolve voor de functie ODE en ODE.1D. Pracma wordt gebruikt om partieel te differentiëren bij de ODE.1D functie.
+
+```{r}
+library(deSolve)
+library(pracma)
+```
+
+
+## Differentiaal vergelijkingen in nul dimensies
+
+De onderstaande functie ontvangt alle parameters beschreven in hoofdstuk Model Configuratie. Vervolgens worden alle vergelijkingen berekend en geretourneerd in een lijst.
+
+```{r}
+verandering <- function (time, parameters, initial.values) {
+  with(as.list(c(parameters, initial.values)),{
+    A <- n+f+q+r+s
+    # Vergelijkingen
+    df.dt <- - (nf * m * f) - (L1 * f)
+    dq.dt <- (lambda.q * q * (1 - A)) - (nq * n * q) + (L1 * f) - (p2 * q)
+    dr.dt <- (lambda.r * r * (1 - A)) - (nr * n * r) + (p2 * q) - (p3 * r)
+    ds.dt <- (lambda.s * s * (1 - A)) - (ns * n * s) + (p3 * r) - (p4 * s)
+    d.accent.n.dt <- (lambda.n * n * (1 - A)) + (dn * x) - (y * x * (n * x * f)) + (p4 * s)
+    d.accent.m.dt <- (dm * x) + (alfa * n * (1 - m)) - (b * m)
+    
+
+    # Retourneren van de initiële waardes
+    return(list(c(df.dt, dq.dt, dr.dt, ds.dt, d.accent.n.dt, d.accent.m.dt)))
+  })
+}
+```
+
+De ode functie simuleert nul dimensionaal de veranderingen in het biologische model voor 1 tijdspunt.
+
+```{r}
+out.0 <- ode(y = initial.values.0, times = times, func = verandering, parms = parameters)
+```
+
+&nbsp;
+
+## Differentiaal vergelijkingen in één dimensie
+
+In de onderstaande functie worden de vergelijkingen uitgewerkt met de ODE functie. Echter in het gekozen artikel worden de vergelijkingen opgelost door middel van partieel differentiëren. Dit is de juiste methode om de grafieken van het artikel te reproduceren. Hoewel dit buiten ons vizier valt, is hier toch naar gekeken. 
+
+Om de vergelijkingen op te lossen op deze manier (partieel differentiëren), worden 100 punten gebruikt voor elke initiële waarde. In het artikel (*Enderling et al., 2007*) worden bij figuur vier en vijf het verloop getoond bij t = 0. Er is te zien dat er al een verloop zichtbaar is. D.w.z., de initiële waardes moeten worden aangepast binnen deze 100 specifieke punten.
+
+De ODE.1D functie wordt gebruikt om deze vergelijkingen in één dimensie op te lossen. Voor elke initiële waarde, worden 100 differentiaalvergelijkingen opgelost.
+
+Al deze waardes kunnen worden gevisualiseerd op een specifiek tijdstip. Je hebt zo dus respectievelijk de tijd, de index van alle differentiaalvergelijkingen en de waardes van deze punten. Er worden drie dimensies weergegeven in twee dimensionaal figuur. 
+
+In de resultaten zal hierover terug worden gerefereerd. 
+
+
+```{r}
+verandering <- function (time, initial.values, parameters) {
+  with(as.list(c(parameters, initial.values)),{
+    
+    # Het uitpakken van de variabelen voor de vergelijkingen
+    f <- initial.values[1:N]
+    q <- initial.values[(N+1):(2*N)]
+    r <- initial.values[(2*N+1):(3*N)]
+    s <- initial.values[(3*N+1):(4*N)]
+    n <- initial.values[(4*N+1):(5*N)]
+    m <- initial.values[(5*N+1):(6*N)]
+    
+    # Aantal punten voor initiële waardes
+    N <- 100
+    
+    # Het berekenen van A
+    A <- n+f+q+r+s
+    
+    # Vergelijkingen
+    df.dt <- - (nf * m * f) - (L1 * f)
+    dq.dt <- (lambda.q * q * (1 - A)) - (nq * n * q) + (L1 * f) - (p2 * q)
+    dr.dt <- (lambda.r * r * (1 - A)) - (nr * n * r) + (p2 * q) - (p3 * r)
+    ds.dt <- (lambda.s * s * (1 - A)) - (ns * n * s) + (p3 * r) - (p4 * s)
+    d.accent.n.dt <- (lambda.n * n * (1 - A)) + (dn * gradient(gradient(n, h1 = 1/N), h1 = 1/N)) - 
+      (y * gradient(n * gradient(f, h1 = 1/N), h1 = 1 / N)) + (p4 * s)
+    d.accent.m.dt <- (dm * gradient(gradient(m, h1 = 1/N), h1 = 1/N)) + (alfa * n * (1 - m)) - (b * m)
+    
+    # Retourneren van de initiële waardes
+    return(list(as.double(c(df.dt, dq.dt, dr.dt, ds.dt, d.accent.n.dt, d.accent.m.dt))))
+  })
+}
+```
+
+
+```{r}
+# Het runnen van de ode.1D functie. 
+out <- ode.1D(y = initial.values.1, times = times, func = verandering, parms = parameters, nspec = 6, dimens = N, bandwidth = 3)
+```
+
+```{r}
+# Tijdspunt definiëren
+t <- 75
+
+# Alle waardes uit het object halen bij specieke tijdspunt
+f <- out[t,1:N+1]
+q <- out[t,1+(N+1):(2*N)]
+r <- out[t,1+(2*N+1):(3*N)]
+s <- out[t,1+(3*N+1):(4*N)]
+n <- out[t,1+(4*N+1):(5*N)]
+m <- out[t,1+(5*N+1):(6*N)]
+```
+
+\pagebreak
+
+# Resultaten
+
+## Nul dimensionaal
+
+De onderstaande grafieken zijn gemaakt op een nul dimensionale berekening van het biologische model. Dit betekent dat de afgeleiden gelijk zijn aan nul en dus maar op één tijdspunt de veranderingen worden vergeleken. Want bij partieel differentiëren wordt een functie gepakt met een aantal variabelen en worden per initiele waarde punten vergeleken. Tevens wordt onder het kopje ODE.1D het verloop berekend voor honderd keer per initiële waarde, zoals besproken is in hoofdstuk "Differentiaal vergelijkingen in één dimensie.
+
+
+
+```{r, fig.cap="In dit figuur worden zes verlopen geplot respectievelijk zoals de titels omschrijven. De plots worden berekend bij een afgeleide van nul. In alle grafieken is op de y-as de hoeveelheid stof te zien en dit verloopt over de x-as met elke tijdseenheid is één jaar. In grafiek f begint bij t~60 de hoeveelheid borst-stamcellen af te nemen tot t~74 richting y = 0. Verder loopt als gevolg van het verloop in grafiek f in grafiek (q) de hoeveelheid LOHs (bijna) exponentieel op van t~0 richting t~65. Deze hoeveelheid loopt vanaf jaar ~ 65 vervolgens weer af richting nul. Door de aanwezigheid van LOH op TSG1 wordt TSG1 uitgeschakeld. In grafiek r correspondeert het verloop van grafiek r met het verloop van grafiek q. Alleen loopt dit proces minder snel op. In grafiek s verloopt de aanwezigheid LOH op TSG2 relatief langzaam tot wederom t~65 en deze hoeveelheid neemt vervolgens fors af. In grafieken f, q, r, en s verlopen de afnames fors af tot t~80 richting y = 0. \\linebreak \\linebreak  Grafieken n en m tonen oorzaak en gevolg van elkaar. Want het aantal tumorcellen in grafiek n vanaf t~62 neemt fors toe en deze tumorcellen maken MDE-enzymen om ruimte vrij te maken voor nieuwe tumorcellen. Dus in grafiek m zal vanaf t ~ 62 ook het aantal MDEs respectievelijk fors toenemen tot y~10.0, waar er een evenwicht wordt bereikt."}
+par("mar"=c(5, 4, 4, 4))
+plot(out.0, main = c("Fractie gezonde borst-stamcellen (f)", "Aanwezigheid LOH op TSG1 (q)",
+                   "Concentratie uitgeschakelde TSG1 (r)", "Aanwezigheid LOH op TSG2 (s)",
+                   "Aantal tumorcellen (n)", "Aantal tumor geproduceerd MDEs (m)"),
+     xlab = "Tijd (jaren)", ylab = "Hoeveelheid van stof", col = "blue")
+```
+
+In figuur 4 uit het artikel (*Enderling et al., 2007*) is de fractie gezonde borst-stamcellen op zijn laagst bij een afgeleide van nul, dit is in de bovenstaande grafiek f te zien met de constante lijn tot t ~ 70 bij y = 1e-11. De hoeveelheid neemt daarna inderdaad ook toe, hierboven af te lezen als richting y ~ 0. De andere grafieken zijn niet te vergelijken met die uit het artikel (*Enderling et al., 2007*). 
+
+De tumor cellen nemen over tijd toe. In figuur vier is dit ook te zien aan de toppen per tijdsgrafiek die steeds hoger worden. De rode lijn geeft in figuur 4 de ontwikkeling aan de tumor cellen. Ditzelfde is te zien voor het aantal tumor geproduceerde MDEs (m), die in de zes grafieken van figuur vier per tijdspunt zullen toenemen.
+Bij zowel de tumorcellen als MDEs is de toename van de eerste drie grafieken eerst zeer nihil, dit is terug te zien in figuur 1 aan de constante lijn in het begin.
+
+De aanwezigheid van LOH neemt in figuur 1 langzaam af in grafieken q en s van nul naar 1.5e-13 en 8e-19, in figuur 4 is te zien dat de hoeveelheid cellen met een aanleg voor LOH per grafiek steeds een beetje afneemt. Het verloop van LOH in figuur 1 komt overeen met wat in figuur 4 wordt getoond.
+
+Tevens wordt in figuur 4 de concentratie uitgeschakelde TSG1 (r) niet geplot, dus hier valt niets in te vergelijken.
+
+
+
+## Eén dimensionaal
+
+In de onderstaande functie wordt een plot gemaakt van het biologische model waar elke vergelijking voor honderd afgeleides wordt berekend. 
+
+```{r, fig.cap = "In de onderstaande figuur is het verloop te zien van de grafieken op 1 tijdspunt van t = 75 waar in twee dimensies drie dimensies zijn verwerkt. Namelijk ruimte, tijd en hoeveelheid stof, Echter komt deze plot niet overeen met dat uit het artikel (*Enderling et al., 2007*). Op de x-as is de ruimte te zien met elk punt een andere afgeleide en op de y-as is de proportie tussen 0.0 en 1.0 om de verandering van het totaal stof in iedere geplotte vergelijking weer te geven. "}
+# Plotten van de waardes
+plot(f, type = "l", ylim = c(0, 1), col = "darkgreen", xlim = c(0,100))
+points(q, type = "l", col = "green")
+points(n, type = "l", col = "red")
+points(m, type = "l", col = "black")
+```
+
+In de bovenstaande figuur is het gelukt om het vergelijkbaar gedrag van de verlopen uit de artikel (*Enderling et al., 2007*) te simuleren van f en q.
