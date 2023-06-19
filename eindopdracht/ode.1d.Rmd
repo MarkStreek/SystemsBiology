@@ -21,7 +21,7 @@ De ODE.1D functie wordt gebruikt om deze vergelijkingen in één dimensie op te 
 
 Al deze waardes kunnen worden gevisualiseerd op een specifiek tijdstip. Je hebt zo dus respectievelijk de tijd, de index van alle differentiaalvergelijkingen en de waardes van deze punten. Er worden drie dimensies weergegeven in twee dimensionaal figuur. 
 
-In de resultaten zal hierover terug worden gerefereerd. 
+In de resultaten zal hierover terug worden gerefereerd.
 
 ```{r}
 library(deSolve)
