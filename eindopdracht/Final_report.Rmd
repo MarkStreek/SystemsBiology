@@ -24,8 +24,8 @@ knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message=FALSE)
 
 # Afkortingen 
 
-* tumorsuppresorgen (TSG)
-* verlies van heterozygositeit (LOH)
+* Tumorsuppresorgen (TSG)
+* Verlies van heterozygositeit (LOH)
 
 \pagebreak
 
@@ -99,7 +99,7 @@ Verder wordt in het artikel de volgende situatie aangenomen. Borstgroei begint o
 
 ## Het software model
 
-In dit hoofdstuk zijn de gebruikte packages en functies beschreven, die nodig zijn om het biologische model te simuleren.
+In dit hoofdstuk zijn de gebruikte pakketten en functies beschreven, die nodig zijn om het biologische model te simuleren.
 
 Er worden twee libraries gebruikt. Ten eerste deSolve (versie 1.35) voor de functie ODE en ODE.1D. Pracma (versie 2.3.3) wordt gebruikt om te kunnen partieel differentiëren bij de ODE.1D functie. Het modelleren wordt gedaan in R (versie 4.2.2).
 
