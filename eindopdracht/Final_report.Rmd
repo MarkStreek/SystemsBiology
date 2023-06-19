@@ -60,22 +60,22 @@ Op basis van zes verschillende formules kan de invloed op de ontwikkeling van tu
 
 &nbsp;
 
-Ten eerste wordt de verandering van borstweefsel berekend met gezonde stamcellen over de verandering in tijd. Het linker deel bepaald de afbraak van stamcellen. Het rechter gedeelte is de hoeveelheid stamcellen in verhouding met het aantal TSG's dat afhankelijk is van de mutatie waarschijnlijk in een normale situatie.
+Ten eerste wordt de fractie in verandering van borstweefsel berekend, met gezonde borst-stamcellen over de verandering in tijd (f). Het linker deel bepaald de afbraak van stamcellen. Het rechter gedeelte is de hoeveelheid stamcellen in verhouding met het aantal TSG's dat afhankelijk is van de mutatie waarschijnlijk in een normale situatie.
 
 $$\frac{df}{dt} = - \overbrace{{\eta}_f mf}^{degradation} - \overbrace{l_{1}f}^{f{→}TSG{_1}^{+/-}}$$
 
 Verder kunnen TSG's heterozygositeit verliezen door mutaties. Het gen staat aan bij (++) of (+-), maar TSG's gaan uit, wanneer zo homozygoot (-) worden.
 De volgende formule beschrijft deze verandering over de verandering van tijd. De vermeerdering van deze cellen staat links onder 'proliferation' (vermeerdering) en deze hoeveelheid neemt af door celapoptose onder 'death' (dood). 
 
-Hierbij worden stamcellen bij opgeteld die gemuteerd zijn over één jaar tijd. Deze hoeveelheid neemt af door het tempo van de mutaties die plaats vinden. Het tempo is afhankelijk van de kans dat mutaties zullen optreden.
+Hierbij worden stamcellen bij opgeteld die gemuteerd zijn over één jaar tijd. Deze hoeveelheid neemt af door het tempo van de mutaties die plaats vinden. Het tempo is afhankelijk van de kans dat mutaties zullen optreden. De verandering van deze aanwezigheid van LOH op TSG1's wordt aangegeven met (q).
 
 $$\frac{dq}{dt} = \overbrace{{\lambda}_{q}q(1 - A)}^{proliferation} - \overbrace{{\eta}_{q}nq}^{death}  + \overbrace{l_{1}f}^{f→TSG_{1}^{+/-}} - \overbrace{{\rho}_{2}q}^{TSG1_{1}^{+/-} →TSG_{1}^{-/-}}$$ 
 
-De derde formule beschrijft de verandering van de concentratie in uitgeschakelde $TSG_{1}$ over verloop van tijd. Eerst wordt de aanmaak en vermeerdering berekend minus de afbraak door celdood. 
+De derde formule beschrijft de verandering van de concentratie in uitgeschakelde $TSG_{1}$ (r) over verloop van tijd. Eerst wordt de aanmaak en vermeerdering berekend minus de afbraak door celdood. 
 
 $$\frac{dr}{dt} = \overbrace{{\lambda}_{q}r(1 - A)}^{proliferation} - \overbrace{{\eta}_{r}nr}^{death}  + \overbrace{{\rho}_{2}q}^{f→TSG_{1}^{+/-}} - \overbrace{{\rho}_{3}q}^{TSG1_{1}^{+/-} →TSG_{1}^{-/-}}$$
 
-In de vierde formule wordt de verandering berekend van de hoeveelheid $TSG_2$, de tweede tumor suppressor gen die van heterozygoot naar homozygoot recessief gaat. Deze verandering wordt gezet tegen de verandering in tijd.
+In de vierde formule wordt de verandering berekend van de hoeveelheid LOH op $TSG_2$ (s), de tweede tumor suppressor gen die van heterozygoot naar homozygoot recessief gaat. Deze verandering wordt gezet tegen de verandering in tijd.
 
 $$\frac{ds}{dt} = \overbrace{{\lambda}_{s}s(1 - A)}^{proliferation} - \overbrace{{\eta}_{r}ns}^{death}  + \overbrace{{\rho}_{3}r}^{f→TSG_{1}^{+/-}} - \overbrace{{\rho}_{4}s}^{TSG1_{1}^{+/-} →TSG_{1}^{-/-}}$$
 
@@ -86,7 +86,7 @@ Vervolgens wordt de partiële afgeleide genomen van de verandering in tumorcel d
 $$\frac{\partial n}{\partial t} = \overbrace{{\lambda}_{n}n(1 - A)}^{proliferation} + \overbrace{d_{n}\nabla^2n}^{random\\motility}  - \overbrace{\gamma \nabla . (n \nabla f)}^{haptotaxis} - \overbrace{{\rho}_{4}s}^{TSG_{2}^{+/-} →n}$$
 
 
-De laatste formule beschrijft de partiële afgeleide van de verandering in de hoeveelheid enzymen die door tumoren worden gemaakt (m) tegen de partiële afgeleide van de verandering tijd (t).
+De laatste formule beschrijft de partiële afgeleide van de verandering in de hoeveelheid enzymen (MDE's) die door tumoren geproduceerd worden (m) tegen de partiële afgeleide van de verandering tijd (t).
 
 $$\frac{\partial m}{\partial t} = \overbrace{d_m{\nabla}^2{m}}^{diffusion} + \overbrace{{\alpha}n(1-m)}^{production} - \overbrace{{\beta}m}^{decay}$$
 
@@ -277,9 +277,9 @@ De onderstaande grafieken zijn gemaakt op een nul dimensionale berekening van he
 
 ```{r, fig.cap="In dit figuur worden zes verlopen geplot respectievelijk zoals de titels omschrijven. De plots worden berekend bij een afgeleide van nul. In alle grafieken is op de y-as de hoeveelheid stof te zien en dit verloopt over de x-as met elke tijdseenheid is één jaar. In grafiek f begint bij t~60 de hoeveelheid borst-stamcellen af te nemen tot t~74 richting y = 0. Verder loopt als gevolg van het verloop in grafiek f in grafiek (q) de hoeveelheid LOH's (bijna) exponentieel op van t~0 richting t~65. Deze hoeveelheid loopt vanaf jaar ~ 65 vervolgens weer af richting nul. Door de aanwezigheid van LOH op TSG1 wordt TSG1 uitgeschakeld. In grafiek r correspondeert het verloop van grafiek r met het verloop van grafiek q. Alleen loopt dit proces minder snel op. In grafiek s verloopt de aanwezigheid LOH op TSG2 relatief langzaam tot wederom t~65 en deze hoeveelheid neemt vervolgens fors af. In grafieken f, q, r, en s verlopen de afnames fors af tot t~80 richting y = 0. \\linebreak \\linebreak  Grafieken n en m tonen oorzaak en gevolg van elkaar. Want het aantal tumorcellen in grafiek n vanaf t~62 neemt fors toe en deze tumorcellen maken MDE-enzymen om ruimte vrij te maken voor nieuwe tumorcellen. Dus in grafiek m zal vanaf t ~ 62 ook het aantal MDE's respectievelijk fors toenemen tot y~10.0, waar er een evenwicht wordt bereikt."}
 par("mar"=c(5, 4, 4, 4))
-plot(out.0D, main = c("Fractie gezonde borst-stamcellen (f)", "Aanwezigheid LOH op TSG1 (q)",
-                   "Concentratie uitgeschakelde TSG1 (r)", "Aanwezigheid LOH op TSG2 (s)",
-                   "Aantal tumorcellen (n)", "Aantal tumor geproduceerd MDE's (m)"),
+plot(out.0D, main = c("Verloop F", "Verloop Q",
+                   "Verloop R", "Verloop S",
+                   "Verloop N", "Verloop M"),
      xlab = "Tijd (jaren)", ylab = "Hoeveelheid van stof", col = "blue")
 ```
 
