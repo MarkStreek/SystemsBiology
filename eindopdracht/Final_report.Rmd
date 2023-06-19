@@ -50,7 +50,7 @@ Het doel van de modellen is om te laten zien hoe de toename van LOH invloed heef
 
 &nbsp;
 
-De verwachting voor de modellen ziet er als volgt uit. Aan de hand van de informatie in de introductie verwachten we dat, de hoeveelheid gezonde borst-stamcellen (f) naar verloop van tijd steeds sneller zal afnemen. De aanwezigheid van LOH op TSG1 en TSG2 (q, s) steeds meer toeneemt. Naar onze verwachting zal de concentratie uitgeschakelde TSG's (r) dan ook steeds meer toenemen. Door de toenemende hoeveelheid inactieve cellen verwachten we dat de hoeveelheid tumorcellen (n) naar verloop van tijd zal toenemen. Hoe meer tumorcellen hoe meer enzymen er gemaakt kunnen worden, de concentratie geproduceerde MDE's (m) zal dus ook toenemen.  
+De verwachting voor de modellen ziet er als volgt uit. De hoeveelheid gezonde borst-stamcellen (f) naar verloop van tijd steeds sneller zal afnemen. De aanwezigheid van LOH op TSG1 en TSG2 (q, s) steeds meer toeneemt. Naar onze verwachting zal de concentratie uitgeschakelde TSG's (r) dan ook steeds meer toenemen. Door de toenemende hoeveelheid inactieve cellen verwachten we dat de hoeveelheid tumorcellen (n) naar verloop van tijd zal toenemen. Hoe meer tumorcellen hoe meer enzymen er gemaakt kunnen worden, de concentratie geproduceerde MDE's (m) zal dus ook toenemen.  
 
 \pagebreak
 
@@ -64,7 +64,7 @@ Ten eerste wordt de fractie in verandering van borstweefsel berekend, met gezond
 
 $$\frac{df}{dt} = - \overbrace{{\eta}_f mf}^{degradation} - \overbrace{l_{1}f}^{f{→}TSG{_1}^{+/-}}$$
 
-Verder kunnen TSG's heterozygositeit verliezen door mutaties. Het gen staat aan bij (++) of (+-), maar TSG's gaan uit, wanneer zo homozygoot (-) worden.
+Verder kunnen TSG's heterozygositeit verliezen door mutaties. Het gen staat aan bij (++) of (+-), maar TSG's gaan uit, wanneer zo homozygoot (--) worden.
 De volgende formule beschrijft deze verandering over de verandering van tijd. De vermeerdering van deze cellen staat links onder 'proliferation' (vermeerdering) en deze hoeveelheid neemt af door celapoptose onder 'death' (dood). 
 
 Hierbij worden stamcellen bij opgeteld die gemuteerd zijn over één jaar tijd. Deze hoeveelheid neemt af door het tempo van de mutaties die plaats vinden. Het tempo is afhankelijk van de kans dat mutaties zullen optreden. De verandering van deze aanwezigheid van LOH op TSG1's wordt aangegeven met (q).
@@ -302,7 +302,7 @@ In figuur 1 van grafiek f is te zien dat de hoeveelheid gezonde borst-stamcellen
 
 &nbsp;
 
-Zoals te zien in de grafieken q en s neemt de hoeveelheid cellen die LOH krijgen langzaam toe. De toename van deze twee grafieken loopt samen met de afname van grafiek f. Wanneer er meer LOH optreedt in een TSG zal de functionaliteit van het TSG afnemen en wordt de tumor steeds minder onderdrukt. Het aantal tumor cellen (grafiek n) en geproduceerde MDE's (grafiek m)) zal toenemen. Hoe meer deze twee grafieken toenemen hoe minder gezonde borst-stamcellen er over zullen blijven. De hoeveelheid tumoren lijkt bij het eind een evenwicht te bereiken, dit zou te maken kunnen hebben met lak aan voedingsstoffen binnen de omgeving. Het gevolg daarvan is dat er geen exponentiële groei meer zal zijn.
+Zoals te zien in de grafieken q en s neemt de hoeveelheid cellen die LOH krijgen langzaam toe. De toename van deze twee grafieken loopt samen met de afname van grafiek f. Wanneer er meer LOH optreedt in een TSG zal de functionaliteit van het TSG afnemen en wordt de tumor steeds minder onderdrukt. Het aantal tumor cellen (grafiek n) en geproduceerde MDE's (grafiek m) zal toenemen. Hoe meer deze twee grafieken toenemen hoe minder gezonde borst-stamcellen er over zullen blijven. De hoeveelheid tumoren lijkt bij het eind een evenwicht te bereiken, dit zou te maken kunnen hebben met lak aan voedingsstoffen binnen de omgeving. Het gevolg daarvan is dat er geen exponentiële groei meer zal zijn.
 
 Het doel van dit onderzoek was om aan te tonen dat toename van LOH invloed heeft op de vermindering van gezonde borststambcellen en dat deze verandering direct kan leiden tot tumorvorming. Op basis van de dimensieloze visualisatie dat hierboven wordt geïnterpreteerd, wordt er vastgesteld dat het doel voldaan is. Uit de grafieken wordt duidelijk dat toename van LOH op de TSG's zorgt voor een forse afname in gezonde borst-stamcellen en een toename in tumorcellen, die tevens het tempo van tumorvorming versterken door de ongecontroleerde aanmaak van MDE-enzymen. 
 
