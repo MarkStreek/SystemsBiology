@@ -61,7 +61,7 @@ Op basis van zes verschillende formules kan de invloed op de ontwikkeling van tu
 Hieronder zal allereerst een eenvoudige grafische weergave van het model worden getoond. In deze afbeelding worden alle initiële waardes weergegeven. Hiernaast zijn enkele parameters geplaatst die volgens ons belangrijk zijn in het verloop.
 
 ```{r, echo=FALSE, out.width='95%', fig.cap="Grafische weergave van het model. De blauwe lijnen geven de invloed van de initiële waardes aan."}
-knitr::include_graphics('Scherm­afbeelding 2023-07-07 om 14.26.40.png')
+knitr::include_graphics('Scherm­afbeelding 2023-07-07 om 15.59.03.png')
 ```
 
 &nbsp;
