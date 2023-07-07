@@ -185,7 +185,9 @@ Jammer genoeg komen de resultaten uit deze uitwerking niet overeen met het artik
 
 ## Model configuratie
 
-In dit hoofdstuk worden alle variabelen beschreven uit het biologische model. Deze data is genormaliseerd door de parameters $f, q, r, s, n, m, x, t$ te delen door hun beginwaardes e.g. $(\frac{f}{f_0})$. 
+In dit hoofdstuk worden alle variabelen beschreven uit het biologische model. Deze data is genormaliseerd door de parameters $f, q, r, s, n, m, x, t$ te delen door hun beginwaardes e.g. $(\frac{f}{f_0})$. De parameter $f$ heeft de eenheid molair $M$. De overige parameters hebben geen eenheden en zijn dus eenheidsloos.
+
+Doordat de afgeleides van alle parameters op nul zijn gezet, dus $x$ wordt op nul gezet. Er wordt alleen gekeken naar de situatie op een horizontale lijn, want de lijn van de afgeleide in nul is in een grafiek horizontaal. Daartegenover wordt in het artikel gekeken naar het verloop bij meerdere afgeleiden.
 
 &nbsp;
 
