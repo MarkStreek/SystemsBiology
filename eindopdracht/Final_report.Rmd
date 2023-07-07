@@ -62,29 +62,29 @@ Op basis van zes verschillende formules kan de invloed op de ontwikkeling van tu
 
 Ten eerste wordt de fractie in verandering van borstweefsel berekend, met gezonde borst-stamcellen over de verandering in tijd (f). Het linker deel bepaald de afbraak van stamcellen. Het rechter gedeelte is de hoeveelheid stamcellen in verhouding met het aantal TSG's dat afhankelijk is van de mutatie waarschijnlijk in een normale situatie. 
 
-$$\frac{df}{dt} = - \overbrace{{\eta}_f mf}^{afbraak} - \overbrace{l_{1}f}^{f{→}TSG{_1}^{+/-}}$$
+$$\frac{df}{dt} = - \overbrace{{\eta}_f mf}^{afbraak} - \overbrace{l_{1}f}^{f{\rightarrow}TSG{_1}^{+/-}}$$
 
 Verder kunnen TSG's heterozygositeit verliezen door mutaties. Het gen staat aan bij (++) of (+-), maar TSG's gaan uit, wanneer zo homozygoot (--) worden.
 De volgende formule beschrijft deze verandering over de verandering van tijd. De vermeerdering van deze cellen staat links onder 'proliferation' (vermeerdering) en deze hoeveelheid neemt af door celapoptose onder 'death' (dood). 
 
 Hier worden stamcellen bij opgeteld die gemuteerd zijn over één jaar tijd. Deze hoeveelheid neemt af door het tempo van de mutaties die plaats vinden. Het tempo is afhankelijk van de kans dat mutaties zullen optreden. De verandering van deze aanwezigheid van LOH op TSG1's wordt aangegeven met (q).
 
-$$\frac{dq}{dt} = \overbrace{{\lambda}_{q}q(1 - A)}^{proliferatie} - \overbrace{{\eta}_{q}nq}^{celdood}  + \overbrace{l_{1}f}^{f→TSG_{1}^{+/-}} - \overbrace{{\rho}_{2}q}^{TSG1_{1}^{+/-} →TSG_{1}^{-/-}}$$  
+$$\frac{dq}{dt} = \overbrace{{\lambda}_{q}q(1 - A)}^{proliferatie} - \overbrace{{\eta}_{q}nq}^{celdood}  + \overbrace{l_{1}f}^{f{\rightarrow}TSG_{1}^{+/-}} - \overbrace{{\rho}_{2}q}^{TSG1_{1}^{+/-} {\rightarrow}TSG_{1}^{-/-}}$$  
 
 
 De derde formule beschrijft de verandering van de concentratie in uitgeschakelde $TSG_{1}$ (r) over verloop van tijd. Eerst wordt de aanmaak en vermeerdering berekend minus de afbraak door celdood. 
 
-$$\frac{dr}{dt} = \overbrace{{\lambda}_{q}r(1 - A)}^{proliferatie} - \overbrace{{\eta}_{r}nr}^{celdood}  + \overbrace{{\rho}_{2}q}^{TSG_{1}^{+/-}→TSG_{1}^{-/-}} - \overbrace{{\rho}_{3}r}^{TSG1_{1}^{-/-} →TSG_{2}^{+/-}}$$ 
+$$\frac{dr}{dt} = \overbrace{{\lambda}_{q}r(1 - A)}^{proliferatie} - \overbrace{{\eta}_{r}nr}^{celdood}  + \overbrace{{\rho}_{2}q}^{TSG_{1}^{+/-}{\rightarrow}TSG_{1}^{-/-}} - \overbrace{{\rho}_{3}r}^{TSG1_{1}^{-/-} {\rightarrow}TSG_{2}^{+/-}}$$ 
 
 In de vierde formule wordt de verandering berekend van de hoeveelheid LOH op $TSG_2$ (s), de tweede tumor suppressor gen die van heterozygoot naar homozygoot recessief gaat. Deze verandering wordt gezet tegen de verandering in tijd.
 
-$$\frac{ds}{dt} = \overbrace{{\lambda}_{s}s(1 - A)}^{proliferatie} - \overbrace{{\eta}_{r}ns}^{celdood}  + \overbrace{{\rho}_{3}r}^{TSG1_{1}^{-/-} →TSG_{2}^{+/-}} - \overbrace{{\rho}_{4}s}^{TSG_{2}^{+/-} →n}$$
+$$\frac{ds}{dt} = \overbrace{{\lambda}_{s}s(1 - A)}^{proliferatie} - \overbrace{{\eta}_{r}ns}^{celdood}  + \overbrace{{\rho}_{3}r}^{TSG1_{1}^{-/-} {\rightarrow}TSG_{2}^{+/-}} - \overbrace{{\rho}_{4}s}^{TSG_{2}^{+/-} {\rightarrow} n}$$
 
 &nbsp;
 
-Vervolgens wordt de partiële afgeleide genomen van de verandering in tumorcel dichtheid (n) dat afhankelijk is van de partiële afgeleid van de verandering in tijd (t).
+Vervolgens wordt de partiële afgeleide genomen van de verandering in tumorcel dichtheid (n) dat afhankelijk is van de partiële afgeleide van de verandering in tijd (t).
 
-$$\frac{\partial n}{\partial t} = \overbrace{{\lambda}_{n}n(1 - A)}^{proliferatie} + \overbrace{d_{n}\nabla^2n}^{willekeurige\\beweging}  - \overbrace{\gamma \nabla . (n \nabla f)}^{haptotaxis} - \overbrace{{\rho}_{4}s}^{TSG_{2}^{+/-} →n}$$
+$$\frac{\partial n}{\partial t} = \overbrace{{\lambda}_{n}n(1 - A)}^{proliferatie} + \overbrace{d_{n}\nabla^2n}^{willekeurige\\beweging}  - \overbrace{\gamma \nabla . (n \nabla f)}^{haptotaxis} - \overbrace{{\rho}_{4}s}^{TSG_{2}^{+/-} {\rightarrow}n}$$
 
 
 De laatste formule beschrijft de partiële afgeleide van de verandering in de hoeveelheid enzymen (MDE's) die door tumoren geproduceerd worden (m) tegen de partiële afgeleide van de verandering tijd (t).
@@ -301,13 +301,14 @@ Tevens wordt in figuur 4 de concentratie uitgeschakelde TSG1 (r) niet geplot, du
 
 ## Discussie
 
-In figuur 1 van grafiek f is te zien dat de hoeveelheid gezonde borst-stamcellen in het begin heel langzaam afneemt. Dit is te verklaren met het feit dat hoe jonger een mens is hoe hoger de rate van aanmaak gezonde borst-stamcellen is. Hoe ouder een mens wordt, hoe meer mutaties zullen voorkomen. Daarom verandert er weinig in de hoeveelheid gezonde borst-stamcellen over het merendeel van de tijd. De exponentiële afname bij t ~ 80 is te verklaren aan de hand van de volgende grafieken.
+In figuur 1 van grafiek f is te zien dat de hoeveelheid gezonde borst-stamcellen in het begin heel langzaam afneemt. Dit is te verklaren met het feit dat hoe jonger een mens is hoe hoger de rate van aanmaak gezonde borst-stamcellen is. Hoe ouder een mens wordt, hoe meer mutaties zullen voorkomen. Daarom verandert er weinig in de hoeveelheid gezonde borst-stamcellen over het merendeel van de tijd. De exponentiële afname bij t ~ 80 is te verklaren aan de hand van de volgende grafieken. In het begin zijn er nog nauwelijks tumorcellen en dus ook minder productie van MDE's. De MDE's hebben invloed op de afbraak van $f$. Dit resulteert in de horizontale lijn die naar het verloop van tijd afneemt. Zodra er genoeg tumorcellen aanwezig zijn en dus MDE's, neemt de afname snel toe.
+
 
 &nbsp;
 
-Zoals te zien in de grafieken q en s neemt de hoeveelheid cellen die LOH krijgen langzaam toe. De toename van deze twee grafieken loopt samen met de afname van grafiek f. Wanneer er meer LOH optreedt in een TSG zal de functionaliteit van het TSG afnemen en wordt de tumor steeds minder onderdrukt. Verder zal de mutatie van $TSG_{1}^{+/-}$ naar $TSG_{1}^{-/-}$ het grootste effect hebben op het verloop van de grafiek. Want wanneer de ${\rho}_{2}q}$ variabele toeneemt, hoe sneller de concentratie cellen met LOH in TSG zal stijgen (variabele $q$). Deze toename
+Zoals te zien in de grafieken q en s neemt de hoeveelheid cellen die LOH krijgen langzaam toe. De toename van deze twee grafieken loopt samen met de afname van grafiek f. Wanneer er meer LOH optreedt in een TSG zal de functionaliteit van het TSG afnemen en wordt de tumor steeds minder onderdrukt. Verder zal de mutatie van $TSG_{1}^{+/-}$ naar $TSG_{1}^{-/-}$ het grootste effect hebben op het verloop van de grafiek. Want wanneer de ${{\rho}_{2}q}$ variabele toeneemt, hoe sneller de concentratie cellen met LOH in $TSG_{1}$ zal stijgen (variabele $q$). Deze toename van LOH in $TSG_{1}$ zorgt dat de rate waarin $TSG_{1}$ inactiveert toeneemt bij formule $r$. De stijlere toename in grafiek $s$ is te beargumenteren door het feit dat zowel formule $q$ als $r$ zorgen voor toename van LOH in $TSG_{1}$. Vervolgens worden $TSG_{2}$s geactiveerd als gevolg van deze dubbele toename van $TSG_{1}$ en zal dus ook sneller LOH in $TSG_{2}$ plaatsvinden.
 
-Het aantal tumor cellen (grafiek n) en geproduceerde MDE's (grafiek m) zal toenemen. Hoe meer deze twee grafieken toenemen hoe minder gezonde borst-stamcellen er over zullen blijven. De hoeveelheid tumoren lijkt bij het eind een evenwicht te bereiken, dit zou te maken kunnen hebben met lak aan voedingsstoffen binnen de omgeving. Het gevolg daarvan is dat er geen exponentiële groei meer zal zijn.
+Het aantal tumor cellen (grafiek n) en geproduceerde MDE's (grafiek m) zal toenemen. Hoe meer deze twee grafieken toenemen hoe minder gezonde borst-stamcellen er over zullen blijven. De hoeveelheid tumoren lijkt bij het eind een evenwicht te bereiken, dit zou te maken kunnen hebben met lak aan voedingsstoffen binnen de omgeving. Het gevolg daarvan is dat er geen exponentiële groei meer zal zijn. In formule $n$ zorgt de verhoogde kans dat $TSG_{2}$ muteert, voor meer tumorencellen. Dit leidt direct tot toename van de proliferatie, willekeurige beweging en haptotaxis. Ofwel de toename in tumorcel dichtheid. De hoeveelheid tumorcellen ($n$) heeft direct invloed op formule $m$. De tumorcellen beïnvloeden de productie factor ${\alpha}$, die verantwoordelijk is voor de rate waarin MDE's gemaakt worden ($m$). 
 
 Het doel van dit onderzoek was om aan te tonen dat toename van LOH invloed heeft op de vermindering van gezonde borststambcellen en dat deze verandering direct kan leiden tot tumorvorming. Op basis van de dimensieloze visualisatie dat hierboven wordt geïnterpreteerd, wordt er vastgesteld dat het doel voldaan is. Uit de grafieken wordt duidelijk dat toename van LOH op de TSG's zorgt voor een forse afname in gezonde borst-stamcellen en een toename in tumorcellen, die tevens het tempo van tumorvorming versterken door de ongecontroleerde aanmaak van MDE-enzymen. 
 
